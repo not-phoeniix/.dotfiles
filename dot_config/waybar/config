@@ -1,0 +1,98 @@
+[
+    {
+        "name": "main",
+        "layer": "top", // Waybar at top layer
+        "position": "top",
+        "spacing": 10, // Gaps between modules
+        "margin": 10,
+		"output": ["DP-3", "eDP-1"],
+
+        // Choose the order of the modules
+        "modules-left": ["sway/workspaces", "sway/window", "sway/mode"],
+        "modules-center": ["custom/waybar-mpris"],
+        "modules-right": ["pulseaudio", "battery", "idle_inhibitor", "tray", "clock"],
+
+        "sway/workspaces": {
+            "all-outputs": false,
+            "disable-scroll": true,
+    		"format": "{icon}",
+    		"format-icons": {
+    			"1": "I",
+    			"2": "II",
+    			"3": "III",
+    			"4": "IV",
+    			"5": "V",
+    			"6": "",
+    			"7": "",
+    			"8": "",
+    			"9": "󰙯",
+    			"10": "",
+    		}
+        },
+
+        "sway/window": {
+            "format": "{title}",
+            "max-length": 45
+        },
+
+        "custom/waybar-mpris": {
+            "return-type": "json",
+            "exec": "waybar-mpris --order 'TITLE:ARTIST' --autofocus",
+            "on-click": "waybar-mpris --send player-next",
+            "escape": "true",
+			"max-length": 50
+        },
+
+        "pulseaudio": {
+            "format": "{volume}% {icon}", 
+            "format-bluetooth-muted": " {icon}", 
+            "format-muted": "",
+            "format-icons": {
+                "headphone": "",
+                "hands-free": "",
+                "headset": "",
+                "phone": "",
+                "portable": "",
+                "car": "",
+                "default": ["", "", ""]
+            },
+            "on-click": "pamixer -t",
+            "on-click-middle": "pavucontrol"
+        },
+
+        "battery": {
+            "states": {
+                // "good": 95,
+                "warning": 30,
+                "critical": 15
+            },
+            "format": "{capacity}% {icon}",
+            "format-charging": "{capacity}% ",
+            "format-plugged": "{capacity}% ",
+            "format-alt": "{time} {icon}",
+    		"format-icons": ["", "", "", "", "", "", "", "", "", "", ""],
+            "tooltip": true,
+			"bat": "BAT1"
+        },
+
+		"idle_inhibitor": {
+			"format": "{icon}",
+			"format-icons": {
+				"activated": "󰈈",
+				"deactivated": "󱗤"
+			},
+			"timeout": 30
+		},
+
+        "tray": {
+            // "icon-size": 21,
+            "spacing": 10
+        },
+
+        "clock": {
+            "format": "{:%I:%M %p}",
+            "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+            "format-alt": "{:%Y/%m/%d}"
+        }
+    }
+]

@@ -1,0 +1,10 @@
+# runs when logging into a TTY
+
+# set environment variables here
+export XDG_CACHE_HOME=$HOME/.cache/
+export XDG_CONFIG_HOME=$HOME/.config/
+export XDG_SCREENSHOTS_DIR=$HOME/Pictures/Screenshots/
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
+export MGFXC_WINE_PATH=/home/nikki/.winemonogame
+export WLR_DRM_NO_MODIFIERS=1

@@ -1,0 +1,29 @@
+### VISUAL FILE (colors and output thingies)
+
+# gaps and border
+gaps inner 10
+default_border pixel 3
+
+# color
+client.focused #e9436f #e9436f #fadad1 #fab795
+client.focused_inactive #16161c #16161c #fadad1 #16161c
+client.unfocused #16161c #16161c #fadad1 #16161c
+client.urgent #fab795 #fab795 #16161c #fab795
+
+# swayfx
+corner_radius 5
+shadows on
+shadow_blur_radius 40
+shadow_color #000000AF
+blur enable
+blur_radius 2
+
+
+
+# font
+font Papernotes 15
+
+# background
+output * bg ~/.dotfiles/wallpapers/new.jpg fill
+output DP-3 mode 2560x1440@143.912Hz pos 0 1080
+output HDMI-A-1 mode 1920x1080@60.000Hz pos 320 0

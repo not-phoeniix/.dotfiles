@@ -1,0 +1,39 @@
+### STARTUP FILE
+
+# gnome polkit
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# wob
+set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
+
+# startup commands/apps
+exec nm-applet --indicator
+exec blueman-applet
+exec pipewire
+exec pipewire-pulse
+exec wireplumber
+exec mako
+exec wlsunset
+
+exec gsettings set org.gnome.desktop.interface gtk-theme 'new-horizons'
+exec gsettings set org.gnome.desktop.interface icon-theme 'new-horizons-icons'
+exec gsettings set org.gnome.desktop.wm.preferences button-layout ':close'
+exec gsettings set org.gnome.desktop.interface cursor-theme 'ArcDusk-cursors'
+
+exec dbus-update-activation-environment DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# idle config
+set $swaylock "swaylock -f -i ~/.dotfiles/wallpapers/new.jpg"
+exec swayidle -w {
+	timeout 300 $swaylock
+	timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
+	timeout 600 'loginctl suspend'
+	before-sleep $swaylock
+}
+
+# bar
+bar {
+    position top
+    swaybar_command waybar
+}

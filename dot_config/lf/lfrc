@@ -1,0 +1,51 @@
+set ratios 1:2:3
+
+# shell things
+set shell sh
+set shellopts '-eu'
+set ifs "\n"
+
+# other things ig
+set color256 true
+set drawbox true
+set icons true
+
+# leave some space at the top and the bottom of the screen
+set scrolloff 10
+
+# make sure trash folder exists
+%mkdir -p ~/.trash
+
+# move current file or selected files to trash folder
+cmd trash %set -f; mv $fx ~/.trash
+
+# yeah please don't delete this,
+# it's what opens files correctly
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type $f -b) in
+        text/*) nvim $fx;;
+        *) for f in $fx; do xdg-open $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+# q
+cmd q quit
+
+# custom keybinds
+map <enter> shell
+map <delete> trash
+map <f-12> delete
+
+map gd cd ~/Downloads
+map gD cd ~/Documents
+map gp cd ~/Pictures
+map gG cd ~/git-clone
+map gt cd ~/.trash
+map gc cd ~/.config
+map g. cd ~/.dotfiles
+map gw cd ~/Documents/pebble
+map gm cd /mnt
+map gM cd ~/.minecraft
+map g/ cd /
+map gf cd ~/Documents/college
