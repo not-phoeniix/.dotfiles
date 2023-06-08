@@ -24,6 +24,6 @@ blur_radius 2
 font Papernotes 15
 
 # background
-output * bg ~/.dotfiles/wallpapers/new.jpg fill
+output * bg ~/Pictures/wallpapers/new.jpg fill
 output DP-3 mode 2560x1440@143.912Hz pos 0 1080
 output HDMI-A-1 mode 1920x1080@60.000Hz pos 320 0
