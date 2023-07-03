@@ -36,7 +36,7 @@ bindsym $mod+Shift+n exec "for i in {1..3}; do makoctl restore; done"
 bindsym $mod+Shift+r reload
 
 # cpu thingy
-bindsym $mod+grave exec $term ~/.dotfiles/config/change_cpu.sh
+bindsym $mod+grave exec $term ~/.config/change_cpu.sh
 
 # exiting things
 bindsym $mod+q kill

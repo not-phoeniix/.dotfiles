@@ -21,3 +21,4 @@ for_window [class="PrismLauncher"] floating enable
 for_window [instance="Godot_ProjectList"] floating enable
 for_window [app_id="^blueman.*$"] floating enable
 for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
