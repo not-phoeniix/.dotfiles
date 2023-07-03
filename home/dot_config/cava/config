@@ -1,0 +1,12 @@
+[general]
+framerate = 60
+
+[output]
+channels = mono
+
+[color]
+foreground = red
+
+[smoothing]
+monstercat = 1
+waves = 0

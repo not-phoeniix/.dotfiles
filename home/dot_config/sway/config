@@ -1,0 +1,19 @@
+### hi there :)
+
+# INPUT
+include input
+
+# KEYBINDS
+include keybinds
+
+# STARTUP
+include startup
+
+# RULES
+include rules
+
+# AESTHETICS
+include visual
+
+# other shtuff
+include /etc/sway/config.d/*
