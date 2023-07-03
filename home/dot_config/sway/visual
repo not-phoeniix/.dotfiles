@@ -10,6 +10,9 @@ client.focused_inactive #16161c #16161c #fadad1 #16161c
 client.unfocused #16161c #16161c #fadad1 #16161c
 client.urgent #fab795 #fab795 #16161c #fab795
 
+# background
+set $bg_dir ~/Pictures/wallpapers/image43.png
+
 # swayfx
 corner_radius 5
 shadows on
@@ -22,6 +25,6 @@ blur_radius 2
 font Papernotes 15
 
 # outputs (and bg)
-output * bg ~/Pictures/wallpapers/image43.png fill
+output * bg $bg_dir fill
 output DP-3 mode 2560x1440@143.912Hz pos 0 1080
 output HDMI-A-1 mode 1920x1080@60.000Hz pos 320 0
