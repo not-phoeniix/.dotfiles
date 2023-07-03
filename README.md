@@ -19,7 +19,7 @@ here are the details about my current setup:
  - **Launcher:** [Fuzzel](https://codeberg.org/dnkl/fuzzel)
  - **Bar:** [Waybar](https://github.com/Alexays/Waybar)
  - **Notifs:** [Mako](https://github.com/emersion/mako)
- - **File Manager(s):** [LF](https://github.com/gokcehan/lf) & [Thunar](https://git.xfce.org/xfce/thunar/)
+ - **File Manager(s):** [LF](https://github.com/gokcehan/lf) & [Nemo](https://github.com/linuxmint/nemo)
 
 ---
 
