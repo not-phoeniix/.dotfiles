@@ -51,6 +51,7 @@ window#waybar.hidden {
 #window,
 #mpd,
 #custom-waybar-mpris,
+#custom-arch-updates,
 #taskbar {
     background-color: #16161c;
     padding: 14 16px;

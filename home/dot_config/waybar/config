@@ -10,7 +10,7 @@
         // Choose the order of the modules
         "modules-left": ["sway/workspaces", "sway/window", "sway/mode"],
         "modules-center": ["custom/waybar-mpris"],
-        "modules-right": ["pulseaudio", "battery", "idle_inhibitor", "tray", "clock"],
+        "modules-right": ["custom/arch-updates", "pulseaudio", "battery", "idle_inhibitor", "tray", "clock"],
 
         "sway/workspaces": {
             "all-outputs": false,
@@ -42,6 +42,18 @@
             "escape": "true",
 			"max-length": 50
         },
+
+		"custom/arch-updates": {
+			"format": "󱧘 {}",
+			"tooltip": "Number of updatable packages",
+			"exec": "checkupdates+aur | wc -l",
+			"exec-on-event": "true",
+			"on-click": "foot yay",
+			"on-right-click": "",
+			"interval": "once",
+			"escape": "true",
+			"max-length": 50
+		},
 
         "pulseaudio": {
             "format": "{volume}% {icon}", 
