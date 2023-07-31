@@ -2,7 +2,7 @@
 
 " Install vim-plug if not found
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+	silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
 		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
@@ -54,6 +54,8 @@ call plug#end()
 set ts=4
 set sw=4
 set number
+set clipboard=unnamedplus
+set clipboard+=unnamed
 colorscheme horizon
 hi Normal guibg=NONE ctermbg=NONE	" allows transparent bg
 set mouse+=a
@@ -65,10 +67,3 @@ lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
 
 " lua setups :]
 lua require('config')
-
-" keybinds
-map <C-b> <esc>:NvimTreeToggle<CR>
-vmap <C-c> y
-vmap <C-x> x
-imap <C-v> <esc>P
-"<C-b>

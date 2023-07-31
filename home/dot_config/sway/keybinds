@@ -14,7 +14,7 @@ set $right l
 # apps
 set $term foot
 set $files nemo
-set $menu "fuzzel -T foot -f 'Papernotes' -D yes --icon-theme 'Papirus-Dark' -b 16161cee -t f9cec3ff -m e9436fff -M 21bfc2ff -s e9436fff -S fdf0edff -B 3 -C e9436fff"
+set $menu "fuzzel -T foot -f 'Papernotes:size=20' --icon-theme 'Papirus-Dark' -b 16161cee -t f9cec3ff -m e9436fff -M 21bfc2ff -s e9436fff -S fdf0edff -B 3 -C e9436fff"
 
 # wob
 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
@@ -134,6 +134,12 @@ bindsym $mod+bracketright workspace next_on_output
 bindsym $mod+bracketleft workspace prev_on_output
 bindsym $mod+Shift+bracketright workspace next
 bindsym $mod+Shift+bracketleft workspace prev
+
+# output focus
+bindsym $mod+Alt+$up focus output up
+bindsym $mod+Alt+$down focus output down
+bindsym $mod+Alt+$left focus output left
+bindsym $mod+Alt+$right focus output right
 
 ### layout thingies ###
 # horizontal and vertical splitting

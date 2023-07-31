@@ -26,5 +26,6 @@ font Papernotes 15
 
 # outputs (and bg)
 output * bg $bg_dir fill
-output DP-3 mode 2560x1440@143.912Hz pos 0 1080
-output HDMI-A-1 mode 1920x1080@60.000Hz pos 320 0
+output DP-3 mode 2560x1440@143.912Hz pos 0 0 adaptive_sync on
+output HDMI-A-1 mode 1920x1080@60.000Hz pos 2560 450
+output HEADLESS-1 mode 1280x800 pos 2560 1530

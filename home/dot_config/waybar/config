@@ -7,104 +7,30 @@
         "margin": 10,
 		"output": ["DP-3", "eDP-1"],
 
-        // Choose the order of the modules
+		"include": [
+			"~/.config/waybar/default-modules.json"
+		],
+
         "modules-left": ["sway/workspaces", "sway/window", "sway/mode"],
         "modules-center": ["custom/waybar-mpris"],
-        "modules-right": ["custom/arch-updates", "pulseaudio", "battery", "idle_inhibitor", "tray", "clock"],
+        "modules-right": ["pulseaudio", "battery", "idle_inhibitor", "tray", "clock"],
 
-        "sway/workspaces": {
-            "all-outputs": false,
-            "disable-scroll": true,
-    		"format": "{icon}",
-    		"format-icons": {
-    			"1": "I",
-    			"2": "II",
-    			"3": "III",
-    			"4": "IV",
-    			"5": "V",
-    			"6": "VI",
-    			"7": "VII",
-    			"8": "",
-    			"9": "󰙯",
-    			"10": "",
-    		}
-        },
+    },
 
-        "sway/window": {
-            "format": "{title}",
-            "max-length": 40
-        },
+    {
+        "name": "secondary",
+        "layer": "top", // Waybar at top layer
+        "position": "top",
+        "spacing": 10, // Gaps between modules
+        "margin": 10,
+		"output": ["HDMI-A-1"],
 
-        "custom/waybar-mpris": {
-            "return-type": "json",
-            "exec": "waybar-mpris --order 'TITLE:ARTIST' --autofocus",
-            "on-click": "waybar-mpris --send player-next",
-            "escape": "true",
-			"max-length": 50
-        },
+		"include": [
+			"~/.config/waybar/default-modules.json"
+		],
 
-		"custom/arch-updates": {
-			"format": "󱧘 {}",
-			"tooltip": "Number of updatable packages",
-			"exec": "checkupdates+aur | wc -l",
-			"exec-on-event": "true",
-			"on-click": "foot yay",
-			"on-right-click": "",
-			"interval": "once",
-			"escape": "true",
-			"max-length": 50
-		},
-
-        "pulseaudio": {
-            "format": "{volume}% {icon}", 
-            "format-bluetooth-muted": " {icon}", 
-            "format-muted": "",
-            "format-icons": {
-                "headphone": "",
-                "hands-free": "",
-                "headset": "",
-                "phone": "",
-                "portable": "",
-                "car": "",
-                "default": ["", "", ""]
-            },
-            "on-click": "pamixer -t",
-            "on-click-middle": "pavucontrol"
-        },
-
-        "battery": {
-            "states": {
-                // "good": 95,
-                "warning": 30,
-                "critical": 15
-            },
-            "format": "{capacity}% {icon}",
-            "format-charging": "{capacity}% ",
-            "format-plugged": "{capacity}% ",
-            "format-alt": "{time} {icon}",
-    		"format-icons": ["", "", "", "", "", "", "", "", "", "", ""],
-            "tooltip": true,
-			"bat": "BAT1"
-        },
-
-		"idle_inhibitor": {
-			"format": "{icon}",
-			"format-icons": {
-				"activated": "󰈈",
-				"deactivated": "󱗤"
-			},
-			"timeout": 30
-		},
-
-        "tray": {
-            // "icon-size": 21,
-            "spacing": 10
-        },
-
-        "clock": {
-            "format": "{:%I:%M %p}",
-            "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-            "format-alt": "{:%Y/%m/%d}"
-        }
+        "modules-left": ["sway/workspaces"],
+        "modules-center": [],
+        "modules-right": ["clock"],
     }
 ]

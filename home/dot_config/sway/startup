@@ -17,6 +17,7 @@ exec pipewire-pulse
 exec wireplumber
 exec mako
 exec wlsunset
+exec ./launch_apps.sh
 
 exec gsettings set org.gnome.desktop.interface gtk-theme 'new-horizons'
 exec gsettings set org.gnome.desktop.interface icon-theme 'new-horizons-icons'
@@ -26,7 +27,7 @@ exec gsettings set org.gnome.desktop.interface cursor-theme 'ArcDusk-cursors'
 exec dbus-update-activation-environment DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # idle config
-set $swaylock swaylock -f -i $bg_dir
+set $swaylock swaylock -f -i $bg_dir # bg_dir is a variable from "visual" file
 exec swayidle -w {
 	timeout 300 $swaylock
 	timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
