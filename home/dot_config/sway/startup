@@ -1,6 +1,6 @@
 ### STARTUP FILE
 
-include visual
+include variables
 
 # gnome polkit
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -27,7 +27,6 @@ exec gsettings set org.gnome.desktop.interface cursor-theme 'ArcDusk-cursors'
 exec dbus-update-activation-environment DISPLAY SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # idle config
-set $swaylock swaylock -f -i $bg_dir # bg_dir is a variable from "visual" file
 exec swayidle -w {
 	timeout 300 $swaylock
 	timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'

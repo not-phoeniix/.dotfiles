@@ -2,6 +2,8 @@
 
 ### VARIABLES ===================================================================
 
+include variables
+
 # mod
 set $mod Mod4
 
@@ -27,6 +29,9 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec $files
 bindsym $mod+Control+Return exec $term btop
 bindsym $mod+space exec $menu
+
+# screen lock
+bindsym $mod+End exec $swaylock
 
 # notifications
 bindsym $mod+n exec makoctl dismiss --all
@@ -110,9 +115,6 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
 
-# focus on first/last workspace
-bindsym $mod+Home workspace
-
 # gesture switching
 bindgesture swipe:left workspace next
 bindgesture swipe:right workspace prev
@@ -136,10 +138,10 @@ bindsym $mod+Shift+bracketright workspace next
 bindsym $mod+Shift+bracketleft workspace prev
 
 # output focus
-bindsym $mod+Alt+$up focus output up
-bindsym $mod+Alt+$down focus output down
-bindsym $mod+Alt+$left focus output left
-bindsym $mod+Alt+$right focus output right
+bindsym $mod+Control+$up focus output up
+bindsym $mod+Control+$down focus output down
+bindsym $mod+Control+$left focus output left
+bindsym $mod+Control+$right focus output right
 
 ### layout thingies ###
 # horizontal and vertical splitting

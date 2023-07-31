@@ -1,5 +1,7 @@
 ### VISUAL FILE (colors and output thingies)
 
+include variables
+
 # gaps and border
 gaps inner 10
 default_border pixel 3
@@ -9,9 +11,6 @@ client.focused #e9436f #e9436f #fadad1 #fab795
 client.focused_inactive #16161c #16161c #fadad1 #16161c
 client.unfocused #16161c #16161c #fadad1 #16161c
 client.urgent #fab795 #fab795 #16161c #fab795
-
-# background
-set $bg_dir ~/Pictures/wallpapers/image43.png
 
 # swayfx
 corner_radius 5
