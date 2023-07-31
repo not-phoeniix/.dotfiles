@@ -1,0 +1,82 @@
+{
+    "sway/workspaces": {
+        "all-outputs": false,
+        "disable-scroll": true,
+   		"format": "{icon}",
+   		"format-icons": {
+   			"1": "I",
+   			"2": "II",
+   			"3": "III",
+   			"4": "IV",
+   			"5": "V",
+   			"6": "VI",
+   			"7": "VII",
+   			"8": "",
+   			"9": "󰙯",
+   			"10": ""
+   		}
+    },
+
+    "sway/window": {
+        "format": "{title}",
+        "max-length": 40
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+    	"format-icons": ["", "", "", "", "", "", "", "", "", "", ""],
+        "tooltip": true,
+		"bat": "BAT1"
+    },
+
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y/%m/%d}"
+    },
+
+    "pulseaudio": {
+        "format": "{volume}% {icon}", 
+        "format-bluetooth-muted": " {icon}", 
+        "format-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pamixer -t",
+        "on-click-middle": "pavucontrol"
+    },
+
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "󰈈",
+			"deactivated": "󱗤"
+		},
+		"timeout": 30
+	},
+
+    "tray": {
+        "spacing": 10
+	},
+
+    "custom/waybar-mpris": {
+        "return-type": "json",
+        "exec": "waybar-mpris --order 'TITLE:ARTIST' --autofocus",
+        "on-click": "waybar-mpris --send player-next",
+        "escape": "true",
+		"max-length": 50
+    }
+}

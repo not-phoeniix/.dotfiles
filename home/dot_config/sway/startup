@@ -17,7 +17,7 @@ exec pipewire-pulse
 exec wireplumber
 exec mako
 exec wlsunset
-exec ./launch_apps.sh
+exec ~/.config/sway/launch_apps.sh
 
 exec gsettings set org.gnome.desktop.interface gtk-theme 'new-horizons'
 exec gsettings set org.gnome.desktop.interface icon-theme 'new-horizons-icons'
