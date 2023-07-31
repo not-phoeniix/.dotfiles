@@ -27,7 +27,6 @@ alias c='clear'
 alias tty-clock='tty-clock -c -C 1'
 alias feh='feh --scale-down'
 alias unimatrix='unimatrix -c red -l o -s 94'
-alias code='code --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias tablet-mode='setsysmode toggle'
 alias chedit='chezmoi edit'
 
