@@ -146,6 +146,12 @@ bindsym $mod+Control+$down focus output down
 bindsym $mod+Control+$left focus output left
 bindsym $mod+Control+$right focus output right
 
+# output moving
+bindsym $mod+Control+Shift+$up move workspace output up
+bindsym $mod+Control+Shift+$down move workspace output down
+bindsym $mod+Control+Shift+$left move workspace output left
+bindsym $mod+Control+Shift+$right move workspace output right
+
 ### layout thingies ###
 # horizontal and vertical splitting
 bindsym $mod+x splith
