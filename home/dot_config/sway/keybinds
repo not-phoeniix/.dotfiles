@@ -68,8 +68,11 @@ bindsym XF86AudioPlay exec 'playerctl --player=spotify,%all play-pause'
 bindsym XF86AudioNext exec 'playerctl --player=spotify,%all next'
 bindsym XF86AudioPrev exec 'playerctl --player=spotify,%all previous'
 
-bindsym Shift+F6 exec 'playerctl --player=spotify,%all volume 0.05-'
-bindsym Shift+F7 exec 'playerctl --player=spotify,%all volume 0.05+'
+# they do the same thing but one's for laptop which can't do shift and multimedia at the same time :/
+bindsym Shift+XF86AudioLowerVolume exec 'playerctl --player=spotify,%all volume 0.1-'
+bindsym Shift+XF86AudioRaiseVolume exec 'playerctl --player=spotify,%all volume 0.1+'
+bindsym Shift+F6 exec 'playerctl --player=spotify,%all volume 0.1-'
+bindsym Shift+F7 exec 'playerctl --player=spotify,%all volume 0.1+'
 
 # brightness
 bindsym XF86MonBrightnessUp exec brightnessctl set +10% | sed -En 's/.*\(([0-9]+)%\).*/\1/p' > $WOBSOCK

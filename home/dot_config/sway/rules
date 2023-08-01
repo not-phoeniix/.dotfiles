@@ -1,8 +1,6 @@
 ### WINDOW RULES
 
 # workspace spawn assigning
-assign [class="Steam"] 8
-assign [class="steamwebhelper"] 8
 assign [class="PrismLauncher"] 8
 assign [class="discord"] 9
 assign [class="Slack"] 9
@@ -16,7 +14,7 @@ for_window [class="Spotify"] move to workspace 10
 #for_window [class="Spotify"] workspace 10
 
 # floating on launch sets
-for_window [class="Steam"] floating enable
+for_window [class="steam"] floating enable
 for_window [class="PrismLauncher"] floating enable
 for_window [instance="Godot_ProjectList"] floating enable
 for_window [app_id="^blueman.*$"] floating enable
