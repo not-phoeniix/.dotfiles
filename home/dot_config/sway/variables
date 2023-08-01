@@ -1,0 +1,7 @@
+### VARIABLES FILE (stores commonly used stuff across files)
+
+# background
+set $bg_dir ~/Pictures/wallpapers/image43.png
+
+# swaylock
+set $swaylock swaylock -f -i $bg_dir
