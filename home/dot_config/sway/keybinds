@@ -16,7 +16,7 @@ set $right l
 # apps
 set $term foot
 set $files nemo
-set $menu "fuzzel -T foot -f 'Papernotes:size=20' --icon-theme 'Papirus-Dark' -b 16161cee -t f9cec3ff -m e9436fff -M 21bfc2ff -s e9436fff -S fdf0edff -B 3 -C e9436fff"
+set $menu fuzzel
 
 # wob
 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
