@@ -8,3 +8,4 @@ export XDG_CURRENT_DESKTOP=sway
 export XDG_SESSION_TYPE=wayland
 export MGFXC_WINE_PATH=/home/nikki/.winemonogame
 export WLR_DRM_NO_MODIFIERS=1
+export MOZ_ENABLE_WAYLAND=1

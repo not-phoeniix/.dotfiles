@@ -35,6 +35,7 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export TERM="foot"
 export TERMINAL="foot"
+export GOPATH"=$HOME/Go"
 
 # pfetch
 export PF_INFO="ascii title os kernel wm shell pkgs memory"
@@ -44,4 +45,6 @@ export PF_COL3=3
 pfetch
 
 # PATH
-export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools
+export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/Go/bin
+
+(cat ~/.cache/wal/sequences &)

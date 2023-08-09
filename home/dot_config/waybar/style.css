@@ -1,3 +1,9 @@
+@import url("../../.cache/wal/colors-waybar.css");
+@define-color color-fg @foreground;
+@define-color color-bg @background;
+@define-color color-main @color1;
+@define-color color-main2 @color3;
+
 * {
     font-family: Papernotes, Symbols Nerd Font;
     font-size: 30px;
@@ -5,7 +11,7 @@
 
 window#waybar {
     background-color: transparent;
-    color: #fadad1;
+    color: @color-fg;
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -16,8 +22,8 @@ window#waybar.hidden {
 
 #workspaces button {
     padding: 10 13px;
-    background-color: #16161c;
-    color: #fadad1;
+    background-color: @color-bg;
+    color: @color-fg;
     /* Use box-shadow instead of border so the text isn't offset */
     box-shadow: inset 0 -3px transparent;
     border: none;
@@ -25,13 +31,18 @@ window#waybar.hidden {
 }
 
 #workspaces button.focused {
-    background-color: #e9436f;
-    box-shadow: inset 0 -3px #fadad1;
+    background-color: @color-main;
+    box-shadow: inset 0 -3px @color-fg;
+}
+
+#workspaces button.active {
+    background-color: @color-main;
+    box-shadow: inset 0 -3px @color-fg;
 }
 
 #workspaces button.urgent {
-    background-color: #fab795;
-    color: #1c1e26;
+    background-color: @color-main2;
+    color: @color-fg;
 }
 
 #clock,
@@ -52,9 +63,9 @@ window#waybar.hidden {
 #mpd,
 #custom-waybar-mpris,
 #taskbar {
-    background-color: #16161c;
+    background-color: @color-bg;
     padding: 14 16px;
-    color: #fadad1;
+    color: @color-fg;
 	border-radius: 5;
 }
 
@@ -65,28 +76,28 @@ window#waybar.hidden {
 
 #battery,
 #idle_inhibitor {
-    color: #e9436f;
+    color: @color-main;
 }
 
 #mode {
-    background-color: #e9436f;
+    background-color: @color-main;
 }
 
 #battery.charging, #battery.plugged {
-    color: #fadad1;
-    background-color: #e9436f;
+    color: @color-fg;
+    background-color: @color-main;
 }
 
 @keyframes blink {
     to {
-        background-color: #fadad1;
-        color: #16161c;
+        background-color: @color-fg;
+        color: @color-bg;
     }
 }
 
 #battery.critical:not(.charging) {
-    background-color: #fab795;
-    color: #16161c;
+    background-color: @color-main2;
+    color: @color-bg;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -95,7 +106,7 @@ window#waybar.hidden {
 }
 
 label:focus {
-    background-color: #16161c;
+    background-color: @color-bg;
 }
 
 #tray > .passive {
@@ -104,5 +115,5 @@ label:focus {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
-    background-color: #fab795;
+    background-color: @color-main2;
 }

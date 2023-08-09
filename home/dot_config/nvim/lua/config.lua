@@ -27,7 +27,7 @@ require('nvim-tree').setup {}
 require('lualine').setup {
 	options = {
 		icons_enabled = true,
-		theme = 'horizon'
+		theme = 'pywal'
 	},
 	sections = {
 		lualine_a = {'mode'},

@@ -31,9 +31,9 @@ Plug 'romgrk/barbar.nvim'
 Plug 'nvimdev/dashboard-nvim'
 
 " other visual
-Plug 'lunarvim/horizon.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'RRethy/vim-illuminate'
+Plug 'dylanaraps/wal.vim'
 
 " nvim completion shit
 "Plug 'hrsh7th/cmp-nvim-lsp'
@@ -56,7 +56,7 @@ set sw=4
 set number
 set clipboard=unnamedplus
 set clipboard+=unnamed
-colorscheme horizon
+colorscheme wal
 hi Normal guibg=NONE ctermbg=NONE	" allows transparent bg
 set mouse+=a
 
