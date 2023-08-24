@@ -47,4 +47,4 @@ pfetch
 # PATH
 export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/Go/bin
 
-(cat ~/.cache/wal/sequences &)
+(cat $HOME/.config/wpg/sequences &)

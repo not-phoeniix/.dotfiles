@@ -5,7 +5,7 @@ unset -v IMG_PATH
 unset -v BACKEND
 unset -v SATURATION
 
-USAGE="set_wallpaper.sh [-i] [-b] [-s]\n\t[-i image_path] \n\t[-b backend (wal/schemer2/colorz)] \n\t[-s saturation (0.0-1.0)]"
+USAGE="set_wallpaper.sh [-i] [-b] [-s]\n\t[-i image (path)] \n\t[-b backend (wal/schemer2/colorz)] \n\t[-s saturation (0.0-1.0)]"
 
 set -e
 
@@ -50,19 +50,4 @@ if [ -z "$IMG_PATH" ] || [ -z "$BACKEND" ] || [ -z "$SATURATION" ]; then
 	exit 1
 fi
 
-wal -n -i $IMG_PATH --backend $BACKEND --saturate $SATURATION
-
-set +e
-
-killall swaybg
-swaybg -i "$IMG_PATH" &> /dev/null &
-
-killall waybar
-waybar &> /dev/null &
-
-pywalfox update
-
-~/.config/mako/update-theme.sh
-
-echo
-echo "successfully changed wallpaper and themes! :]"
+wal -n -i $IMG_PATH --backend $BACKEND --saturate $SATURATION -o "$HOME/.scripts/restart_programs.sh"
