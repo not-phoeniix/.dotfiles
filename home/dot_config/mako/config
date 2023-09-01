@@ -11,9 +11,9 @@ border-radius=6
 border-size=3
 
 font=Papernotes 16
-background-color=#0a0a0aFF
-border-color=#A19F9E
-text-color=#e5e2df
+background-color=#0E1D23FF
+border-color=#708B98
+text-color=#c1c6cc
 
 max-icon-size=64
 width=300
