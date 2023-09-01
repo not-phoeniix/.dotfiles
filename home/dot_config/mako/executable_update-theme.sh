@@ -9,7 +9,7 @@ declare -A colors
 colors=(
     ["background-color"]="${background}FF"
     ["text-color"]="$foreground"
-    ["border-color"]="$color13"
+    ["border-color"]="$color1"
 )
 
 for color_name in "${!colors[@]}"; do

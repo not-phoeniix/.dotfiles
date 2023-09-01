@@ -1,27 +1,4 @@
 {
-    "sway/workspaces": {
-        "all-outputs": false,
-        "disable-scroll": true,
-   		"format": "{icon}",
-   		"format-icons": {
-   			"1": "I",
-   			"2": "II",
-   			"3": "III",
-   			"4": "IV",
-   			"5": "V",
-   			"6": "VI",
-   			"7": "VII",
-   			"8": "",
-   			"9": "󰙯",
-   			"10": ""
-   		}
-    },
-
-    "sway/window": {
-        "format": "{title}",
-        "max-length": 40
-    },
-
 	"wlr/workspaces": {
 		"format": "{icon}",
 		"on-click": "activate",
@@ -38,6 +15,14 @@
    			"10": ""
    		},
 		"sort-by-number": true
+	},
+
+	"hyprland/window": {
+		"format": "{title}"
+	},
+	
+	"backlight": {
+		"format": "{percent}% 󰃠"
 	},
 
     "battery": {
