@@ -30,11 +30,6 @@ window#waybar.hidden {
     border-radius: 5;
 }
 
-#workspaces button.focused {
-    background-color: @color-main;
-    box-shadow: inset 0 -3px @color-fg;
-}
-
 #workspaces button.active {
     background-color: @color-main;
     box-shadow: inset 0 -3px @color-fg;
@@ -47,21 +42,12 @@ window#waybar.hidden {
 
 #clock,
 #battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
 #backlight,
 #network,
 #pulseaudio,
-#custom-media,
 #tray,
-#mode,
-#idle_inhibitor,
-#keyboard-state,
-#window,
-#mpd,
 #custom-waybar-mpris,
+#window,
 #taskbar {
     background-color: @color-bg;
     padding: 14 16px;
@@ -74,35 +60,14 @@ window#waybar.hidden {
 	padding-bottom: 8;
 }
 
-#battery,
-#idle_inhibitor {
-    color: @color-main;
-}
-
-#mode {
-    background-color: @color-main;
-}
-
 #battery.charging, #battery.plugged {
     color: @color-fg;
     background-color: @color-main;
 }
 
-@keyframes blink {
-    to {
-        background-color: @color-fg;
-        color: @color-bg;
-    }
-}
-
 #battery.critical:not(.charging) {
     background-color: @color-main2;
     color: @color-bg;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
 }
 
 label:focus {

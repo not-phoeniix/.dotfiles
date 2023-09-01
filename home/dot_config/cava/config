@@ -1,6 +1,9 @@
 [general]
 framerate = 60
 
+[input]
+method = pipewire
+
 [output]
 channels = mono
 
