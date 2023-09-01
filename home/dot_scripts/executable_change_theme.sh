@@ -4,7 +4,7 @@
 unset -v IMG_PATH
 unset -v THEME_NAME
 SCHEMES_DIR=$HOME/.config/wal/colorschemes
-USAGE="change_theme.sh [-l] [-t] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-t theme (as in ~/.config/wal/colorschemes)] \n\t[-i bg_image (path)]"
+USAGE="change_theme.sh [-l] [-t] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-t theme_name (without '.json')] \n\t[-i bg_image (path)]"
 
 set -e
 
@@ -66,8 +66,8 @@ wal -n -i $IMG_PATH
 wal -n --theme $THEME_NAME
 
 # update other app colors
-spicetify config color_scheme $THEME_NAME
-exec $HOME/.config/mako/update-theme.sh
+spicetify config color_scheme $THEME_NAME &
+$HOME/.config/mako/update-theme.sh &
 pywalfox update
 
 ### RESTART PROGRAMS ======================================
@@ -77,6 +77,8 @@ swaybg -i "$IMG_PATH" &> /dev/null &
 
 killall waybar
 waybar &> /dev/null &
+
+spicetify apply
 
 echo
 echo "successfully changed theme and reset workspace programs! :]"
