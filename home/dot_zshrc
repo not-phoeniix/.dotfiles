@@ -29,6 +29,7 @@ alias feh='feh --scale-down'
 alias unimatrix='unimatrix -c red -l o -s 94'
 alias tablet-mode='setsysmode toggle'
 alias chedit='chezmoi edit'
+alias pacman-remove-orphans='sudo pacman -Qtdq | sudo pacman -Rns -'
 
 # exports
 export EDITOR="nvim"
