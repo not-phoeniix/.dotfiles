@@ -16,35 +16,23 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin()
 
 " lsp shit
-Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'neovim/nvim-lspconfig'
+" Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
+" Plug 'williamboman/mason-lspconfig.nvim'
+" Plug 'neovim/nvim-lspconfig'
 
 " editing help
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  
 
 " ui
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'romgrk/barbar.nvim'
 Plug 'nvimdev/dashboard-nvim'
 
 " other visual
-Plug 'lukas-reineke/indent-blankline.nvim'
+" Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'RRethy/vim-illuminate'
 Plug 'dylanaraps/wal.vim'
-
-" nvim completion shit
-"Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'hrsh7th/cmp-buffer'
-"Plug 'hrsh7th/cmp-path'
-"Plug 'hrsh7th/cmp-cmdline'
-"Plug 'hrsh7th/nvim-cmp'
-
-" snippy...?
-"Plug 'dcampos/nvim-snippy'
-"Plug 'dcampos/cmp-snippy'
 
 call plug#end()
 
@@ -63,7 +51,7 @@ set mouse+=a
 let g:indent_blankline_filetype_exclude = ['dashboard']
 
 " setup for treesitter
-lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
+" lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
 
 " lua setups :]
 lua require('config')

@@ -46,6 +46,6 @@ export PF_COL3=3
 pfetch
 
 # PATH
-export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/Go/bin
+export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/.scripts
 
 (cat $HOME/.cache/wal/sequences &)

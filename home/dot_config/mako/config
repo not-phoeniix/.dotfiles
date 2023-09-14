@@ -11,9 +11,10 @@ border-radius=6
 border-size=3
 
 font=Papernotes 16
-background-color=#1e1e2eFF
-border-color=#f38ba8
-text-color=#cdd6f4
+icon-path=/usr/share/icons/Papirus-Dark
+background-color=#16161cFF
+border-color=#e95678
+text-color=#e0e0e0
 
 max-icon-size=64
 width=300

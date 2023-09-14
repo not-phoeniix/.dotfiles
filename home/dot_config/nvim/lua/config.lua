@@ -1,3 +1,5 @@
+--[[
+
 -- mason & lsp stuff
 require('mason').setup()
 require('mason-lspconfig').setup()
@@ -16,6 +18,8 @@ require('mason-lspconfig').setup_handlers {
 require('nvim-treesitter.configs').setup {
 	ensure_installed = { "c", "c_sharp", "cpp", "vim", "lua", "yuck" }
 }
+
+]]
 
 -- nvim-tree
 vim.g.loaded_netrw = 1
@@ -47,11 +51,13 @@ require('lualine').setup {
 	},
 }
 
+--[[
 -- indent-blankline
 require('indent_blankline').setup {
 	show_current_context = true,
 	show_current_context_start = true,
 }
+]]
 
 -- dashboard-nvim
 require('dashboard').setup {
