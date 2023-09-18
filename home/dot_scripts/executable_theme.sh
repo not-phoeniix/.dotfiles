@@ -68,7 +68,6 @@ wal -n --theme $THEME_NAME
 # update other app colors
 spicetify config color_scheme $THEME_NAME &
 $HOME/.config/mako/update-theme.sh &
-pywalfox update
 
 ### RESTART PROGRAMS ======================================
 
@@ -81,4 +80,4 @@ waybar &> /dev/null &
 spicetify apply
 
 echo
-echo "successfully changed theme and reset workspace programs! :]"
+echo "successfully changed theme to $THEME_NAME! :]"
