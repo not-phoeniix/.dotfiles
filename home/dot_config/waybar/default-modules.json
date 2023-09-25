@@ -81,5 +81,13 @@
         "on-click": "waybar-mpris --send player-next",
         "escape": "true",
 		"max-length": 50
-    }
+    },
+
+	"wlr/taskbar": {
+		"on-click": "activate",
+		"icon-size": 30,
+		"ignore-list": [
+			"foot"
+		]
+	}
 }
