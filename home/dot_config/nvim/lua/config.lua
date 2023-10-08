@@ -59,16 +59,6 @@ require('indent_blankline').setup {
 }
 ]]
 
--- dashboard-nvim
-require('dashboard').setup {
-	theme = 'hyper',
-	hide = {
-		statusline,
-		tabline,
-		winbar,
-	}
-}
-
 -- nvim-cmp
 
 --[[
