@@ -27,7 +27,6 @@ call plug#begin()
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'nvimdev/dashboard-nvim'
 
 " other visual
 " Plug 'lukas-reineke/indent-blankline.nvim'
@@ -47,8 +46,6 @@ set clipboard+=unnamed
 colorscheme wal
 hi Normal guibg=NONE ctermbg=NONE	" allows transparent bg
 set mouse+=a
-
-let g:indent_blankline_filetype_exclude = ['dashboard']
 
 " setup for treesitter
 " lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
