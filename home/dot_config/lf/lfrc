@@ -16,6 +16,8 @@ set scrolloff 10
 # make sure trash folder exists
 %mkdir -p ~/.trash
 
+# custom functions ========================================
+
 # move current file or selected files to trash folder
 cmd trash %set -f; mv $fx ~/.trash
 
@@ -32,7 +34,8 @@ cmd open ${{
 # q
 cmd q quit
 
-# custom keybinds
+# custom keybinds =========================================
+
 map <enter> shell
 map <delete> trash
 map <f-12> delete
