@@ -14,23 +14,6 @@
         "modules-left": ["hyprland/workspaces", "hyprland/window"],
         "modules-center": ["clock"],
         "modules-right": ["pulseaudio", "backlight", "battery", "tray"],
-    },
-
-    {
-        "name": "secondary",
-        "layer": "top", // Waybar at top layer
-        "position": "top",
-        "spacing": 10, // Gaps between modules
-        "margin": 10,
-		"output": ["HDMI-A-1"],
-
-		"include": [
-			"~/.config/waybar/default-modules.json"
-		],
-
-        "modules-left": ["sway/workspaces"],
-        "modules-center": [],
-        "modules-right": ["clock"],
     }
 
 /*
