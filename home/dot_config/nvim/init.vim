@@ -44,7 +44,9 @@ set number
 set clipboard=unnamedplus
 set clipboard+=unnamed
 colorscheme wal
-hi Normal guibg=NONE ctermbg=NONE	" allows transparent bg
+" allows transparent bg
+hi Normal guibg=NONE ctermbg=NONE
+" mouse interaction
 set mouse+=a
 
 " setup for treesitter

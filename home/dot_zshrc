@@ -19,6 +19,7 @@ PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_c
 # prompt
 autoload -U promptinit; promptinit
 prompt purer
+export PURE_PROMPT_PATH_FORMATTING="%c"		# <- default value btw
 
 # aliases
 alias ls='ls --color=auto'
@@ -48,4 +49,5 @@ pfetch
 # PATH
 export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/.scripts
 
-(cat $HOME/.cache/wal/sequences &)
+# pywal color importing
+# (cat $HOME/.cache/wal/sequences &)
