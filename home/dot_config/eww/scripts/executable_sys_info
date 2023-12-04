@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# ~~~ functions ~~~
+
+get_brightness() {
+    echo "$(brightnessctl get -P)"
+}
+
+set_brightness() {
+    brightnessctl set $1
+}
+
+get_battery() {
+    BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
+    echo "$(cat /sys/class/power_supply/${BAT}/capacity)%"
+}
+
+get_vol() {
+   echo "$(pamixer --get-volume-human)"
+}
+
+toggle_vol() {
+    pamixer -t
+}
+
+# ~~~ kslfjdglkdfs ~~~
+
+case "$1" in
+    "--get-battery")
+        while true; do
+            get_battery
+            sleep 1m
+        done
+        ;;
+
+    "--get-brightness")
+        while true; do
+            get_brightness
+            sleep 1s
+        done
+        ;;
+
+    "--get-vol")
+        while true; do
+            get_vol
+            sleep 1s
+        done
+        ;;
+
+esac

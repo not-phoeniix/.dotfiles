@@ -1,0 +1,101 @@
+; HI HERES A GOOD EXAMPLE TO COPY FROM :3
+; https://github.com/linkfrg/dotfiles/
+; and also
+; https://github.com/lauroro/hyprland-dotfiles/
+
+; ~~~ variables ~~~
+
+(defpoll time :interval "10s" `date "+%I:%M %p"`)
+(defpoll current_workspace :interval "1s" `hyprctl activeworkspace -j | jq '.id'`)
+(defpoll all_workspaces :interval "10s" `hyprctl workspaces -j`)
+(deflisten workspaces :initial "[]" "sh scripts/workspaces")
+(deflisten music :initial " stopped " "playerctl --follow metadata --format ' {{ artist }} - {{ title }} ' || true")
+(deflisten battery :initial "" "sh scripts/sys_info --get-battery")
+(deflisten brightness :initial "" "sh scripts/sys_info --get-brightness")
+(deflisten volume :initial "" "sh scripts/sys_info --get-vol")
+
+(defvar labels "[I, II, III, IV, V, VI, VII, , 󰙯, ]")
+
+; ~~~ widgets ~~~
+
+; generic container widget
+(defwidget container [text ?limit-width]
+  (box :class "container" :orientation "horizontal" :halign "center"
+    (label :text text :limit-width {limit-width?:1000})
+  )
+)
+
+(defwidget workspaces []
+  (box :space-evenly false :class "workspaces"
+    ; (label :text "${workspaces}${current_workspace}" :visible false)
+    (for workspace in all_workspaces
+      (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
+        (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}"
+          (label :text "${workspace.id}")
+        )
+      )
+    )
+  )
+)
+
+(defwidget ws_three []
+  (box :class "container workspaces" :space-evenly false :halign "center"
+    (for workspace in workspaces
+      (button
+        :onclick "hyprctl dispatch workspace ${workspace.id}"
+        :class "button_lol"
+        "${workspace.name}"
+      )
+    )
+  )
+)
+
+(defwidget time []
+  (container :text "${time}")
+)
+
+(defwidget music []
+  (container :text music :limit-width 50)
+)
+
+(defwidget battery []
+  (container :text "bat: ${battery}")
+)
+
+(defwidget brightness []
+  (container :text "bright: ${brightness}%")
+)
+
+(defwidget volume []
+  (box :class "container" :orientation "horizontal" :halign "center"
+    (label :text volume)
+  )
+)
+
+; ~~~ main bar setup ~~~
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :width "100%" :anchor "top center")
+  :exclusive true
+  (centerbox
+    ; left box
+    (box :orientation "horizontal" :halign "start" :space-evenly false
+      (ws_three)
+      (container :text "ws: ${current_workspace}")
+    )
+
+    ; center box
+    (box :orientation "horizontal" :halign "center" :space-evenly false
+      (music)
+    )
+
+    ; right box
+    (box :orientation "horizontal" :halign "end" :space-evenly false
+      (volume)
+      (brightness)
+      (battery)
+      (time)
+    )
+  )
+)

@@ -1,0 +1,49 @@
+@import "../../.cache/wal/colors-eww.scss";
+
+
+// vars
+$color-fg: $foreground;
+$color-bg: $background;
+$color-main: $color1;
+$color-main2: $color3;
+
+// === global =============================================
+* {
+    all: unset;
+    font-family: Papernotes, Symbols Nerd Font;
+    font-size: 30px;
+}
+
+// === widgets ============================================
+
+button {
+    border: 2px solid $color-main;
+    border-radius: 4px;
+    padding: 8px;
+
+    &:hover {
+        background-color: $color-main;
+    }
+}
+
+.workspaces {
+    button {
+        border-color: $color-bg;
+
+        &:hover {
+            border-color: $color-main2
+        }
+    }
+
+    .current {
+        background-color: $color-main;
+    }
+}
+
+.container {
+    background-color: $color-bg;
+    color: $foreground;
+    padding: 5px 15px;
+    border-radius: 4px;
+    margin: 10px;
+}
