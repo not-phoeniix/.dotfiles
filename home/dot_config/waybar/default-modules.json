@@ -14,7 +14,7 @@
    			"9": "󰙯",
    			"10": ""
    		},
-		"sort-by-number": true
+		"sort-by": "number"
 	},
 
 	"hyprland/window": {

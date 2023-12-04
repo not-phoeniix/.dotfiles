@@ -5,7 +5,7 @@
         "position": "top",
         "spacing": 10, // Gaps between modules
         "margin": 10,
-		"output": ["DP-3", "eDP-1"],
+		"output": ["DP-3", "eDP-1", "HDMI-A-1"],
 
 		"include": [
 			"~/.config/waybar/default-modules.json"
