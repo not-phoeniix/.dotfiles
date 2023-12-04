@@ -38,13 +38,13 @@ export VISUAL="nvim"
 export TERM="foot"
 export TERMINAL="foot"
 export GOPATH"=$HOME/Go"
+# export MGFXC_WINE_PATH=/home/nikki/.winemonogame
 
 # pfetch
 export PF_INFO="ascii title os kernel wm shell pkgs memory"
 export PF_COL1=5
 export PF_COL2=7
 export PF_COL3=3
-pfetch
 
 # PATH
 export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/.scripts
