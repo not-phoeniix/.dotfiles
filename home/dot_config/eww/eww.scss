@@ -4,6 +4,7 @@
 // vars
 $color-fg: $foreground;
 $color-bg: $background;
+$color-bg2: $color0;
 $color-main: $color1;
 $color-main2: $color3;
 
@@ -17,20 +18,20 @@ $color-main2: $color3;
 // === widgets ============================================
 
 window {
-    background-color: transparent;
+    background-color: $color-bg;
 }
 
 .container {
-    background-color: $color-bg;
+    background-color: $color-bg2;
     color: $foreground;
-    padding: 15px;
-    border-radius: 7px;
-    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 17px;
+    margin: 5px;
 }
 
 button {
     border: 2px solid $color-main2;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 0px 8px;
 
     &:hover {
@@ -43,16 +44,12 @@ button {
 
     button {
         padding: 0px 15px;
-        border-color: $color-bg;
-        border-radius: 10px;
-    }
-
-    .current {
-        background: linear-gradient(135deg, $color-main 30%, $color-main2);
-        box-shadow: inset 0 -3px $color-fg;
+        border-color: $color-bg2;
     }
 }
 
-.charging {
-    background-color: $color-main;
+.charging,
+.workspaces .current {
+    background: linear-gradient(135deg, $color-main 30%, $color-main2);
+    box-shadow: inset 0 -3px $color-fg;
 }
