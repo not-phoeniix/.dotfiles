@@ -45,8 +45,13 @@ get_vol() {
     VOLUME_HUMAN=$(pamixer --get-volume-human)
     OUTPUT=""
 
+    DEFAULT_SINK=$(pamixer --get-default-sink)
+
     if [[ $VOLUME_HUMAN == "muted" ]]; then
         OUTPUT+=""
+    elif [[ $DEFAULT_SINK =~ "bluez" ]]; then
+        OUTPUT+=$VOLUME_HUMAN
+        OUTPUT+=" 󰂯"
     elif [[ $VOLUME > 66 ]]; then
         OUTPUT+=$VOLUME_HUMAN
         OUTPUT+=" "
