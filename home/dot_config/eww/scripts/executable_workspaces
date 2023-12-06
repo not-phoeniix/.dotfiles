@@ -17,6 +17,12 @@ case "$1" in
         done
         ;;
 
+    "--get-active-title")
+        socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
+            hyprctl activewindow -j | jq -r '.title'
+        done
+        ;;
+
     "--set-workspace")
         hyprctl dispatch workspace "$2"
         ;;
