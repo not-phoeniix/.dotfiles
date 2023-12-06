@@ -59,7 +59,9 @@
 )
 
 (defwidget volume []
-  (container :text volume)
+  (eventbox :onclick "pamixer -t" :onmiddleclick "pavucontrol &"
+    (container :text volume)
+  )
 )
 
 ; ~~~ main bar setup ~~~
