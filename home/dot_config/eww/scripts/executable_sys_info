@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 # ~~~ functions ~~~
 
@@ -71,10 +71,7 @@ POLL_INTERVAL="0.1s"
 
 case "$1" in
     "--get-battery")
-        while true; do
-            get_battery
-            sleep 1s
-        done
+        get_battery
         ;;
 
     "--get-battery-status")
@@ -82,17 +79,11 @@ case "$1" in
         ;;
 
     "--get-brightness")
-        while true; do
-            get_brightness
-            sleep $POLL_INTERVAL
-        done
+        get_brightness
         ;;
 
     "--get-vol")
-        while true; do
-            get_vol
-            sleep $POLL_INTERVAL
-        done
+        get_vol
         ;;
 
 esac

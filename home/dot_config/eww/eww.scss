@@ -24,33 +24,32 @@ window {
     background-color: $color-bg;
     color: $foreground;
     padding: 15px;
-    border-radius: 4px;
+    border-radius: 7px;
     margin: 10px;
 }
 
 button {
-    border: 2px solid $color-main;
+    border: 2px solid $color-main2;
     border-radius: 4px;
     padding: 0px 8px;
 
     &:hover {
-        background-color: $color-main;
+        background-color: $color-main2;
     }
 }
 
 .workspaces {
-    padding: 0px 10px;
+    padding: 0px;
 
     button {
+        padding: 0px 15px;
         border-color: $color-bg;
-
-        &:hover {
-            border-color: $color-main2
-        }
+        border-radius: 10px;
     }
 
     .current {
-        background-color: $color-main;
+        background: linear-gradient(135deg, $color-main 30%, $color-main2);
+        box-shadow: inset 0 -3px $color-fg;
     }
 }
 

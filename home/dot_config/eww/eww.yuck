@@ -6,13 +6,12 @@
 ; ~~~ variables ~~~
 
 (defpoll time :interval "10s" `date "+%I:%M %p"`)
-(defpoll current_workspace :interval "0.1s" `hyprctl activeworkspace -j | jq '.id'`)
-(defpoll all_workspaces :interval "10s" `hyprctl workspaces -j`)
+(deflisten current-workspace :initial "1" "sh scripts/workspaces --get-current-workspace")
 (deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
 (deflisten music :initial "" "playerctl --follow metadata --format ' {{ artist }} - {{ title }}' || true")
-(deflisten battery :initial "" "sh scripts/sys_info --get-battery")
-(deflisten brightness :initial "" "sh scripts/sys_info --get-brightness")
-(deflisten volume :initial "" "sh scripts/sys_info --get-vol")
+(defpoll battery :interval "0.1s" "sh scripts/sys_info --get-battery")
+(defpoll brightness :interval "0.1s" "sh scripts/sys_info --get-brightness")
+(defpoll volume :interval "0.1s" "sh scripts/sys_info --get-vol")
 
 (defvar labels "[I, II, III, IV, V, VI, VII, , 󰙯, ]")
 
@@ -25,12 +24,13 @@
   )
 )
 
-(defwidget workspaces []
+; TODO: make this more cpu efficient I'd say
+(defwidget workspaces [current-workspace]
   (box :class "container workspaces" :space-evenly false :halign "center"
     (for workspace in workspaces
       (button
         :onclick "hyprctl dispatch workspace ${workspace.id}"
-        :class "workspace-entry ${workspace.id == current_workspace ? "current" : "" }"
+        :class "workspace-entry ${workspace.id == current-workspace ? "current" : "" }"
         "${workspace.name}"
       )
     )
@@ -66,8 +66,7 @@
   (centerbox
     ; left box
     (box :orientation "horizontal" :halign "start" :space-evenly false
-      (workspaces)
-      (container :text "ws: ${current_workspace}")
+      (workspaces :current-workspace current-workspace)
     )
 
     ; center box

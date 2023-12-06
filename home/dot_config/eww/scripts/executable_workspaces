@@ -11,7 +11,7 @@ case "$1" in
         done
         ;;
 
-    "--get-workspace")
+    "--get-current-workspace")
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
             hyprctl activeworkspace -j | jq '.id'
         done
