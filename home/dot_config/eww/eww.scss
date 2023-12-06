@@ -16,10 +16,22 @@ $color-main2: $color3;
 
 // === widgets ============================================
 
+window {
+    background-color: transparent;
+}
+
+.container {
+    background-color: $color-bg;
+    color: $foreground;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px;
+}
+
 button {
     border: 2px solid $color-main;
     border-radius: 4px;
-    padding: 8px;
+    padding: 0px 8px;
 
     &:hover {
         background-color: $color-main;
@@ -27,6 +39,8 @@ button {
 }
 
 .workspaces {
+    padding: 0px 10px;
+
     button {
         border-color: $color-bg;
 
@@ -40,10 +54,6 @@ button {
     }
 }
 
-.container {
-    background-color: $color-bg;
-    color: $foreground;
-    padding: 5px 15px;
-    border-radius: 4px;
-    margin: 10px;
+.charging {
+    background-color: $color-main;
 }

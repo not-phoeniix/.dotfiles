@@ -6,10 +6,10 @@
 ; ~~~ variables ~~~
 
 (defpoll time :interval "10s" `date "+%I:%M %p"`)
-(defpoll current_workspace :interval "1s" `hyprctl activeworkspace -j | jq '.id'`)
+(defpoll current_workspace :interval "0.1s" `hyprctl activeworkspace -j | jq '.id'`)
 (defpoll all_workspaces :interval "10s" `hyprctl workspaces -j`)
-(deflisten workspaces :initial "[]" "sh scripts/workspaces")
-(deflisten music :initial " stopped " "playerctl --follow metadata --format ' {{ artist }} - {{ title }} ' || true")
+(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
+(deflisten music :initial "" "playerctl --follow metadata --format ' {{ artist }} - {{ title }}' || true")
 (deflisten battery :initial "" "sh scripts/sys_info --get-battery")
 (deflisten brightness :initial "" "sh scripts/sys_info --get-brightness")
 (deflisten volume :initial "" "sh scripts/sys_info --get-vol")
@@ -19,31 +19,18 @@
 ; ~~~ widgets ~~~
 
 ; generic container widget
-(defwidget container [text ?limit-width]
-  (box :class "container" :orientation "horizontal" :halign "center"
+(defwidget container [text ?limit-width ?class]
+  (box :class "container ${class}" :orientation "horizontal" :halign "center" :space-evenly false
     (label :text text :limit-width {limit-width?:1000})
   )
 )
 
 (defwidget workspaces []
-  (box :space-evenly false :class "workspaces"
-    ; (label :text "${workspaces}${current_workspace}" :visible false)
-    (for workspace in all_workspaces
-      (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
-        (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}"
-          (label :text "${workspace.id}")
-        )
-      )
-    )
-  )
-)
-
-(defwidget ws_three []
   (box :class "container workspaces" :space-evenly false :halign "center"
     (for workspace in workspaces
       (button
         :onclick "hyprctl dispatch workspace ${workspace.id}"
-        :class "button_lol"
+        :class "workspace-entry ${workspace.id == current_workspace ? "current" : "" }"
         "${workspace.name}"
       )
     )
@@ -51,7 +38,7 @@
 )
 
 (defwidget time []
-  (container :text "${time}")
+  (container :text time)
 )
 
 (defwidget music []
@@ -59,17 +46,15 @@
 )
 
 (defwidget battery []
-  (container :text "bat: ${battery}")
+  (container :text battery :class {battery =~ "󰂄" ? "charging" : ""})
 )
 
 (defwidget brightness []
-  (container :text "bright: ${brightness}%")
+  (container :text "${brightness}% 󰃠")
 )
 
 (defwidget volume []
-  (box :class "container" :orientation "horizontal" :halign "center"
-    (label :text volume)
-  )
+  (container :text volume)
 )
 
 ; ~~~ main bar setup ~~~
@@ -81,7 +66,7 @@
   (centerbox
     ; left box
     (box :orientation "horizontal" :halign "start" :space-evenly false
-      (ws_three)
+      (workspaces)
       (container :text "ws: ${current_workspace}")
     )
 

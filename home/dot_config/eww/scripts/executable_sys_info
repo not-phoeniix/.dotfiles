@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # ~~~ functions ~~~
 
@@ -12,11 +12,53 @@ set_brightness() {
 
 get_battery() {
     BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
-    echo "$(cat /sys/class/power_supply/${BAT}/capacity)%"
+    LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)%"
+    STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
+    OUTPUT="$LEVEL "
+
+    if [[ $STATUS == "Charging" ]]; then
+        OUTPUT+="󰂄"
+    elif [[ $LEVEL > 90 ]]; then
+        OUTPUT+="󰂂"
+    elif [[ $LEVEL > 70 ]]; then
+        OUTPUT+="󰂀"
+    elif [[ $LEVEL > 50 ]]; then
+        OUTPUT+="󰁾"
+    elif [[ $LEVEL > 30 ]]; then
+        OUTPUT+="󰁼"
+    elif [[ $LEVEL > 10 ]]; then
+        OUTPUT+="󰁺"
+    fi
+
+    echo $OUTPUT
+}
+
+get_battery_status() {
+    BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
+    STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
+
+    echo $STATUS
 }
 
 get_vol() {
-   echo "$(pamixer --get-volume-human)"
+    VOLUME=$(pamixer --get-volume)
+    VOLUME_HUMAN=$(pamixer --get-volume-human)
+    OUTPUT=""
+
+    if [[ $VOLUME_HUMAN == "muted" ]]; then
+        OUTPUT+=""
+    elif [[ $VOLUME > 66 ]]; then
+        OUTPUT+=$VOLUME_HUMAN
+        OUTPUT+=" "
+    elif [[ $VOLUME > 33 ]]; then
+        OUTPUT+=$VOLUME_HUMAN
+        OUTPUT+=" "
+    else
+        OUTPUT+=$VOLUME_HUMAN
+        OUTPUT+=" "
+    fi
+
+    echo $OUTPUT
 }
 
 toggle_vol() {
@@ -25,25 +67,31 @@ toggle_vol() {
 
 # ~~~ kslfjdglkdfs ~~~
 
+POLL_INTERVAL="0.1s"
+
 case "$1" in
     "--get-battery")
         while true; do
             get_battery
-            sleep 1m
+            sleep 1s
         done
+        ;;
+
+    "--get-battery-status")
+        get_battery_status
         ;;
 
     "--get-brightness")
         while true; do
             get_brightness
-            sleep 1s
+            sleep $POLL_INTERVAL
         done
         ;;
 
     "--get-vol")
         while true; do
             get_vol
-            sleep 1s
+            sleep $POLL_INTERVAL
         done
         ;;
 

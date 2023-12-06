@@ -1,11 +1,25 @@
 #!/bin/sh
 
-get_current() {
-    echo "$(hyprctl activeworkspace -j | jq '.id')"
-}
+POLL_INTERVAL="0.1s"
 
-hyprctl workspaces -j | jq -c
+SOCKET_PATH="/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
 
-socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do
-    hyprctl workspaces -j | jq -c 'sort_by(.id)'
-done
+case "$1" in
+    "--get-workspaces")
+        socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
+            hyprctl workspaces -j | jq -c 'sort_by(.id)'
+        done
+        ;;
+
+    "--get-workspace")
+        socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
+            hyprctl activeworkspace -j | jq '.id'
+        done
+        ;;
+
+    "--set-workspace")
+        hyprctl dispatch workspace "$2"
+        ;;
+esac
+
+# hyprctl workspaces -j | jq -c
