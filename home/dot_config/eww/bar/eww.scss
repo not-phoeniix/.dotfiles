@@ -52,3 +52,11 @@ button {
     background: linear-gradient(135deg, $color-main 30%, $color-main2);
     box-shadow: inset 0 -3px $color-fg;
 }
+
+// this prevents the entire bar from getting bigger
+//   when certain text characters show up in the
+//   title (like the hyphen in firefox's titles)
+.title {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}

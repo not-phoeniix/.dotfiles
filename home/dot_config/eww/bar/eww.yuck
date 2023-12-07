@@ -39,7 +39,11 @@
 )
 
 (defwidget window-title []
-  (container :text {window-title == "null" ? ":3" : window-title} :limit-width 50)
+  (container
+    :text {window-title == "null" ? ":3" : window-title}
+    :limit-width 50
+    :class "title"
+  )
 )
 
 (defwidget time []
