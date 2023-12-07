@@ -6,13 +6,13 @@
 ; ~~~ variables ~~~
 
 (defpoll time :interval "10s" `date "+%I:%M %p"`)
-(deflisten current-workspace :initial "1" "sh scripts/workspaces --get-current-workspace")
-(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
-(deflisten window-title :initial "" "sh scripts/workspaces --get-active-title")
+(deflisten current-workspace :initial "1" "sh ../scripts/workspaces --get-current-workspace")
+(deflisten workspaces :initial "[]" "sh ../scripts/workspaces --get-workspaces")
+(deflisten window-title :initial "" "sh ../scripts/workspaces --get-active-title")
 (deflisten music :initial "" "playerctl --follow metadata --format ' {{ artist }} - {{ title }}' || true")
-(defpoll battery :interval "0.1s" "sh scripts/sys_info --get-battery")
-(defpoll brightness :interval "0.1s" "sh scripts/sys_info --get-brightness")
-(defpoll volume :interval "0.1s" "sh scripts/sys_info --get-vol")
+(defpoll battery :interval "0.1s" "sh ../scripts/sys_info --get-battery")
+(defpoll brightness :interval "0.1s" "sh ../scripts/sys_info --get-brightness")
+(defpoll volume :interval "0.1s" "sh ../scripts/sys_info --get-vol")
 
 (defvar labels "[I, II, III, IV, V, VI, VII, , 󰙯, ]")
 
@@ -39,7 +39,7 @@
 )
 
 (defwidget window-title []
-  (container :text window-title :limit-width 50)
+  (container :text {window-title == "null" ? ":3" : window-title} :limit-width 50)
 )
 
 (defwidget time []
