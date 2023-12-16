@@ -6,6 +6,7 @@
 ; ~~~ variables ~~~
 
 (defpoll time :interval "10s" `date "+%I:%M %p"`)
+(defpoll date :interval "10s" `date "+%b %d, %Y"`)
 (deflisten current-workspace :initial "1" "sh ../scripts/workspaces --get-current-workspace")
 (deflisten workspaces :initial "[]" "sh ../scripts/workspaces --get-workspaces")
 (deflisten window-title :initial "" "sh ../scripts/workspaces --get-active-title")
@@ -20,14 +21,15 @@
 
 ; generic container widget
 (defwidget container [text ?limit-width ?class]
-  (box :class "container ${class}" :orientation "horizontal" :halign "center" :space-evenly false
+  (box :class "container ${class}" :orientation "h" :valign "center" :space-evenly false
     (label :text text :limit-width {limit-width?:1000})
   )
 )
 
 ; TODO: make this more cpu efficient I'd say
+; TODO: MAKE THIS STOP GIVING ERROR LOGS THAT TAKE UP HUNDREDS OF GIGABYTES IN A SINGLE TEXT FILE
 (defwidget workspaces [current-workspace]
-  (box :class "container workspaces" :space-evenly false :halign "center"
+  (box :class "container workspaces" :orientation "h" :space-evenly false :halign "center"
     (for workspace in workspaces
       (button
         :onclick "hyprctl dispatch workspace ${workspace.id}"
@@ -46,8 +48,19 @@
   )
 )
 
+(defwidget date-time []
+  (box :class "container date-time" :orientation "h" :halign "center" :space-evenly false
+    (label :text time)
+    (label :text date)
+  )
+)
+
 (defwidget time []
   (container :text time)
+)
+
+(defwidget date []
+  (container :text date)
 )
 
 (defwidget music []
@@ -74,23 +87,24 @@
   :monitor 0
   :geometry (geometry :width "100%" :anchor "top center")
   :exclusive true
-  (centerbox
+  (centerbox :orientation "h"
     ; left box
-    (box :orientation "horizontal" :halign "start" :space-evenly false
-      (workspaces :current-workspace current-workspace)
+    (box :orientation "h" :halign "start" :space-evenly false
+      ; (workspaces :current-workspace current-workspace)
       (window-title)
     )
 
     ; center box
-    (box :orientation "horizontal" :halign "center" :space-evenly false
+    (box :orientation "h" :halign "center" :space-evenly false
       (music)
     )
 
     ; right box
-    (box :orientation "horizontal" :halign "end" :space-evenly false
+    (box :orientation "h" :halign "end" :space-evenly false
       (volume)
       (brightness)
       (battery)
+      ;(date-time)
       (time)
     )
   )

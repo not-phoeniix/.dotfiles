@@ -1,23 +1,27 @@
 #!/bin/sh
 
-POLL_INTERVAL="0.1s"
-
 SOCKET_PATH="/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
 
 case "$1" in
     "--get-workspaces")
+        hyprctl workspaces -j | jq -c 'sort_by(.id)'
+
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
             hyprctl workspaces -j | jq -c 'sort_by(.id)'
         done
         ;;
 
     "--get-current-workspace")
+        hyprctl activeworkspace -j | jq '.id'
+
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
             hyprctl activeworkspace -j | jq '.id'
         done
         ;;
 
     "--get-active-title")
+        hyprctl activewindow -j | jq -r '.title'
+
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
             hyprctl activewindow -j | jq -r '.title'
         done

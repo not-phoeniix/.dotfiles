@@ -53,6 +53,10 @@ button {
     box-shadow: inset 0 -3px $color-fg;
 }
 
+.date-time label {
+    font-size: 18px;
+}
+
 // this prevents the entire bar from getting bigger
 //   when certain text characters show up in the
 //   title (like the hyphen in firefox's titles)

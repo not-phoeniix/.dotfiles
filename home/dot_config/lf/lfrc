@@ -14,12 +14,12 @@ set icons true
 set scrolloff 10
 
 # make sure trash folder exists
-%mkdir -p ~/.trash
+%mkdir -p ~/.local/share/Trash/files
 
 # custom functions ========================================
 
 # move current file or selected files to trash folder
-cmd trash %set -f; mv $fx ~/.trash
+cmd trash %set -f; mv $fx ~/.local/share/Trash/files/
 
 # yeah please don't delete this,
 # it's what opens files correctly
@@ -44,7 +44,7 @@ map gd cd ~/Downloads
 map gD cd ~/Documents
 map gp cd ~/Pictures
 map gG cd ~/git-clone
-map gt cd ~/.trash
+map gt cd ~/.local/share/Trash/files
 map gc cd ~/.config
 map g. cd ~/.dotfiles
 map gw cd ~/Documents/pebble
