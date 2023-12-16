@@ -11,9 +11,9 @@
 			"~/.config/waybar/default-modules.json"
 		],
 
-        "modules-left": ["hyprland/workspaces", "hyprland/window"],
+        "modules-left": [],
         "modules-center": ["clock"],
-        "modules-right": ["pulseaudio", "backlight", "battery", "tray"],
+        "modules-right": ["pulseaudio", "tray"],
     }
 
 /*
