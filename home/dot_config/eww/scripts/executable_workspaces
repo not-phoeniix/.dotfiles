@@ -2,12 +2,49 @@
 
 SOCKET_PATH="/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
 
+LABELS=("I" "II" "III" "IV" "V" "VI" "VII" "" "󰙯" "")
+
+# creates a string that can be put into
+workspaces_literal() {
+    CURRENT_ID=$(hyprctl activeworkspace -j | jq '.id')
+
+    OUTPUT="(box :class \"container workspaces\" :orientation \"v\" :space-evenly false :valign \"center\""
+
+    # each line read is a workspace json object, sorted by id lowest to highest
+    lines=$(hyprctl workspaces -j | jq -c 'sort_by(.id)' | jq -c '.[]')
+    while read line; do
+        ID=$(echo $line | jq '.id')
+        ICON=${LABELS[$ID - 1]}
+
+        # builds local button string
+        BUTTON="(button"
+        BUTTON+=" :onclick \"hyprctl dispatch workspace $ID\""
+        BUTTON+=" :class \"workspace-entry"
+        if [[ $ID == $CURRENT_ID ]]; then
+            BUTTON+=" current"
+        fi
+        BUTTON+="\""
+        BUTTON+=" \"$ICON\""
+        BUTTON+=")"
+
+        # adds button string to overall output string
+        OUTPUT+=" $BUTTON"
+
+    # this is used to keep while loop on THIS process,
+    # allowing it to access the $OUTPUT variable
+    done <<< "$lines"
+
+    OUTPUT+=")"
+
+    echo $OUTPUT
+}
+
 case "$1" in
     "--get-workspaces")
-        hyprctl workspaces -j | jq -c 'sort_by(.id)'
+        workspaces_literal
 
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
-            hyprctl workspaces -j | jq -c 'sort_by(.id)'
+            workspaces_literal
         done
         ;;
 
@@ -25,10 +62,6 @@ case "$1" in
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
             hyprctl activewindow -j | jq -r '.title'
         done
-        ;;
-
-    "--set-workspace")
-        hyprctl dispatch workspace "$2"
         ;;
 esac
 

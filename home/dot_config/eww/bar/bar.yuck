@@ -1,0 +1,166 @@
+; HI HERES A GOOD EXAMPLE TO COPY FROM :3
+; https://github.com/linkfrg/dotfiles/
+; and also
+; https://github.com/lauroro/hyprland-dotfiles/
+
+; ~~~ variables ~~~
+
+(defpoll time :interval "10s" `date "+%I:%M %p"`)
+(defpoll hour :interval "10s" `date "+%I"`)
+(defpoll minute :interval "10s" `date "+%M"`)
+(defpoll am-pm :interval "10s" `date "+%p"`)
+(defpoll date :interval "10s" `date "+%b %d, %Y"`)
+(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
+(deflisten current-workspace :initial "1" "sh scripts/workspaces --get-current-workspace")
+(deflisten window-title :initial "" "sh scripts/workspaces --get-active-title")
+(deflisten music :initial "" "playerctl --follow metadata --format ' {{ artist }} - {{ title }}' || true")
+
+(defpoll battery :interval "1s" "sh scripts/sys_info --get-battery")
+(defpoll battery-icon :interval "1s" "sh scripts/sys_info --get-battery-icon")
+(defpoll brightness :interval "0.1s" "sh scripts/sys_info --get-brightness")
+(defpoll volume :interval "0.1s" "sh scripts/sys_info --get-vol")
+(defpoll volume-icon :interval "0.1s" "sh scripts/sys_info --get-vol-icon")
+
+; ~~~ widgets ~~~
+
+; generic container widget
+(defwidget container [text ?limit-width ?class]
+  (box :class "container ${class}" :orientation "v" :halign "center" :space-evenly false
+    (label :text text :limit-width {limit-width?:1000})
+  )
+)
+
+(defwidget workspaces []
+  (literal :content workspaces)
+)
+
+(defwidget window-title []
+  (container
+    :text {window-title == "null" ? ":3" : window-title}
+    :limit-width 50
+    :class "title"
+  )
+)
+
+(defwidget time []
+  (box :class "container" :orientation "v" :space-evenly true :valign "center"
+    (label :text hour)
+    (label :text minute)
+  )
+)
+
+(defwidget music []
+  (container :text {music ?: ""} :limit-width 40)
+)
+
+(defvar bat-shown false)
+(defwidget battery []
+  (eventbox
+    :onhover "eww update bat-shown=true"
+    :onhoverlost "eww update bat-shown=false"
+    :tooltip "Battery: ${battery}%"
+    (box :orientation "v" :space-evenly "false"
+      (revealer :transition "slideup" :reveal bat-shown :duration "500ms"
+        (scale
+          :value battery
+          :orientation "v"
+          :flipped true
+          :max 101
+          :min 0
+        )
+      )
+
+      (label :text battery-icon :class {battery-icon =~ "󰂄" ? "charging" : ""})
+    )
+  )
+)
+
+(defvar vol-shown false)
+(defwidget volume []
+  (eventbox
+    :onhover "eww update vol-shown=true"
+    :onhoverlost "eww update vol-shown=false"
+    :onclick "pamixer -t"
+    :onmiddleclick "pavucontrol &"
+    :tooltip "Volume: ${volume}%"
+    (box :orientation "v" :space-evenly "false"
+      (revealer :transition "slideup" :reveal vol-shown :duration "500ms"
+        (scale
+          :value volume
+          :orientation "v"
+          :flipped true
+          :max 101
+          :min 0
+          :onchange "pamixer --set-volume {}"
+        )
+      )
+
+      (label :text volume-icon)
+    )
+  )
+)
+
+(defvar bright-shown false)
+(defwidget brightness []
+  (eventbox
+    :onhover "eww update bright-shown=true"
+    :onhoverlost "eww update bright-shown=false"
+    :tooltip "Brightness: ${brightness}%"
+    (box :orientation "v" :space-evenly "false"
+      (revealer :transition "slideup" :reveal bright-shown :duration "500ms"
+        (scale
+          :value brightness
+          :orientation "v"
+          :flipped true
+          :max 101
+          :min 0
+          :onchange "brightnessctl set {}%"
+        )
+      )
+
+      (label :text "󰃠")
+    )
+  )
+)
+
+(defvar ctrl-opened false)
+(defwidget ctrl-opener []
+  (eventbox :onclick "sh scripts/panel_opener --toggle-ctrl"
+    (label :text "" :angle {ctrl-opened == true ? 180 : 0})
+  )
+)
+
+(defwidget ctrl []
+  (box :orientation "v" :space-evenly false :class "container"
+    (battery)
+    (volume)
+    (brightness)
+    (ctrl-opener)
+  )
+)
+
+; ~~~ main bar setup ~~~
+
+(defwindow bar-vertical
+  :monitor 0
+  :geometry (geometry :height "100%" :anchor "center left")
+  :exclusive true
+  (centerbox :orientation "v"
+    ; top box
+    (box :orientation "v" :valign "start" :space-evenly false
+      (workspaces)
+      ; (window-title)
+    )
+
+    ; center box
+    (box :orientation "v" :valign "center" :space-evenly false
+      ; (music)
+    )
+
+    ; bottom box
+    (box :orientation "v" :valign "end" :space-evenly false
+      (ctrl)
+      (time)
+    )
+  )
+)

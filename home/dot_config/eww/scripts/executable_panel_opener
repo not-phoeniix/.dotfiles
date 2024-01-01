@@ -1,0 +1,30 @@
+#!/bin/sh
+
+toggle_bar() {
+    # if first one exits as failed (false), bar isn't open,
+    # so it executes the second command, opening bar
+    eww close bar-vertical || eww open bar-vertical
+}
+
+toggle_ctrl() {
+    CURRENT_STATE=$(eww get ctrl-opened)
+    NEW_STATE="true"
+
+    if [[ $CURRENT_STATE == "true" ]]; then
+        NEW_STATE="false"
+    fi
+
+    notify-send "OPENING CONTROL PANEL"
+
+    eww update ctrl-opened=$NEW_STATE
+}
+
+case "$1" in
+    "--toggle-ctrl")
+        toggle_ctrl
+        ;;
+
+    "--toggle-bar")
+        toggle_bar
+        ;;
+esac

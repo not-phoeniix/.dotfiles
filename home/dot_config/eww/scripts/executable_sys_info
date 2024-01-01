@@ -10,57 +10,63 @@ set_brightness() {
     brightnessctl set $1
 }
 
+BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
+
 get_battery() {
-    BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
+    LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)"
+
+    echo $LEVEL
+}
+
+get_battery_icon() {
     LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)%"
     STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
-    OUTPUT="$LEVEL "
+
+    OUTPUT="󰁹"
 
     if [[ $STATUS == "Charging" ]]; then
-        OUTPUT+="󰂄"
-    elif [[ $LEVEL > 90 ]]; then
-        OUTPUT+="󰂂"
-    elif [[ $LEVEL > 70 ]]; then
-        OUTPUT+="󰂀"
-    elif [[ $LEVEL > 50 ]]; then
-        OUTPUT+="󰁾"
-    elif [[ $LEVEL > 30 ]]; then
-        OUTPUT+="󰁼"
-    elif [[ $LEVEL > 10 ]]; then
-        OUTPUT+="󰁺"
+        OUTPUT="󰂄"
+    elif [[ $LEVEL -gt 90 ]]; then
+        OUTPUT="󰂂"
+    elif [[ $LEVEL -gt 70 ]]; then
+        OUTPUT="󰂀"
+    elif [[ $LEVEL -gt 50 ]]; then
+        OUTPUT="󰁾"
+    elif [[ $LEVEL -gt 30 ]]; then
+        OUTPUT="󰁼"
+    elif [[ $LEVEL -gt 10 ]]; then
+        OUTPUT="󰁺"
     fi
 
     echo $OUTPUT
 }
 
 get_battery_status() {
-    BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
     STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
 
     echo $STATUS
 }
 
 get_vol() {
+    echo $(pamixer --get-volume)
+}
+
+get_vol_icon() {
     VOLUME=$(pamixer --get-volume)
     VOLUME_HUMAN=$(pamixer --get-volume-human)
+    DEFAULT_SINK=$(pamixer --get-default-sink)
     OUTPUT=""
 
-    DEFAULT_SINK=$(pamixer --get-default-sink)
-
     if [[ $VOLUME_HUMAN == "muted" ]]; then
-        OUTPUT+=""
+        OUTPUT=""
     elif [[ $DEFAULT_SINK =~ "bluez" ]]; then
-        OUTPUT+=$VOLUME_HUMAN
-        OUTPUT+=" 󰂯"
-    elif [[ $VOLUME > 66 ]]; then
-        OUTPUT+=$VOLUME_HUMAN
-        OUTPUT+=" "
-    elif [[ $VOLUME > 33 ]]; then
-        OUTPUT+=$VOLUME_HUMAN
-        OUTPUT+=" "
+        OUTPUT="󰂯"
+    elif [[ $VOLUME -gt 66 ]]; then
+        OUTPUT=""
+    elif [[ $VOLUME -gt 33 ]]; then
+        OUTPUT=""
     else
-        OUTPUT+=$VOLUME_HUMAN
-        OUTPUT+=" "
+        OUTPUT=""
     fi
 
     echo $OUTPUT
@@ -72,11 +78,13 @@ toggle_vol() {
 
 # ~~~ kslfjdglkdfs ~~~
 
-POLL_INTERVAL="0.1s"
-
 case "$1" in
     "--get-battery")
         get_battery
+        ;;
+
+    "--get-battery-icon")
+        get_battery_icon
         ;;
 
     "--get-battery-status")
@@ -91,4 +99,7 @@ case "$1" in
         get_vol
         ;;
 
+    "--get-vol-icon")
+        get_vol_icon
+        ;;
 esac

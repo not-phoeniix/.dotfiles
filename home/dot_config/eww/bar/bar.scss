@@ -1,0 +1,84 @@
+@import "../../../.cache/wal/colors-eww.scss";
+
+// vars
+$color-fg: $foreground;
+$color-bg: $background;
+$color-bg2: $color0;
+$color-main: $color1;
+$color-main2: $color3;
+
+// === global =============================================
+* {
+    all: unset;
+    font-family: Papernotes, Symbols Nerd Font;
+    font-size: 30px;
+}
+
+// === widgets ============================================
+
+window {
+    background-color: $color-bg;
+}
+
+.container {
+    background-color: $color-bg2;
+    color: $foreground;
+    padding: 12px 17px;
+    border-radius: 17px;
+    margin: 5px;
+}
+
+button {
+    border: 2px solid $color-main2;
+    border-radius: 10px;
+    padding: 0px 8px;
+
+    &:hover {
+        background-color: $color-main2;
+    }
+}
+
+scale {
+    trough {
+        background-color: $color-bg;
+        border-radius: 5px;
+        min-height: 100px;
+        min-width: 10px;
+
+        highlight {
+            // background-color: $color-main;
+            background: linear-gradient(135deg, $color-main 30%, $color-main2);
+            border-radius: 5px;
+        }
+    }
+}
+
+.workspaces {
+    padding: 0px;
+
+    button {
+        padding: 10px 10px;
+        border-color: $color-bg2;
+    }
+}
+
+.charging{
+    color: $color-main2;
+}
+
+.workspaces .current {
+    background: linear-gradient(135deg, $color-main 30%, $color-main2);
+    box-shadow: inset 0 -3px $color-fg;
+}
+
+.date-time label {
+    font-size: 18px;
+}
+
+// this prevents the entire bar from getting bigger
+//   when certain text characters show up in the
+//   title (like the hyphen in firefox's titles)
+.title {
+    padding-left: 0px;
+    padding-right: 0px;
+}
