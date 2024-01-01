@@ -49,8 +49,14 @@
   )
 )
 
+(defvar music-opened false)
 (defwidget music []
-  (container :text {music ?: ""} :limit-width 40)
+  (box :class "container"
+    (eventbox
+      :onclick "sh scripts/panel_opener --toggle-music"
+      (label :text "")
+    )
+  )
 )
 
 (defvar bat-shown false)
@@ -123,38 +129,40 @@
   )
 )
 
-(defvar ctrl-opened false)
 (defwidget ctrl-opener []
   (eventbox :onclick "sh scripts/panel_opener --toggle-ctrl"
     (label :text "" :angle {ctrl-opened == true ? 180 : 0})
   )
 )
 
+(defvar ctrl-opened false)
 (defwidget ctrl []
-  (box :orientation "v" :space-evenly false :class "container"
-    (battery)
-    (volume)
-    (brightness)
-    (ctrl-opener)
+  (eventbox
+    :onclick "sh scripts/panel_opener --toggle-ctrl"
+    (box :orientation "v" :space-evenly false :class "container"
+      (battery)
+      (volume)
+      (brightness)
+      ; (ctrl-opener)
+    )
   )
 )
 
 ; ~~~ main bar setup ~~~
 
-(defwindow bar-vertical
+(defwindow bar
   :monitor 0
   :geometry (geometry :height "100%" :anchor "center left")
   :exclusive true
-  (centerbox :orientation "v"
+  (centerbox :orientation "v" :class "panel" :style "border-radius: 0px;"
     ; top box
     (box :orientation "v" :valign "start" :space-evenly false
       (workspaces)
-      ; (window-title)
     )
 
     ; center box
     (box :orientation "v" :valign "center" :space-evenly false
-      ; (music)
+      (music)
     )
 
     ; bottom box

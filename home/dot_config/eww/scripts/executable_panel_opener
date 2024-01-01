@@ -3,7 +3,7 @@
 toggle_bar() {
     # if first one exits as failed (false), bar isn't open,
     # so it executes the second command, opening bar
-    eww close bar-vertical || eww open bar-vertical
+    eww close bar || eww open bar
 }
 
 toggle_ctrl() {
@@ -12,16 +12,35 @@ toggle_ctrl() {
 
     if [[ $CURRENT_STATE == "true" ]]; then
         NEW_STATE="false"
+        eww close ctrl-panel
+    else
+        eww open ctrl-panel
     fi
 
-    notify-send "OPENING CONTROL PANEL"
-
     eww update ctrl-opened=$NEW_STATE
+}
+
+toggle_music() {
+    CURRENT_STATE=$(eww get music-opened)
+    NEW_STATE="true"
+
+    if [[ $CURRENT_STATE == "true" ]]; then
+        NEW_STATE="false"
+        eww close music-panel
+    else
+        eww open music-panel
+    fi
+
+    eww update music-opened=$NEW_STATE
 }
 
 case "$1" in
     "--toggle-ctrl")
         toggle_ctrl
+        ;;
+
+    "--toggle-music")
+        toggle_music
         ;;
 
     "--toggle-bar")

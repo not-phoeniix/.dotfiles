@@ -1,1 +1,61 @@
+// === colors =============================================
+@import "../../.cache/wal/colors-eww.scss";
+
+$color-fg: $foreground;
+$color-bg: $background;
+$color-bg2: $color0;
+$color-main: $color1;
+$color-main2: $color3;
+
+// === css reset ==========================================
+
+* {
+    all: unset;
+    font-family: Papernotes, Symbols Nerd Font;
+    font-size: 30px;
+}
+
+// === global =============================================
+
+.panel {
+    background-color: $color-bg;
+    border-radius: 14px;
+}
+
+.container {
+    background-color: $color-bg2;
+    color: $foreground;
+    padding: 15px 12px;
+    border-radius: 17px;
+    margin: 5px;
+}
+
+button {
+    border: 2px solid $color-main2;
+    border-radius: 10px;
+    padding: 0px 8px;
+
+    &:hover {
+        background-color: $color-main2;
+    }
+}
+
+scale {
+    trough {
+        background-color: $color-bg;
+        border-radius: 5px;
+        min-height: 100px;
+        min-width: 10px;
+
+        highlight {
+            // background-color: $color-main;
+            background: linear-gradient(135deg, $color-main 30%, $color-main2);
+            border-radius: 5px;
+        }
+    }
+}
+
+// === import rules =======================================
 @import "bar/bar.scss";
+@import "ctrl-panel/ctrl-panel.scss";
+@import "music-panel/music-panel.scss";

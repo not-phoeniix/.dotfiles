@@ -1,1 +1,3 @@
 (include "bar/bar.yuck")
+(include "ctrl-panel/ctrl-panel.yuck")
+(include "music-panel/music-panel.yuck")
