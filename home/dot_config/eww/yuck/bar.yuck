@@ -29,6 +29,7 @@
   (box
     :tooltip "Battery: ${battery}%"
     :class "battery-icon ${battery-icon =~ '󰂄' ? 'charging' : ''}"
+    :visible {bat-enable == 1}
     (label :text battery-icon)
   )
 )
@@ -38,14 +39,6 @@
     :onmiddleclick "pavucontrol &"
     :tooltip "Volume: ${volume}%"
     (label :text volume-icon)
-  )
-)
-
-(defwidget brightness []
-  (eventbox :class "brightness-icon"
-    :tooltip "Brightness: ${brightness}%"
-    :visible {brightness-enable == 1 ? true : false}
-    (label :text "󰃠")
   )
 )
 
