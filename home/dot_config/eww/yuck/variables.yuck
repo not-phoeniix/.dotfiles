@@ -1,0 +1,22 @@
+(defpoll time :interval "10s" `date "+%I:%M %p"`)
+(defpoll hour :interval "10s" `date "+%I"`)
+(defpoll minute :interval "10s" `date "+%M"`)
+(defpoll am-pm :interval "10s" `date "+%p"`)
+(defpoll weekday :interval "1h" `date "+%a"`)
+(defpoll month :interval "1h" `date "+%m"`)
+(defpoll day :interval "1h" `date "+%d"`)
+(defpoll year :interval "1h" `date "+%Y"`)
+
+(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
+(deflisten window-title :initial "" "sh scripts/workspaces --get-active-title")
+(deflisten music :initial "" "playerctl --follow metadata --format ' {{ artist }} - {{ title }}' || true")
+
+(defpoll bat-enable :interval "1m" "sh scripts/sys_info --is-bat")
+(defpoll brightness-enable :interval "1m" "sh scripts/sys_info --is-brightness")
+
+(defpoll battery :interval "1s" "sh scripts/sys_info --get-bat")
+(defpoll battery-icon :interval "1s" "sh scripts/sys_info --get-bat-icon")
+(defpoll brightness :interval "0.1s" "sh scripts/sys_info --get-brightness")
+(defpoll volume :interval "0.1s" "sh scripts/sys_info --get-vol")
+(defpoll volume-icon :interval "0.1s" "sh scripts/sys_info --get-vol-icon")
+(defpoll net-icon :interval "5s" "sh scripts/sys_info --get-net-icon")

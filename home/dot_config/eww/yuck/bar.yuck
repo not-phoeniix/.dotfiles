@@ -1,0 +1,134 @@
+; ~~~ widgets ~~~
+
+(defwidget workspaces []
+  (literal :content workspaces)
+)
+
+(defwidget window-title []
+  (container
+    :text {window-title == "null" ? ":3" : window-title}
+    :limit-width 50
+    :class "title"
+  )
+)
+
+(defwidget music []
+  (eventbox
+    :class "music"
+    :onclick "sh scripts/panel_opener --toggle-music"
+    (box :class "container ${music-opened == true ? 'open' : ''}"
+      (label :text "")
+    )
+  )
+)
+(defvar music-opened false)
+
+; ctrl widgets
+
+(defwidget battery []
+  (box
+    :tooltip "Battery: ${battery}%"
+    :class "battery-icon ${battery-icon =~ '󰂄' ? 'charging' : ''}"
+    (label :text battery-icon)
+  )
+)
+
+(defwidget volume []
+  (eventbox :class "volume-icon"
+    :onmiddleclick "pavucontrol &"
+    :tooltip "Volume: ${volume}%"
+    (label :text volume-icon)
+  )
+)
+
+(defwidget brightness []
+  (eventbox :class "brightness-icon"
+    :tooltip "Brightness: ${brightness}%"
+    :visible {brightness-enable == 1 ? true : false}
+    (label :text "󰃠")
+  )
+)
+
+(defwidget network []
+  (eventbox :tooltip "Connected?" :class "net-icon"
+    (label :text net-icon)
+  )
+)
+
+(defwidget ctrl []
+  (eventbox
+    :class "ctrl-icons"
+    :onclick "sh scripts/panel_opener --toggle-ctrl"
+    (box
+      :orientation "v"
+      :space-evenly false
+      :class "container ${ctrl-opened == true ? 'open' : ''}"
+      :spacing 10
+      (volume)
+      (network)
+      (battery)
+    )
+  )
+)
+(defvar ctrl-opened false)
+
+; time/date
+
+(defwidget date []
+  (box :orientation "v" :space-evenly false :valign "center"
+    (label :text weekday :class "weekday")
+    (label :text day :class "day")
+  )
+)
+
+(defwidget time []
+  (box :orientation "v" :space-evenly true :valign "center"
+    (label :text hour :class "hour")
+    (label :text minute :class "minute")
+  )
+)
+
+(defwidget time-date []
+  (eventbox
+    :onhover "eww update date-shown=true"
+    :onhoverlost "eww update date-shown=false"
+    :onclick "sh scripts/panel_opener --toggle-cal"
+    :class "time-date"
+    (box
+      :orientation "v"
+      :class "container ${cal-opened == true ? 'open' : ''}"
+      :space-evenly false
+      (time)
+      (revealer :transition "slideup" :reveal date-shown :duration "300ms"
+        (date)
+      )
+    )
+  )
+)
+(defvar date-shown false)
+(defvar cal-opened false)
+
+; ~~~ main bar setup ~~~
+
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :height "100%" :anchor "center left")
+  :exclusive true
+  (centerbox :orientation "v" :class "panel" :style "border-radius: 0px; padding: 2px;"
+    ; top box
+    (box :orientation "v" :valign "start" :space-evenly false
+      (workspaces)
+    )
+
+    ; center box
+    (box :orientation "v" :valign "center" :space-evenly false
+      (music)
+    )
+
+    ; bottom box
+    (box :orientation "v" :valign "end" :space-evenly false
+      (ctrl)
+      (time-date)
+    )
+  )
+)

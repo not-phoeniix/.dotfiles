@@ -2,27 +2,46 @@
 
 # ~~~ functions ~~~
 
+# true if brightness control exists, false if not
+# (check if laptop or not more or less)
+is_brightness() {
+    if command -v brightnessctl &> /dev/null; then
+        echo 1  # command exists
+    else
+        echo 0  # command doesn't
+    fi
+}
+
+# returns brightness value
 get_brightness() {
     echo "$(brightnessctl get -P)"
 }
 
+# sets brightness value
 set_brightness() {
     brightnessctl set $1
 }
 
 BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
 
-get_battery() {
-    LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)"
-
-    echo $LEVEL
+# returns whether brightnessctl is installed, used for
+is_bat() {
+    if [[ -z $BAT ]]; then
+        echo 0  # no battery
+    else
+        echo 1  # battery
+    fi
 }
 
-get_battery_icon() {
+# returns battery level
+get_bat() {
+    echo "$(cat /sys/class/power_supply/${BAT}/capacity)"
+}
+
+# returns battery icon depending on battery level
+get_bat_icon() {
     LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)%"
     STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
-
-    OUTPUT="󰁹"
 
     if [[ $STATUS == "Charging" ]]; then
         OUTPUT="󰂄"
@@ -43,16 +62,17 @@ get_battery_icon() {
     echo $OUTPUT
 }
 
-get_battery_status() {
-    STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
-
-    echo $STATUS
+# returns current battery status
+get_bat_status() {
+    echo "$(cat /sys/class/power_supply/${BAT}/status)"
 }
 
+# returns volume of default sink
 get_vol() {
     echo $(pamixer --get-volume)
 }
 
+# returns volume icon depending on volume level
 get_vol_icon() {
     VOLUME=$(pamixer --get-volume)
     VOLUME_HUMAN=$(pamixer --get-volume-human)
@@ -63,9 +83,9 @@ get_vol_icon() {
         OUTPUT=""
     elif [[ $DEFAULT_SINK =~ "bluez" ]]; then
         OUTPUT="󰂯"
-    elif [[ $VOLUME -gt 66 ]]; then
+    elif [[ $VOLUME > 66 ]] || [[ $VOLUME = 100 ]]; then
         OUTPUT=""
-    elif [[ $VOLUME -gt 33 ]]; then
+    elif [[ $VOLUME > 33 ]]; then
         OUTPUT=""
     else
         OUTPUT=""
@@ -74,23 +94,64 @@ get_vol_icon() {
     echo $OUTPUT
 }
 
+# toggles mute on default sink
 toggle_vol() {
     pamixer -t
+}
+
+# returns the status of connection (nmcli-dependent)
+get_net_status() {
+    echo $(nmcli networking connectivity)
+}
+
+# returns an icon depending on current net status
+get_net_icon() {
+    STATUS=$(nmcli networking connectivity)
+
+    case $STATUS in
+        "none")
+            echo "󰤮"
+            ;;
+
+        "portal")
+            echo "󰤩"
+            ;;
+
+        "limited")
+            echo "󰤩"
+            ;;
+
+        "full")
+            echo "󰤨"
+            ;;
+
+        "unknown")
+            echo "󰤫"
+            ;;
+    esac
 }
 
 # ~~~ kslfjdglkdfs ~~~
 
 case "$1" in
-    "--get-battery")
-        get_battery
+    "--is-bat")
+        is_bat
         ;;
 
-    "--get-battery-icon")
-        get_battery_icon
+    "--get-bat")
+        get_bat
         ;;
 
-    "--get-battery-status")
+    "--get-bat-icon")
+        get_bat_icon
+        ;;
+
+    "--get-bat-status")
         get_battery_status
+        ;;
+
+    "--is-brightness")
+        is_brightness
         ;;
 
     "--get-brightness")
@@ -103,5 +164,13 @@ case "$1" in
 
     "--get-vol-icon")
         get_vol_icon
+        ;;
+
+    "--get-net-status")
+        get_net_status
+        ;;
+
+    "--get-net-icon")
+        get_net_icon
         ;;
 esac

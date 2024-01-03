@@ -15,6 +15,7 @@ toggle_ctrl() {
         eww close ctrl-panel
     else
         eww open ctrl-panel
+        eww close cal-panel
     fi
 
     eww update ctrl-opened=$NEW_STATE
@@ -34,7 +35,26 @@ toggle_music() {
     eww update music-opened=$NEW_STATE
 }
 
+toggle_cal() {
+    CURRENT_STATE=$(eww get cal-opened)
+    NEW_STATE="true"
+
+    if [[ $CURRENT_STATE == "true" ]]; then
+        NEW_STATE="false"
+        eww close cal-panel
+    else
+        eww open cal-panel
+        eww close ctrl-panel
+    fi
+
+    eww update cal-opened=$NEW_STATE
+}
+
 case "$1" in
+    "--toggle-bar")
+        toggle_bar
+        ;;
+
     "--toggle-ctrl")
         toggle_ctrl
         ;;
@@ -43,7 +63,7 @@ case "$1" in
         toggle_music
         ;;
 
-    "--toggle-bar")
-        toggle_bar
+    "--toggle-cal")
+        toggle_cal
         ;;
 esac

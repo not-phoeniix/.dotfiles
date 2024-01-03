@@ -1,14 +1,7 @@
 // === colors =============================================
 @import "../../.cache/wal/colors-eww.scss";
 
-$color-fg: $foreground;
-$color-bg: $background;
-$color-bg2: $color0;
-$color-main: $color1;
-$color-main2: $color3;
-
 // === css reset ==========================================
-
 * {
     all: unset;
     font-family: Papernotes, Symbols Nerd Font;
@@ -16,46 +9,225 @@ $color-main2: $color3;
 }
 
 // === global =============================================
+/*#region*/
+
+label {
+    color: $foreground;
+}
 
 .panel {
-    background-color: $color-bg;
+    background-color: $background;
     border-radius: 14px;
+    padding: 5px;
 }
 
 .container {
-    background-color: $color-bg2;
+    background-color: $color0;
     color: $foreground;
     padding: 15px 12px;
-    border-radius: 17px;
+    border-radius: 10px;
     margin: 5px;
 }
 
 button {
-    border: 2px solid $color-main2;
+    background-color: $color0;
+    color: $foreground;
+    padding: 5px 10px;
     border-radius: 10px;
-    padding: 0px 8px;
 
     &:hover {
-        background-color: $color-main2;
+        background-color: $color8;
     }
 }
 
 scale {
     trough {
-        background-color: $color-bg;
-        border-radius: 5px;
-        min-height: 100px;
-        min-width: 10px;
+        background-color: $background;
+        min-height: 30px;
+        min-width: 100px;
+        border-radius: 100px;
 
         highlight {
-            // background-color: $color-main;
-            background: linear-gradient(135deg, $color-main 30%, $color-main2);
-            border-radius: 5px;
+            // background: linear-gradient(135deg, $color1 30%, $color3);
+            background-color: $foreground;
+            border-radius: 100px;
         }
     }
 }
 
-// === import rules =======================================
-@import "bar/bar.scss";
-@import "ctrl-panel/ctrl-panel.scss";
-@import "music-panel/music-panel.scss";
+.charging {
+    color: $background;
+    background-color: $color3;
+    border-radius: 6px;
+
+    label {
+        color: $background;
+    }
+}
+
+/*#endregion*/
+
+// === bar ================================================
+/*#region*/
+
+.workspaces {
+    padding: 0px;
+
+    button {
+        padding: 10px 10px;
+        border-color: $color0;
+    }
+
+    .current {
+        // background: linear-gradient(135deg, $color-main 30%, $color-main2);
+        background-color: $color1;
+        box-shadow: inset 3px 0 $foreground;
+    }
+}
+
+// icon colors
+
+.ctrl-icons {
+    .open {
+        background-color: $color1;
+    }
+
+    .open,
+    &:hover {
+        box {
+            background-color: $color1;
+        }
+
+        label {
+            color: $foreground;
+        }
+    }
+
+    &:active box {
+        background-color: $color9;
+    }
+}
+
+.music {
+    .open {
+        background-color: $color1;
+    }
+
+    &:hover box {
+        background-color: $color1;
+    }
+
+    &:active box {
+        background-color: $color9;
+    }
+}
+
+// time date colors
+
+.day,
+.minute {
+    color: $color1
+}
+
+.weekday {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+.time-date {
+    .open {
+        background-color: $color1;
+    }
+
+    .open,
+    &:hover {
+        box {
+            background-color: $color1;
+        }
+
+        .day,
+        .minute {
+            color: $background;
+        }
+    }
+
+    &:active {
+        box {
+            background-color: $color9;
+        }
+
+        .day,
+        .minute {
+            color: $background;
+        }
+    }
+}
+
+// this prevents the entire bar from getting bigger
+//   when certain text characters show up in the
+//   title (like the hyphen in firefox's titles)
+.title {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/*#endregion*/
+
+// === music panel ========================================
+/*#region*/
+
+.album-art {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: 14px;
+}
+
+.music-info {
+    padding: 20px;
+}
+
+.song-title {
+    font-size: 50px;
+}
+
+.song-artist {
+    font-size: 30px;
+}
+
+/*#endregion*/
+
+// === ctrl panel =========================================
+/*#region*/
+
+.ctrl-bar {
+    trough {
+        highlight {
+            background-color: $color1;
+        }
+    }
+}
+
+.ctrl-button:hover {
+    box {
+        background-color: $color1;
+    }
+
+    .caution {
+        background-color: $color3;
+
+        label {
+            color: $background
+        }
+    }
+}
+
+/*#endregion*/
+
+// === cal panel ==========================================
+/*#region*/
+
+.calendar {
+    color: $foreground;
+}
+
+/*#endregion*/
