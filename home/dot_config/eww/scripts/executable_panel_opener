@@ -16,6 +16,7 @@ toggle_ctrl() {
     else
         eww open ctrl-panel
         eww close cal-panel
+        eww update cal-opened=false
     fi
 
     eww update ctrl-opened=$NEW_STATE
@@ -45,6 +46,7 @@ toggle_cal() {
     else
         eww open cal-panel
         eww close ctrl-panel
+        eww update ctrl-opened=false
     fi
 
     eww update cal-opened=$NEW_STATE
