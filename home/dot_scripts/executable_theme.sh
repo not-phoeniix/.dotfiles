@@ -74,10 +74,9 @@ $HOME/.config/mako/update-theme.sh &
 killall swaybg
 swaybg -i "$IMG_PATH" &> /dev/null &
 
-killall waybar
-waybar &> /dev/null &
-
 spicetify apply
+
+eww reload
 
 echo
 echo "successfully changed theme to $THEME_NAME! :]"
