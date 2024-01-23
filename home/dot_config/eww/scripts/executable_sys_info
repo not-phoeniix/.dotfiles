@@ -82,7 +82,7 @@ get_vol_icon() {
     if [[ $VOLUME_HUMAN == "muted" ]]; then
         OUTPUT=""
     elif [[ $DEFAULT_SINK =~ "bluez" ]]; then
-        OUTPUT="󰂯"
+        OUTPUT="󰂰"
     elif [[ $VOLUME > 66 ]] || [[ $VOLUME = 100 ]]; then
         OUTPUT=""
     elif [[ $VOLUME > 33 ]]; then
@@ -99,9 +99,103 @@ toggle_vol() {
     pamixer -t
 }
 
+# gets default sink and filters through sed to just have the device name
+get_vol_output() {
+    pamixer --get-default-sink | sed "1 d" | sed "s/^[^\"]*.[^\"]*..//g" | sed "s/\"//g"
+}
+
 # returns the status of connection (nmcli-dependent)
 get_net_status() {
     echo $(nmcli networking connectivity)
+}
+
+# returns an icon depending on current net status
+get_net_icon() {
+    STATUS=$(nmcli networking connectivity)
+
+    case $STATUS in
+        "none")
+            echo "󰤮"
+            ;;
+
+        "portal")
+            echo "󰤩"
+            ;;
+
+        "limited")
+            echo "󰤩"
+            ;;
+
+        "full")
+            echo "󰤨"
+            ;;
+
+        "unknown")
+            echo "󰤫"
+            ;;
+    esac
+}
+
+# returns the currently connected SSID
+get_net_ssid() {
+    nmcli -t -f ssid | grep "connected to" | sed "s/^.*connected to //g"
+}
+
+# returns status of wifi enabled-ness
+get_net_enabled() {
+    nmcli radio wifi
+}
+
+# toggles wifi connectivity
+toggle_wifi() {
+    WIFI_ON=$(nmcli radio wifi)
+    if [[ $WIFI_ON == "enabled" ]]; then
+        nmcli radio wifi off
+    else
+        nmcli radio wifi on
+    fi
+}
+
+# returns 1 or 0 depending on power state of bt adapter
+get_bt_status() {
+    POWERED=$(bluetoothctl show | grep "Powered" | sed "s/^.*Powered: //g")
+    if [[ $POWERED == "no" ]]; then
+        echo "off"
+    else
+        if [[ -z $(get_bt_connections) ]]; then
+            echo "disconnected"
+        else
+            echo "connected"
+        fi
+    fi
+}
+
+# returns list of all connected devices
+get_bt_connections() {
+    bluetoothctl devices Connected | sed "s/^.*\ //g"
+}
+
+# returns first connected device
+get_bt_device() {
+    echo $(get_bt_connections) | head -n 1
+}
+
+# returns an icon depending on bt status
+get_bt_icon() {
+    STATUS=$(get_bt_status)
+    case $STATUS in
+        "off")
+            echo "󰂲"
+            ;;
+
+        "disconnected")
+            echo "󰂯"
+            ;;
+
+        "connected")
+            echo "󰂱"
+            ;;
+    esac
 }
 
 # returns an icon depending on current net status
@@ -166,11 +260,43 @@ case "$1" in
         get_vol_icon
         ;;
 
+    "--get-vol-output")
+        get_vol_output
+        ;;
+
     "--get-net-status")
         get_net_status
         ;;
 
     "--get-net-icon")
         get_net_icon
+        ;;
+
+    "--get-net-ssid")
+        get_net_ssid
+        ;;
+
+    "--get-net-enabled")
+        get_net_enabled
+        ;;
+
+    "--toggle-wifi")
+        toggle_wifi
+        ;;
+
+    "--get-bt-status")
+        get_bt_status
+        ;;
+
+    "--get-bt-connections")
+        get_bt_connections
+        ;;
+
+    "--get-bt-device")
+        get_bt_device
+        ;;
+
+    "--get-bt-icon")
+        get_bt_icon
         ;;
 esac

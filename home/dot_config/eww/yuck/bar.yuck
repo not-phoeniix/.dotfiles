@@ -25,7 +25,7 @@
 
 ; ctrl widgets
 
-(defwidget battery []
+(defwidget bat-icon []
   (box
     :tooltip "Battery: ${battery}%"
     :class "battery-icon ${battery-icon =~ '󰂄' ? 'charging' : ''}"
@@ -34,7 +34,7 @@
   )
 )
 
-(defwidget volume []
+(defwidget vol-icon []
   (eventbox :class "volume-icon"
     :onmiddleclick "pavucontrol &"
     :tooltip "Volume: ${volume}%"
@@ -42,9 +42,18 @@
   )
 )
 
-(defwidget network []
-  (eventbox :tooltip "Connected?" :class "net-icon"
+(defwidget net-icon []
+  (eventbox :tooltip "Connected?"
     (label :text net-icon)
+  )
+)
+
+(defwidget discord-icon []
+  (eventbox
+    :tooltip "Dibscorb"
+    :class "discord-icon"
+    :onrightclick "sh scripts/program_tray --kill-discord"
+    (label :text "󰙯")
   )
 )
 
@@ -57,9 +66,12 @@
       :space-evenly false
       :class "container ${ctrl-opened == true ? 'open' : ''}"
       :spacing 10
-      (volume)
-      (network)
-      (battery)
+      (box :visible {discord-running == "1"}
+        (discord-icon)
+      )
+      (vol-icon)
+      (net-icon)
+      (bat-icon)
     )
   )
 )
@@ -115,7 +127,6 @@
 
     ; center box
     (box :orientation "v" :valign "center" :space-evenly false
-      (music)
     )
 
     ; bottom box

@@ -1,10 +1,86 @@
-(defwidget vol-bar []
+(defwidget network []
+  (eventbox
+    :onclick "sh scripts/sys_info --toggle-wifi"
+    :onmiddleclick "nm-connection-editor &"
+    :class "ctrl-infobox"
+    (box
+      :orientation "h"
+      :space-evenly true
+      :class "container ${wifi-enabled == 'enabled' ? 'enabled' : ''}"
+      (label :text "${net-icon} ${net-ssid}" :class "ctrl-label")
+    )
+  )
+)
+
+(defwidget vol-output []
+  (eventbox
+    :onclick "pavucontrol &"
+    :class "ctrl-infobox"
+    (box :orientation "h" :class "container"
+      (box :orientation "v" :space-evenly false
+        (label :text "${volume-icon} - ${volume}%")
+        (label :text volume-output :class "ctrl-label secondary" :wrap true :limit-width 16)
+      )
+    )
+  )
+)
+
+(defwidget bluetooth []
+  (eventbox
+    :onclick {bluetooth-status == "off" ? "bluetoothctl power on" : "bluetoothctl power off"}
+    :onmiddleclick "blueman-manager &"
+    :class "ctrl-infobox"
+    (box
+      :orientation "h"
+      :space-evenly true
+      :class "container ${bluetooth-status != 'off' ? 'enabled' : ''}"
+      (label
+        :text `${bluetooth-icon} : ${bluetooth-status != 'off' ? "${bluetooth-device ?: 'none'}" : 'off'}`
+        :class "ctrl-label"
+      )
+      ; (label
+      ;   :text {bluetooth-device ?: "hi"}
+      ;   :visible {bluetooth-status != "off"}
+      ;   :class "ctrl-label"
+      ; )
+    )
+  )
+)
+
+(defwidget music-toggle []
+  (eventbox
+    :space-evenly false
+    :onclick {music-shown ? 'eww update music-shown=false' : 'eww update music-shown=true'}
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text {music-shown ? " " : " "})
+    )
+  )
+)
+(defvar music-shown true)
+
+(defwidget status-toggles []
+  (box :orientation "v" :space-evenly true
+    (box :orientation "h" :space-evenly true
+      (network)
+      (bluetooth)
+    )
+    (box :orientation "h" :space-evenly true
+      (vol-output)
+      (music-toggle)
+    )
+  )
+)
+
+(defwidget vol-slider []
   (box :orientation "h" :space-evenly false :class "container"
-    (label :text volume-icon :class "ctrl-label")
+    (eventbox :onclick "pamixer -t"
+      (label :text volume-icon)
+    )
     (scale
       :value volume
       :orientation "h"
-      :class "ctrl-bar"
+      :class "ctrl-slider"
       :max 101
       :min 0
       :onchange "pamixer --set-volume {}"
@@ -12,17 +88,17 @@
   )
 )
 
-(defwidget bright-bar []
+(defwidget bright-slider []
   (box
     :orientation "h"
     :space-evenly false
     :class "container"
     :visible {brightness-enable == 1}
-    (label :text "󰃠" :class "ctrl-label")
+    (label :text "󰃠")
     (scale
       :value brightness
       :orientation "h"
-      :class "ctrl-bar"
+      :class "ctrl-slider"
       :max 101
       :min 0
       :onchange "brightnessctl set {}%"
@@ -31,11 +107,11 @@
 )
 
 (defwidget buttons []
-  (box :orientation "h" :space-evenly false
+  (box :orientation "h" :space-evenly true
     (box
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
       :visible {bat-enable == 1}
-      (label :text "${battery-icon} ${battery}%")
+      (label :text "${battery-icon} ${battery}%" :class "ctrl-label")
     )
 
     (box :orientation "h" :space-evenly true
@@ -44,7 +120,7 @@
         :onhoverlost "eww update logout-confirm=false"
         :class "ctrl-button"
         (box :class "container ${logout-confirm == true ? 'caution' : ''}"
-          (label :text "󰍃" :class "logout")
+          (label :text "󰍃" :class "logout ctrl-label")
         )
       )
 
@@ -54,7 +130,7 @@
         :class "ctrl-button"
         (box
           :class "container ${reboot-confirm == true ? 'caution' : ''}"
-          (label :text "" :class "reboot")
+          (label :text "" :class "reboot ctrl-label")
         )
       )
 
@@ -63,7 +139,7 @@
         :onhoverlost "eww update shutdown-confirm=false"
         :class "ctrl-button"
         (box :class "container ctrl-button ${shutdown-confirm == true ? 'caution' : ''}"
-          (label :text "⏻" :class "shutdown")
+          (label :text "⏻" :class "shutdown ctrl-label")
         )
       )
     )
@@ -77,7 +153,7 @@
   :monitor 0
   :geometry (geometry
     :x "10px"
-    :y "70px"
+    :y "10px"
     :height "200px"
     :width "200px"
     :anchor "bottom left"
@@ -85,10 +161,23 @@
   :exclusive false
   (eventbox
     :onhoverlost "eww close ctrl-panel && eww update ctrl-opened=false"
-    (box :orientation "v" :class "panel"
-      (vol-bar)
-      (bright-bar)
-      (buttons)
+    (box :orientation "v" :space-evenly false
+
+      ; music panel
+      (box
+        :orientation "h"
+        :class "panel music-panel"
+        :space-evenly true
+        :visible {music-shown == true && song-title != ""}
+        (now-playing)
+      )
+
+      ; main ctrl panel
+      (box :orientation "v" :class "panel" :space-evenly false
+        (status-toggles)
+        (bright-slider)
+        (buttons)
+      )
     )
   )
 )

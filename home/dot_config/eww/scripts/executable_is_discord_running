@@ -1,9 +1,0 @@
-#!/bin/sh
-
-DISCORD_PROCESS=$(pgrep -l "Discord")
-
-if [ -z "$DISCORD_PROCESS" ]; then
-    echo "discord not running!"
-else
-    echo "discord running!!"
-fi

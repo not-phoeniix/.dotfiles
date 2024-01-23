@@ -94,7 +94,7 @@ scale {
 
     .open,
     &:hover {
-        box {
+        .container {
             background-color: $color1;
         }
 
@@ -103,7 +103,7 @@ scale {
         }
     }
 
-    &:active box {
+    &:active .container {
         background-color: $color9;
     }
 }
@@ -113,11 +113,11 @@ scale {
         background-color: $color1;
     }
 
-    &:hover box {
+    &:hover .container {
         background-color: $color1;
     }
 
-    &:active box {
+    &:active .container {
         background-color: $color9;
     }
 }
@@ -141,7 +141,7 @@ scale {
 
     .open,
     &:hover {
-        box {
+        .container {
             background-color: $color1;
         }
 
@@ -187,11 +187,15 @@ scale {
 }
 
 .song-title {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .song-artist {
-    font-size: 30px;
+    font-size: 20px;
+}
+
+.music-panel {
+    margin-bottom: 10px;
 }
 
 /*#endregion*/
@@ -199,16 +203,56 @@ scale {
 // === ctrl panel =========================================
 /*#region*/
 
-.ctrl-bar {
+.ctrl-slider {
     trough {
         highlight {
             background-color: $color1;
         }
     }
+
+    min-width: 300px;
+    padding-left: 20px;
+}
+
+.ctrl-infobox {
+    .container {
+        .ctrl-label {
+            font-size: 25px;
+        }
+
+        .secondary {
+            font-size: 22px;
+            color: $color8;
+        }
+    }
+
+    .enabled {
+        background-color: $foreground;
+
+        .ctrl-label {
+            color: $color0;
+        }
+    }
+
+    &:hover .container {
+        background-color: $color1;
+
+        .ctrl-label {
+            color: $foreground;
+        }
+
+        .secondary {
+            color: $color0;
+        }
+    }
+
+    &:active .container {
+        background-color: $color9;
+    }
 }
 
 .ctrl-button:hover {
-    box {
+    .container {
         background-color: $color1;
     }
 

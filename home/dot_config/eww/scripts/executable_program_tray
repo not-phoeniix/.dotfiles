@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# ~~~ functions ~~~
+
+# 0 if discord is closed, 1 if running
+get_discord() {
+    DISCORD_PROCESS=$(pgrep -l "Discord")
+
+    if [ -z "$DISCORD_PROCESS" ]; then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
+# kills discord processes
+kill_discord() {
+    pkill Discord
+}
+
+# ~~~ gkwbrkgdfgoiu ~~~
+
+case "$1" in
+    "--get-discord")
+        get_discord
+        ;;
+
+    "--kill-discord")
+        kill_discord
+        ;;
+esac
