@@ -30,6 +30,8 @@
 (defpoll bluetooth-icon :interval "5s" "sh scripts/sys_info --get-bt-icon")
 
 (defpoll discord-running :interval "5s" "sh scripts/program_tray --get-discord")
+(defpoll slack-running :interval "5s" "sh scripts/program_tray --get-slack")
+(defpoll steam-running :interval "5s" "sh scripts/program_tray --get-steam")
 
 (deflisten album-art :initial "" "playerctl --follow metadata --format '{{mpris:artUrl}}'")
 (deflisten song-title :initial "" "playerctl --follow metadata --format '{{title}}'")

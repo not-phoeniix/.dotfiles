@@ -2,30 +2,41 @@
 
 # ~~~ functions ~~~
 
-# 0 if discord is closed, 1 if running
-get_discord() {
-    DISCORD_PROCESS=$(pgrep -l "Discord")
+# 0 if process is closed, 1 if running
+get_process() {
+    PROCESS=$(pgrep -l $1)
 
-    if [ -z "$DISCORD_PROCESS" ]; then
+    if [ -z "$PROCESS" ]; then
         echo 0
     else
         echo 1
     fi
 }
 
-# kills discord processes
-kill_discord() {
-    pkill Discord
-}
-
 # ~~~ gkwbrkgdfgoiu ~~~
 
 case "$1" in
     "--get-discord")
-        get_discord
+        get_process Discord
         ;;
 
     "--kill-discord")
-        kill_discord
+        pkill Discord
+        ;;
+
+    "--get-slack")
+        get_process slack
+        ;;
+
+    "--kill-slack")
+        pkill slack
+        ;;
+
+    "--get-steam")
+        get_process steam
+        ;;
+
+    "--kill-steam")
+        pkill steam
         ;;
 esac

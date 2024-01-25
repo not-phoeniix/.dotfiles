@@ -38,11 +38,6 @@
         :text `${bluetooth-icon} : ${bluetooth-status != 'off' ? "${bluetooth-device ?: 'none'}" : 'off'}`
         :class "ctrl-label"
       )
-      ; (label
-      ;   :text {bluetooth-device ?: "hi"}
-      ;   :visible {bluetooth-status != "off"}
-      ;   :class "ctrl-label"
-      ; )
     )
   )
 )
@@ -68,22 +63,6 @@
     (box :orientation "h" :space-evenly true
       (vol-output)
       (music-toggle)
-    )
-  )
-)
-
-(defwidget vol-slider []
-  (box :orientation "h" :space-evenly false :class "container"
-    (eventbox :onclick "pamixer -t"
-      (label :text volume-icon)
-    )
-    (scale
-      :value volume
-      :orientation "h"
-      :class "ctrl-slider"
-      :max 101
-      :min 0
-      :onchange "pamixer --set-volume {}"
     )
   )
 )
@@ -149,6 +128,26 @@
 (defvar reboot-confirm false)
 (defvar shutdown-confirm false)
 
+(defwidget album-art []
+  (box :width 150 :height 150 :class "album-art"
+    :style "background-image: url(\"${album-art}\");"
+  )
+)
+
+(defwidget music-info []
+  (box :orientation "v" :valign "center" :class "music-info" :space-evenly false
+    (label :text song-title :class "song-title" :wrap true :limit-width 50)
+    (label :text song-artist :class "song-artist")
+  )
+)
+
+(defwidget now-playing []
+  (box :orientation "h" :valign "center" :class "container" :space-evenly false
+    (album-art)
+    (music-info)
+  )
+)
+
 (defwindow ctrl-panel
   :monitor 0
   :geometry (geometry
@@ -159,10 +158,10 @@
     :anchor "bottom left"
   )
   :exclusive false
+
   (eventbox
     :onhoverlost "eww close ctrl-panel && eww update ctrl-opened=false"
     (box :orientation "v" :space-evenly false
-
       ; music panel
       (box
         :orientation "h"

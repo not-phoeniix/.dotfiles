@@ -55,16 +55,6 @@ scale {
     }
 }
 
-.charging {
-    color: $background;
-    background-color: $color3;
-    border-radius: 6px;
-
-    label {
-        color: $background;
-    }
-}
-
 /*#endregion*/
 
 // === bar ================================================
@@ -85,11 +75,16 @@ scale {
     }
 }
 
-// icon colors
+// tray colors
 
-.ctrl-icons {
+.ctrl-tray {
     .open {
         background-color: $color1;
+    }
+
+    .separator {
+        color: $color8;
+        margin: -5px;
     }
 
     .open,
@@ -101,6 +96,10 @@ scale {
         label {
             color: $foreground;
         }
+
+        .separator {
+            color: $color0;
+        }
     }
 
     &:active .container {
@@ -108,17 +107,13 @@ scale {
     }
 }
 
-.music {
-    .open {
-        background-color: $color1;
-    }
+.charging {
+    color: $background;
+    background-color: $color3;
+    border-radius: 6px;
 
-    &:hover .container {
-        background-color: $color1;
-    }
-
-    &:active .container {
-        background-color: $color9;
+    label {
+        color: $background;
     }
 }
 

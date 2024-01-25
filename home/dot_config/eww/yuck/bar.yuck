@@ -12,18 +12,7 @@
   )
 )
 
-(defwidget music []
-  (eventbox
-    :class "music"
-    :onclick "sh scripts/panel_opener --toggle-music"
-    (box :class "container ${music-opened == true ? 'open' : ''}"
-      (label :text "")
-    )
-  )
-)
-(defvar music-opened false)
-
-; ctrl widgets
+; ~~~ tray icons ~~~
 
 (defwidget bat-icon []
   (box
@@ -51,24 +40,58 @@
 (defwidget discord-icon []
   (eventbox
     :tooltip "Dibscorb"
-    :class "discord-icon"
     :onrightclick "sh scripts/program_tray --kill-discord"
     (label :text "󰙯")
   )
 )
 
+(defwidget slack-icon []
+  (eventbox
+    :tooltip "Slabck"
+    :onrightclick "sh scripts/program_tray --kill-slack"
+    (label :text "󰒱")
+  )
+)
+
+(defwidget steam-icon []
+  (eventbox
+    :tooltip "STEEM"
+    :onrightclick "sh scripts/program_tray --kill-steam"
+    (label :text "󰓓")
+  )
+)
+
+(defwidget separator []
+  (label :text "󰇘" :class "separator")
+)
+
+; ~~~ tray/ctrl widget ~~~
+
 (defwidget ctrl []
   (eventbox
-    :class "ctrl-icons"
+    :class "ctrl-tray"
     :onclick "sh scripts/panel_opener --toggle-ctrl"
     (box
       :orientation "v"
       :space-evenly false
       :class "container ${ctrl-opened == true ? 'open' : ''}"
       :spacing 10
+      (box :visible {slack-running == "1"}
+        (slack-icon)
+      )
+
       (box :visible {discord-running == "1"}
         (discord-icon)
       )
+
+      (box :visible {steam-running == "1"}
+        (steam-icon)
+      )
+
+      (box :visible {discord-running == "1" || slack-running == "1" || steam-running == "1"}
+        (separator)
+      )
+
       (vol-icon)
       (net-icon)
       (bat-icon)
