@@ -23,3 +23,6 @@ height=200
 # other behavior
 default-timeout=10000
 ignore-timeout=0
+
+[mode=dnd]
+invisible=1

@@ -42,6 +42,22 @@
   )
 )
 
+(defwidget dnd-toggle []
+  (eventbox
+    :onclick "sh scripts/sys_info --toggle-dnd"
+    :class "ctrl-infobox"
+    (box
+      :orientation "h"
+      :space-evenly true
+      :class "container ${dnd-enabled == '1' ? 'enabled' : ''}"
+      (label
+        :text ""
+        :class "ctrl-label"
+      )
+    )
+  )
+)
+
 (defwidget music-toggle []
   (eventbox
     :space-evenly false
@@ -62,7 +78,7 @@
     )
     (box :orientation "h" :space-evenly true
       (vol-output)
-      (music-toggle)
+      (dnd-toggle)
     )
   )
 )
@@ -85,7 +101,7 @@
   )
 )
 
-(defwidget buttons []
+(defwidget session-buttons []
   (box :orientation "h" :space-evenly true
     (box
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
@@ -173,9 +189,10 @@
 
       ; main ctrl panel
       (box :orientation "v" :class "panel" :space-evenly false
+        (music-toggle)
         (status-toggles)
         (bright-slider)
-        (buttons)
+        (session-buttons)
       )
     )
   )

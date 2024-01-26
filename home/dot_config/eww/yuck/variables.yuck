@@ -21,17 +21,19 @@
 (defpoll volume-icon :interval "0.1s" "sh scripts/sys_info --get-vol-icon")
 (defpoll volume-output :interval "5s" "sh scripts/sys_info --get-vol-output")
 
-(defpoll net-icon :interval "5s" "sh scripts/sys_info --get-net-icon")
-(defpoll net-ssid :interval "5s" "sh scripts/sys_info --get-net-ssid")
-(defpoll wifi-enabled :interval "5s" "sh scripts/sys_info --get-net-enabled")
+(defpoll net-icon :interval "1s" "sh scripts/sys_info --get-net-icon")
+(defpoll net-ssid :interval "1s" "sh scripts/sys_info --get-net-ssid")
+(defpoll wifi-enabled :interval "1s" "sh scripts/sys_info --get-net-enabled")
 
-(defpoll bluetooth-status :interval "5s" "sh scripts/sys_info --get-bt-status")
-(defpoll bluetooth-device :interval "5s" "sh scripts/sys_info --get-bt-device")
-(defpoll bluetooth-icon :interval "5s" "sh scripts/sys_info --get-bt-icon")
+(defpoll bluetooth-status :interval "1s" "sh scripts/sys_info --get-bt-status")
+(defpoll bluetooth-device :interval "1s" "sh scripts/sys_info --get-bt-device")
+(defpoll bluetooth-icon :interval "1s" "sh scripts/sys_info --get-bt-icon")
 
-(defpoll discord-running :interval "5s" "sh scripts/program_tray --get-discord")
-(defpoll slack-running :interval "5s" "sh scripts/program_tray --get-slack")
-(defpoll steam-running :interval "5s" "sh scripts/program_tray --get-steam")
+(defpoll dnd-enabled :interval "1s" "sh scripts/sys_info --get-dnd")
+
+(defpoll discord-running :interval "1s" "sh scripts/program_tray --get-discord")
+(defpoll slack-running :interval "1s" "sh scripts/program_tray --get-slack")
+(defpoll steam-running :interval "1s" "sh scripts/program_tray --get-steam")
 
 (deflisten album-art :initial "" "playerctl --follow metadata --format '{{mpris:artUrl}}'")
 (deflisten song-title :initial "" "playerctl --follow metadata --format '{{title}}'")

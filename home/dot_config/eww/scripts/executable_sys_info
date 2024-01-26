@@ -225,6 +225,35 @@ get_net_icon() {
     esac
 }
 
+# returns 0 or 1 if dnd is on or off
+get_dnd() {
+    MODES=$(makoctl mode)
+
+    if [[ $MODES =~ "dnd" ]]; then
+        # dnd is on
+        echo 1
+    else
+        # dnd is off
+        echo 0
+    fi
+}
+
+# toggles do not disturb
+toggle_dnd() {
+    MODES=$(makoctl mode)
+
+    if [[ $MODES =~ "dnd" ]]; then
+        # turn off if on
+        makoctl mode -r dnd
+    else
+        # turn on if off
+        makoctl mode -a dnd
+    fi
+
+    makoctl reload
+    echo "DND toggled !"
+}
+
 # ~~~ kslfjdglkdfs ~~~
 
 case "$1" in
@@ -298,5 +327,13 @@ case "$1" in
 
     "--get-bt-icon")
         get_bt_icon
+        ;;
+
+    "--get-dnd")
+        get_dnd
+        ;;
+
+    "--toggle-dnd")
+        toggle_dnd
         ;;
 esac

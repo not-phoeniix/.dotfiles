@@ -17,14 +17,14 @@
 (defwidget bat-icon []
   (box
     :tooltip "Battery: ${battery}%"
-    :class "battery-icon ${battery-icon =~ '󰂄' ? 'charging' : ''}"
+    :class "${battery-icon =~ '󰂄' ? 'charging' : ''}"
     :visible {bat-enable == 1}
     (label :text battery-icon)
   )
 )
 
 (defwidget vol-icon []
-  (eventbox :class "volume-icon"
+  (eventbox
     :onmiddleclick "pavucontrol &"
     :tooltip "Volume: ${volume}%"
     (label :text volume-icon)
@@ -35,6 +35,10 @@
   (eventbox :tooltip "Connected?"
     (label :text net-icon)
   )
+)
+
+(defwidget dnd-icon []
+  (label :text "")
 )
 
 (defwidget discord-icon []
@@ -90,6 +94,10 @@
 
       (box :visible {discord-running == "1" || slack-running == "1" || steam-running == "1"}
         (separator)
+      )
+
+      (box :visible {dnd-enabled == "1"}
+        (dnd-icon)
       )
 
       (vol-icon)
