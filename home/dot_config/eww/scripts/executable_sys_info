@@ -40,20 +40,20 @@ get_bat() {
 
 # returns battery icon depending on battery level
 get_bat_icon() {
-    LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)%"
+    LEVEL="$(cat /sys/class/power_supply/${BAT}/capacity)"
     STATUS="$(cat /sys/class/power_supply/${BAT}/status)"
 
     if [[ $STATUS == "Charging" ]]; then
         OUTPUT="󰂄"
-    elif [[ $LEVEL > 90 ]]; then
+    elif [[ $LEVEL -gt 90 ]]; then
         OUTPUT="󰁹"  # 100% icon
-    elif [[ $LEVEL > 70 ]]; then
+    elif [[ $LEVEL -gt 70 ]]; then
         OUTPUT="󰂀"  # 70% icon
-    elif [[ $LEVEL > 50 ]]; then
+    elif [[ $LEVEL -gt 50 ]]; then
         OUTPUT="󰁾"  # 50% icon
-    elif [[ $LEVEL > 30 ]]; then
+    elif [[ $LEVEL -gt 30 ]]; then
         OUTPUT="󰁼"  # 30% icon
-    elif [[ $LEVEL > 10 ]]; then
+    elif [[ $LEVEL -gt 10 ]]; then
         OUTPUT="󰁺"  # 10% icon
     else
         OUTPUT="󱃍"  # 10% or lower, caution indicator

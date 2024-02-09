@@ -6,7 +6,7 @@ LABELS=("I" "II" "III" "IV" "V" "VI" "VII" "" "󰙯" "")
 
 # creates a string that can be put into
 workspaces_literal() {
-    CURRENT_ID=$(hyprctl activeworkspace -j | jq '.id')
+    CURRENT_ID=$(hyprctl activeworkspace -j | jq -c '.id')
 
     OUTPUT="(box :class \"container workspaces\" :orientation \"v\" :space-evenly false :valign \"center\""
 
