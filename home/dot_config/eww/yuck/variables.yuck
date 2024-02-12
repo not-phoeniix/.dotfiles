@@ -11,6 +11,8 @@
 (deflisten window-title :initial "" "sh scripts/workspaces --get-active-title")
 (deflisten music :initial "" "playerctl --follow metadata --format ' {{ artist }} - {{ title }}' || true")
 
+(defpoll dbus-running :interval "1m" "sh scripts/sys_info --get-dbus-status")
+
 (defpoll bat-enable :interval "1m" "sh scripts/sys_info --is-bat")
 (defpoll brightness-enable :interval "1m" "sh scripts/sys_info --is-brightness")
 

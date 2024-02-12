@@ -254,6 +254,17 @@ toggle_dnd() {
     echo "DND toggled !"
 }
 
+# returns 0 if dbus-run-session wasn't used to start hyprland, 1 if so
+get_dbus_status() {
+    PROCESS=$(pgrep -l "dbus-run-")
+
+    if [ -z $PROCESS ]; then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
 # ~~~ kslfjdglkdfs ~~~
 
 case "$1" in
@@ -335,5 +346,9 @@ case "$1" in
 
     "--toggle-dnd")
         toggle_dnd
+        ;;
+
+    "--get-dbus-status")
+        get_dbus_status
         ;;
 esac

@@ -4,14 +4,6 @@
   (literal :content workspaces)
 )
 
-(defwidget window-title []
-  (container
-    :text {window-title == "null" ? ":3" : window-title}
-    :limit-width 50
-    :class "title"
-  )
-)
-
 ; ~~~ tray icons ~~~
 
 (defwidget bat-icon []
@@ -67,6 +59,15 @@
 
 (defwidget separator []
   (label :text "󰇘" :class "separator")
+)
+
+(defwidget dbus-notif []
+  (box
+    :class "container charging"
+    :visible "${dbus-running == 0}"
+    :tooltip "Warning! Hyprland not run through dbus!!"
+    (label :text "")
+  )
 )
 
 ; ~~~ tray/ctrl widget ~~~
@@ -158,6 +159,7 @@
 
     ; center box
     (box :orientation "v" :valign "center" :space-evenly false
+      (dbus-notif)
     )
 
     ; bottom box
