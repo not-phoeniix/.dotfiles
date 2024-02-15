@@ -64,7 +64,6 @@
 
 (defwidget music-toggle []
   (eventbox
-    :space-evenly false
     :onclick {music-shown ? 'eww update music-shown=false' : 'eww update music-shown=true'}
     :class "ctrl-infobox"
     (box :class "container"
@@ -105,8 +104,10 @@
   )
 )
 
-(defwidget session-buttons []
-  (box :orientation "h" :space-evenly true
+(defwidget battery []
+  (eventbox
+    :onclick "notify-send 'battery noise' 'mmmmmmmmmmmmmmmmmm'"
+    :class "ctrl-infobox"
     (box
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
       :visible {bat-enable == 1}
@@ -115,34 +116,44 @@
       (label :text "${battery-icon} ${battery}%" :class "ctrl-label")
       (label :text battery-remaining :class "secondary")
     )
+  )
+)
+
+(defwidget session-button [variable-name variable-value command icon]
+  (eventbox
+    :onclick {variable-value == true ? "${command}" : "eww update ${variable-name}=true"}
+    :onhoverlost "eww update ${variable-name}=false"
+    :class "ctrl-button"
+    (box :class "container ${variable-value == true ? 'caution' : ''}"
+      (label :text icon :class "ctrl-label")
+    )
+  )
+)
+
+(defwidget session-buttons []
+  (box :orientation "h" :space-evenly true
+    (battery)
 
     (box :orientation "h" :space-evenly true
-      (eventbox
-        :onclick "${logout-confirm == true ? `hyprctl dispatch exit` : `eww update logout-confirm=true`}"
-        :onhoverlost "eww update logout-confirm=false"
-        :class "ctrl-button"
-        (box :class "container ${logout-confirm == true ? 'caution' : ''}"
-          (label :text "󰍃" :class "logout ctrl-label")
-        )
+      (session-button
+        :variable-name "logout-confirm"
+        :variable-value "${logout-confirm}"
+        :command "hyprctl dispatch exit"
+        :icon "󰍃"
       )
 
-      (eventbox
-        :onclick "${reboot-confirm == true ? `sudo reboot` : `eww update reboot-confirm=true`}"
-        :onhoverlost "eww update reboot-confirm=false"
-        :class "ctrl-button"
-        (box
-          :class "container ${reboot-confirm == true ? 'caution' : ''}"
-          (label :text "" :class "reboot ctrl-label")
-        )
+      (session-button
+        :variable-name "reboot-confirm"
+        :variable-value "${reboot-confirm}"
+        :command "sudo reboot"
+        :icon ""
       )
 
-      (eventbox
-        :onclick "${shutdown-confirm == true ? `sudo poweroff` : `eww update shutdown-confirm=true`}"
-        :onhoverlost "eww update shutdown-confirm=false"
-        :class "ctrl-button"
-        (box :class "container ctrl-button ${shutdown-confirm == true ? 'caution' : ''}"
-          (label :text "⏻" :class "shutdown ctrl-label")
-        )
+      (session-button
+        :variable-name "shutdown-confirm"
+        :variable-value "${shutdown-confirm}"
+        :command "sudo poweroff"
+        :icon "⏻"
       )
     )
   )

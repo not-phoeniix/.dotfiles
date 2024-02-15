@@ -208,11 +208,6 @@ scale {
     padding-left: 20px;
 }
 
-.secondary {
-    font-size: 22px;
-    color: $color8;
-}
-
 .ctrl-infobox {
     .container {
         .ctrl-label {
@@ -226,6 +221,11 @@ scale {
         .ctrl-label {
             color: $color0;
         }
+    }
+
+    .secondary {
+        font-size: 22px;
+        color: $color8;
     }
 
     &:hover .container {
@@ -276,6 +276,24 @@ scale {
 .dock {
     &.panel {
         border: 3px solid $color1;
+    }
+
+    padding: 10px;
+}
+
+.app-icon {
+    border-radius: 8px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-size: 100%;
+    background-position: 50%;
+
+    &:hover {
+        background-color: $color8;
+    }
+
+    &:active {
+        background-color: $color1;
     }
 }
 

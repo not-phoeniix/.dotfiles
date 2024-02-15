@@ -1,26 +1,39 @@
-(defwidget app-icon []
+(defvar icon-path "/usr/share/icons/Papirus-Dark")
+(defvar apps-path "/usr/share/applications")
+
+(defwidget app-icon [program-name ?icon]
   (eventbox
-    (button ":3")
+    :class "app-icon"
+    :onclick "dex ${apps-path}/${program-name}.desktop"
+    :width 50
+    :height 70
+    :style "background-image: url(\"${icon-path}/64x64/apps/${icon ?: program-name}.svg\");"
   )
 )
 
 (defwindow dock
   :monitor 0
   :geometry (geometry
-    :y "10px"
+    :x "10px"
     :height "50px"
-    :anchor "bottom center"
+    :anchor "center right"
   )
   :exclusive false
-  (eventbox :class "panel dock"
-    (box
-      (app-icon)
-      (app-icon)
-      (app-icon)
-      (app-icon)
-      (app-icon)
-      (app-icon)
-      (app-icon)
-    )
+  (box
+    :space-evenly false
+    :class "panel dock"
+    :orientation "v"
+
+    (app-icon :program-name "nemo")
+    (app-icon :program-name "firefox")
+    (app-icon :program-name "code")
+    (app-icon :program-name "aseprite")
+    (app-icon :program-name "gimp")
+    (app-icon :program-name "com.github.xournalpp.xournalpp")
+    (app-icon :program-name "com.obsproject.Studio")
+    (app-icon :program-name "steam")
+    (app-icon :program-name "discord")
+    (app-icon :program-name "spotify-launcher" :icon "spotify")
+
   )
 )
