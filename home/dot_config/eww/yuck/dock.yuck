@@ -1,0 +1,26 @@
+(defwidget app-icon []
+  (eventbox
+    (button ":3")
+  )
+)
+
+(defwindow dock
+  :monitor 0
+  :geometry (geometry
+    :y "10px"
+    :height "50px"
+    :anchor "bottom center"
+  )
+  :exclusive false
+  (eventbox :class "panel dock"
+    (box
+      (app-icon)
+      (app-icon)
+      (app-icon)
+      (app-icon)
+      (app-icon)
+      (app-icon)
+      (app-icon)
+    )
+  )
+)
