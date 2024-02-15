@@ -19,7 +19,7 @@
     (box :orientation "h" :class "container"
       (box :orientation "v" :space-evenly false
         (label :text "${volume-icon} - ${volume}%")
-        (label :text volume-output :class "ctrl-label secondary" :wrap true :limit-width 16)
+        (label :text volume-output :class "secondary" :wrap true :limit-width 16)
       )
     )
   )
@@ -106,7 +106,9 @@
     (box
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
       :visible {bat-enable == 1}
+      :orientation "v"
       (label :text "${battery-icon} ${battery}%" :class "ctrl-label")
+      (label :text battery-remaining :class "secondary")
     )
 
     (box :orientation "h" :space-evenly true

@@ -18,6 +18,7 @@
 
 (defpoll battery :interval "1s" "sh scripts/sys_info --get-bat")
 (defpoll battery-icon :interval "1s" "sh scripts/sys_info --get-bat-icon")
+(defpoll battery-remaining :interval "1m" "sh scripts/sys_info --get-bat-remaining")
 (defpoll brightness :interval "0.1s" "sh scripts/sys_info --get-brightness")
 (defpoll volume :interval "0.1s" "sh scripts/sys_info --get-vol")
 (defpoll volume-icon :interval "0.1s" "sh scripts/sys_info --get-vol-icon")

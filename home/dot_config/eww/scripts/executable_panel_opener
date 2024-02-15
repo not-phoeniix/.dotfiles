@@ -6,6 +6,10 @@ toggle_bar() {
     eww close bar || eww open bar
 }
 
+toggle_dock() {
+    eww close dock || eww open dock
+}
+
 toggle_ctrl() {
     CURRENT_STATE=$(eww get ctrl-opened)
     NEW_STATE="true"
@@ -54,6 +58,10 @@ toggle_cal() {
 case "$1" in
     "--toggle-bar")
         toggle_bar
+        ;;
+
+    "--toggle-dock")
+        toggle_dock
         ;;
 
     "--toggle-ctrl")

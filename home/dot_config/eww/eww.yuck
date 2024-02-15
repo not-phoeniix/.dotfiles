@@ -3,3 +3,4 @@
 (include "yuck/music-panel.yuck")
 (include "yuck/cal-panel.yuck")
 (include "yuck/ctrl-panel.yuck")
+(include "yuck/dock.yuck")

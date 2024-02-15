@@ -69,7 +69,6 @@ scale {
     }
 
     .current {
-        // background: linear-gradient(135deg, $color-main 30%, $color-main2);
         background-color: $color1;
         box-shadow: inset 3px 0 $foreground;
     }
@@ -209,15 +208,15 @@ scale {
     padding-left: 20px;
 }
 
+.secondary {
+    font-size: 22px;
+    color: $color8;
+}
+
 .ctrl-infobox {
     .container {
         .ctrl-label {
             font-size: 25px;
-        }
-
-        .secondary {
-            font-size: 22px;
-            color: $color8;
         }
     }
 
@@ -267,6 +266,17 @@ scale {
 
 .calendar {
     color: $foreground;
+}
+
+/*#endregion*/
+
+// === dock ===============================================
+/*#region*/
+
+.dock {
+    &.panel {
+        border: 3px solid $color1;
+    }
 }
 
 /*#endregion*/

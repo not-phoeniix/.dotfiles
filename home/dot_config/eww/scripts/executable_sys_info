@@ -67,6 +67,11 @@ get_bat_status() {
     echo "$(cat /sys/class/power_supply/${BAT}/status)"
 }
 
+# prints formatted remaining time from acpi
+get_bat_remaining() {
+    echo $(acpi -b | grep "Battery 1" | sed "s/^.*%, //g" | sed "s/:.. / /g")
+}
+
 # returns volume of default sink
 get_vol() {
     echo $(pamixer --get-volume)
@@ -282,6 +287,10 @@ case "$1" in
 
     "--get-bat-status")
         get_battery_status
+        ;;
+
+    "--get-bat-remaining")
+        get_bat_remaining
         ;;
 
     "--is-brightness")
