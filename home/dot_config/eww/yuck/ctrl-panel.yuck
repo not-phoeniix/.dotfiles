@@ -47,12 +47,16 @@
     :onclick "sh scripts/sys_info --toggle-dnd"
     :class "ctrl-infobox"
     (box
-      :orientation "h"
-      :space-evenly true
+      :orientation "v"
+      :space-evenly false
       :class "container ${dnd-enabled == '1' ? 'enabled' : ''}"
       (label
         :text ""
         :class "ctrl-label"
+      )
+      (label
+        :text "dnd ${dnd-enabled == '1' ? 'on' : 'off'}"
+        :class "secondary"
       )
     )
   )
@@ -107,6 +111,7 @@
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
       :visible {bat-enable == 1}
       :orientation "v"
+      :space-evenly false
       (label :text "${battery-icon} ${battery}%" :class "ctrl-label")
       (label :text battery-remaining :class "secondary")
     )
