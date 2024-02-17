@@ -19,6 +19,7 @@
     :anchor "center right"
   )
   :exclusive false
+  :stacking "overlay"
   (box
     :space-evenly false
     :class "panel dock"
