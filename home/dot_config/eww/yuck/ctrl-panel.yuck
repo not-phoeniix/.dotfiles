@@ -108,9 +108,9 @@
   (eventbox
     :onclick "notify-send 'battery noise' 'mmmmmmmmmmmmmmmmmm'"
     :class "ctrl-infobox"
+    :visible {bat-enable == 1}
     (box
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
-      :visible {bat-enable == 1}
       :orientation "v"
       :space-evenly false
       (label :text "${battery-icon} ${battery}%" :class "ctrl-label")
