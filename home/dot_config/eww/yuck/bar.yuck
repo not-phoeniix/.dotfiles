@@ -9,7 +9,7 @@
 (defwidget bat-icon []
   (box
     :tooltip "Battery: ${battery}%"
-    :class "${battery-icon =~ '󰂄' ? 'charging' : ''}"
+    :class "${battery-icon =~ '󰂄' ? 'charging' : ''} ${battery == 100 ? 'charged' : ''}"
     :visible {bat-enable == 1}
     (label :text battery-icon)
   )
