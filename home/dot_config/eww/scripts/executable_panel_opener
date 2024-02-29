@@ -10,6 +10,10 @@ toggle_dock() {
     eww close dock || eww open dock
 }
 
+toggle_wlsunset() {
+    killall wlsunset || wlsunset &
+}
+
 toggle_ctrl() {
     CURRENT_STATE=$(eww get ctrl-opened)
     NEW_STATE="true"

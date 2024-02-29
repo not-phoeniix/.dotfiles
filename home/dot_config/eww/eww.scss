@@ -92,10 +92,6 @@ scale {
             background-color: $color1;
         }
 
-        label {
-            color: $foreground;
-        }
-
         .separator {
             color: $color0;
         }
@@ -190,9 +186,9 @@ scale {
     font-size: 30px;
 }
 
-.song-artist {
-    font-size: 20px;
-}
+// .song-artist {
+//     font-size: 20px;
+// }
 
 .music-panel {
     margin-bottom: 10px;
@@ -210,28 +206,17 @@ scale {
         }
     }
 
-    min-width: 300px;
+    // min-width: 300px;
     padding-left: 20px;
 }
 
 .ctrl-infobox {
-    .container {
-        .ctrl-label {
-            font-size: 25px;
-        }
-    }
-
     .enabled {
         background-color: $foreground;
 
         .ctrl-label {
             color: $color0;
         }
-    }
-
-    .secondary {
-        font-size: 22px;
-        color: $color8;
     }
 
     &:hover .container {
@@ -249,6 +234,15 @@ scale {
     &:active .container {
         background-color: $color9;
     }
+}
+
+.ctrl-label {
+    font-size: 25px;
+}
+
+.secondary {
+    font-size: 22px;
+    color: $color8;
 }
 
 .ctrl-button:hover {

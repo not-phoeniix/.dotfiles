@@ -270,6 +270,20 @@ get_dbus_status() {
     fi
 }
 
+get_wlsunset() {
+    PROCESS=$(pgrep -l "wlsunset")
+
+    if [ -z $PROCESS ]; then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
+toggle_wlsunset() {
+    killall wlsunset || wlsunset &
+}
+
 # ~~~ kslfjdglkdfs ~~~
 
 case "$1" in
@@ -360,4 +374,13 @@ case "$1" in
     "--get-dbus-status")
         get_dbus_status
         ;;
+
+    "--get-wlsunset")
+        get_wlsunset
+        ;;
+
+    "--toggle-wlsunset")
+        toggle_wlsunset
+        ;;
+
 esac

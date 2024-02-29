@@ -32,7 +32,8 @@
 (defpoll bluetooth-device :interval "1s" "sh scripts/sys_info --get-bt-device")
 (defpoll bluetooth-icon :interval "1s" "sh scripts/sys_info --get-bt-icon")
 
-(defpoll dnd-enabled :interval "1s" "sh scripts/sys_info --get-dnd")
+(defpoll dnd-enabled :interval "0.1s" "sh scripts/sys_info --get-dnd")
+(defpoll wlsunset-enabled :interval "0.1s" "sh scripts/sys_info --get-wlsunset")
 
 (defpoll discord-running :interval "1s" "sh scripts/program_tray --get-discord")
 (defpoll slack-running :interval "1s" "sh scripts/program_tray --get-slack")

@@ -1,3 +1,6 @@
+
+; ~~~ buttons/actual widgets ~~~
+
 (defwidget network []
   (eventbox
     :onclick "sh scripts/sys_info --toggle-wifi"
@@ -14,7 +17,8 @@
 
 (defwidget vol-output []
   (eventbox
-    :onclick "pavucontrol &"
+    :onclick "pamixer -t"
+    :onmiddleclick "pavucontrol &"
     :class "ctrl-infobox"
     (box :orientation "h" :class "container"
       (box :orientation "v" :space-evenly false
@@ -66,22 +70,43 @@
   (eventbox
     :onclick {music-shown ? 'eww update music-shown=false' : 'eww update music-shown=true'}
     :class "ctrl-infobox"
-    (box :class "container"
-      (label :text {music-shown ? " " : " "})
+    (box :class "container ${music-shown == true ? 'enabled' : ''}"
+      (label
+        :class "ctrl-label"
+        :text {music-shown ? " " : " "}
+      )
     )
   )
 )
 (defvar music-shown true)
 
-(defwidget status-toggles []
-  (box :orientation "v" :space-evenly true
-    (box :orientation "h" :space-evenly true
-      (network)
-      (bluetooth)
+(defwidget update-button []
+  (eventbox :onclick "foot yay &"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text "󰏖")
     )
-    (box :orientation "h" :space-evenly true
-      (vol-output)
-      (dnd-toggle)
+  )
+)
+
+(defwidget edit-button []
+  (eventbox :onclick "code $(pwd)"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text "󰏫")
+    )
+  )
+)
+
+(defwidget wlsunset-toggle []
+  (eventbox
+    :onclick "sh scripts/sys_info --toggle-wlsunset"
+    :class "ctrl-infobox"
+    (box :class "container ${wlsunset-enabled == 1 ? 'enabled' : ''}"
+      (label
+        :class "ctrl-label"
+        :text {wlsunset-enabled == 1 ? "󰖚" : "󱓤"}
+      )
     )
   )
 )
@@ -100,6 +125,7 @@
       :max 101
       :min 0
       :onchange "brightnessctl set {}%"
+      :width 350
     )
   )
 )
@@ -127,6 +153,62 @@
     (box :class "container ${variable-value == true ? 'caution' : ''}"
       (label :text icon :class "ctrl-label")
     )
+  )
+)
+
+(defwidget album-art []
+  (box
+    :width 150
+    :height 150
+    :class "album-art"
+    :visible {song-title != ""}
+    :style "background-image: url(\"${album-art}\");"
+  )
+)
+
+(defwidget music-info []
+  (box
+    :orientation "v"
+    :valign "center"
+    :class "music-info"
+    :space-evenly false
+    (label
+      :text {song-title ?: "Nothing playing..."}
+      :wrap true
+      :limit-width 30
+      :xalign "0"
+    )
+    (label
+      :text {song-artist ?: ":["}
+      :class "song-artist secondary"
+      :wrap true
+      :limit-width 50
+      :xalign "0"
+    )
+  )
+)
+
+; ~~~ grouping widgets ~~~
+
+(defwidget status-toggles []
+  (box :orientation "v" :space-evenly true
+    (box :orientation "h" :space-evenly true
+      (network)
+      (bluetooth)
+    )
+    (box :orientation "h" :space-evenly true
+      (vol-output)
+      (dnd-toggle)
+    )
+  )
+)
+
+(defwidget top-toggles []
+  (box :orientation "h" :space-evenly true
+    (music-toggle)
+    (wlsunset-toggle)
+    (update-button)
+    (edit-button)
   )
 )
 
@@ -162,33 +244,24 @@
 (defvar reboot-confirm false)
 (defvar shutdown-confirm false)
 
-(defwidget album-art []
-  (box :width 150 :height 150 :class "album-art"
-    :style "background-image: url(\"${album-art}\");"
-  )
-)
-
-(defwidget music-info []
-  (box :orientation "v" :valign "center" :class "music-info" :space-evenly false
-    (label :text song-title :class "song-title" :wrap true :limit-width 50)
-    (label :text song-artist :class "song-artist")
-  )
-)
-
 (defwidget now-playing []
-  (box :orientation "h" :valign "center" :class "container" :space-evenly false
+  (box
+    :orientation "h"
+    :valign "center"
+    :class "container"
+    :space-evenly false
     (album-art)
     (music-info)
   )
 )
+
+; ~~~ window itself ~~~
 
 (defwindow ctrl-panel
   :monitor 0
   :geometry (geometry
     :x "10px"
     :y "10px"
-    :height "200px"
-    :width "200px"
     :anchor "bottom left"
   )
   :exclusive false
@@ -201,13 +274,13 @@
         :orientation "h"
         :class "panel music-panel"
         :space-evenly true
-        :visible {music-shown == true && song-title != ""}
+        :visible music-shown
         (now-playing)
       )
 
       ; main ctrl panel
       (box :orientation "v" :class "panel" :space-evenly false
-        (music-toggle)
+        (top-toggles)
         (status-toggles)
         (bright-slider)
         (session-buttons)
