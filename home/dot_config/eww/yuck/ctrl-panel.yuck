@@ -81,7 +81,8 @@
 (defvar music-shown true)
 
 (defwidget update-button []
-  (eventbox :onclick "foot yay &"
+  (eventbox
+    :onclick "foot yay &"
     :class "ctrl-infobox"
     (box :class "container"
       (label :text "󰏖")
@@ -90,7 +91,8 @@
 )
 
 (defwidget edit-button []
-  (eventbox :onclick "code $(pwd)"
+  (eventbox
+    :onclick "code $(pwd)"
     :class "ctrl-infobox"
     (box :class "container"
       (label :text "󰏫")
@@ -107,6 +109,16 @@
         :class "ctrl-label"
         :text {wlsunset-enabled == 1 ? "󰖚" : "󱓤"}
       )
+    )
+  )
+)
+
+(defwidget reset-eww-button []
+  (eventbox
+    :onclick "killall eww && eww open bar"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text "")
     )
   )
 )
@@ -208,6 +220,7 @@
     (music-toggle)
     (wlsunset-toggle)
     (update-button)
+    (reset-eww-button)
     (edit-button)
   )
 )
