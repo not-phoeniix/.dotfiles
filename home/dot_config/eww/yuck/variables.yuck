@@ -2,10 +2,10 @@
 (defpoll hour :interval "10s" `date "+%I"`)
 (defpoll minute :interval "10s" `date "+%M"`)
 (defpoll am-pm :interval "10s" `date "+%p"`)
-(defpoll weekday :interval "1h" `date "+%a"`)
-(defpoll month :interval "1h" `date "+%m"`)
-(defpoll day :interval "1h" `date "+%d"`)
-(defpoll year :interval "1h" `date "+%Y"`)
+(defpoll weekday :interval "1m" `date "+%a"`)
+(defpoll month :interval "1m" `date "+%m"`)
+(defpoll day :interval "1m" `date "+%d"`)
+(defpoll year :interval "1m" `date "+%Y"`)
 
 (deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
 (deflisten window-title :initial "" "sh scripts/workspaces --get-active-title")
@@ -38,6 +38,8 @@
 (defpoll discord-running :interval "1s" "sh scripts/program_tray --get-discord")
 (defpoll slack-running :interval "1s" "sh scripts/program_tray --get-slack")
 (defpoll steam-running :interval "1s" "sh scripts/program_tray --get-steam")
+
+(defpoll is-laptop :interval "1m" "")
 
 (deflisten album-art :initial "" "playerctl --follow metadata --format '{{mpris:artUrl}}'")
 (deflisten song-title :initial "" "playerctl --follow metadata --format '{{title}}'")

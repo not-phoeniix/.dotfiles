@@ -123,6 +123,46 @@
   )
 )
 
+(defwidget rotate-button [value text]
+  (eventbox
+    :onclick "sh ~/.scripts/rotate.sh --set-rot ${value}"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text text)
+    )
+  )
+)
+
+(defwidget rotate-cw []
+  (eventbox
+    :onclick "sh ~/.scripts/rotate.sh --cw"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text "󱨽")
+    )
+  )
+)
+
+(defwidget rotate-ccw []
+  (eventbox
+    :onclick "sh ~/.scripts/rotate.sh --ccw"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text "󱨻")
+    )
+  )
+)
+
+(defwidget rotate-reset []
+  (eventbox
+    :onclick "sh ~/.scripts/rotate.sh --reset"
+    :class "ctrl-infobox"
+    (box :class "container"
+      (label :text "󰩍")
+    )
+  )
+)
+
 (defwidget bright-slider []
   (box
     :orientation "h"
@@ -225,6 +265,14 @@
   )
 )
 
+(defwidget laptop-tools []
+  (box :orientation "h" :space-evenly true
+    (rotate-ccw)
+    (rotate-reset)
+    (rotate-cw)
+  )
+)
+
 (defwidget session-buttons []
   (box :orientation "h" :space-evenly true
     (battery)
@@ -296,6 +344,7 @@
         (top-toggles)
         (status-toggles)
         (bright-slider)
+        (laptop-tools)
         (session-buttons)
       )
     )

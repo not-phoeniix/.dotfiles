@@ -4,6 +4,16 @@
   (literal :content workspaces)
 )
 
+(defwidget virtual-keyboard []
+  (eventbox
+    :onclick "sh ~/.scripts/toggle_wvkbd.sh"
+    (box
+      :class "container"
+      (label :text "󰌌")
+    )
+  )
+)
+
 ; ~~~ tray icons ~~~
 
 (defwidget bat-icon []
@@ -164,6 +174,7 @@
 
     ; bottom box
     (box :orientation "v" :valign "end" :space-evenly false
+      (virtual-keyboard)
       (ctrl)
       (time-date)
     )
