@@ -21,7 +21,7 @@
     :onmiddleclick "pavucontrol &"
     :class "ctrl-infobox"
     (box :orientation "h" :class "container"
-      (box :orientation "v" :space-evenly false
+      (box :orientation "v" :space-evenly false :valign "center"
         (label :text "${volume-icon} - ${volume}%")
         (label :text volume-output :class "secondary" :wrap true :limit-width 16)
       )
@@ -52,15 +52,16 @@
     :class "ctrl-infobox"
     (box
       :orientation "v"
-      :space-evenly false
       :class "container ${dnd-enabled == '1' ? 'enabled' : ''}"
-      (label
-        :text ""
-        :class "ctrl-label"
-      )
-      (label
-        :text "dnd ${dnd-enabled == '1' ? 'on' : 'off'}"
-        :class "secondary"
+      (box :orientation "v" :valign "center" :space-evenly false
+        (label
+          :text ""
+          :class "ctrl-label"
+        )
+        (label
+          :text "dnd ${dnd-enabled == '1' ? 'on' : 'off'}"
+          :class "secondary"
+        )
       )
     )
   )
@@ -119,16 +120,6 @@
     :class "ctrl-infobox"
     (box :class "container"
       (label :text "")
-    )
-  )
-)
-
-(defwidget rotate-button [value text]
-  (eventbox
-    :onclick "sh ~/.scripts/rotate.sh --set-rot ${value}"
-    :class "ctrl-infobox"
-    (box :class "container"
-      (label :text text)
     )
   )
 )
@@ -208,34 +199,22 @@
   )
 )
 
-(defwidget album-art []
-  (box
-    :width 150
-    :height 150
-    :class "album-art"
-    :visible {song-title != ""}
-    :style "background-image: url(\"${album-art}\");"
-  )
-)
-
-(defwidget music-info []
-  (box
-    :orientation "v"
-    :valign "center"
-    :class "music-info"
-    :space-evenly false
-    (label
-      :text {song-title ?: "Nothing playing..."}
-      :wrap true
-      :limit-width 30
-      :xalign "0"
+(defwidget smaller-toggles []
+  (box :orientation "h"
+    (box :orientation "v"
+      (wlsunset-toggle)
+      (reset-eww-button)
     )
-    (label
-      :text {song-artist ?: ":["}
-      :class "song-artist secondary"
-      :wrap true
-      :limit-width 50
-      :xalign "0"
+    (box :orientation "v"
+      (update-button)
+      (edit-button)
+    )
+    (box :orientation "v" :visible {bat-enable == 1}
+      (rotate-reset)
+      (box :orientation "h"
+        (rotate-ccw)
+        (rotate-cw)
+      )
     )
   )
 )
@@ -243,33 +222,16 @@
 ; ~~~ grouping widgets ~~~
 
 (defwidget status-toggles []
-  (box :orientation "v" :space-evenly true
-    (box :orientation "h" :space-evenly true
+  (box :orientation "v"
+    (box :orientation "h"
       (network)
       (bluetooth)
     )
-    (box :orientation "h" :space-evenly true
+    (box :orientation "h"
       (vol-output)
       (dnd-toggle)
     )
-  )
-)
-
-(defwidget top-toggles []
-  (box :orientation "h" :space-evenly true
-    (music-toggle)
-    (wlsunset-toggle)
-    (update-button)
-    (reset-eww-button)
-    (edit-button)
-  )
-)
-
-(defwidget laptop-tools []
-  (box :orientation "h" :space-evenly true
-    (rotate-ccw)
-    (rotate-reset)
-    (rotate-cw)
+    (smaller-toggles)
   )
 )
 
@@ -305,19 +267,9 @@
 (defvar reboot-confirm false)
 (defvar shutdown-confirm false)
 
-(defwidget now-playing []
-  (box
-    :orientation "h"
-    :valign "center"
-    :class "container"
-    :space-evenly false
-    (album-art)
-    (music-info)
-  )
-)
-
 ; ~~~ window itself ~~~
 
+(defvar ctrl-opened false)
 (defwindow ctrl-panel
   :monitor 0
   :geometry (geometry
@@ -330,21 +282,9 @@
   (eventbox
     :onhoverlost "eww close ctrl-panel && eww update ctrl-opened=false"
     (box :orientation "v" :space-evenly false
-      ; music panel
-      (box
-        :orientation "h"
-        :class "panel music-panel"
-        :space-evenly true
-        :visible music-shown
-        (now-playing)
-      )
-
-      ; main ctrl panel
       (box :orientation "v" :class "panel" :space-evenly false
-        (top-toggles)
         (status-toggles)
         (bright-slider)
-        (laptop-tools)
         (session-buttons)
       )
     )

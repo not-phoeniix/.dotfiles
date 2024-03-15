@@ -1,5 +1,4 @@
 (include "yuck/variables.yuck")
 (include "yuck/bar.yuck")
-(include "yuck/cal-panel.yuck")
 (include "yuck/ctrl-panel.yuck")
-(include "yuck/dock.yuck")
+(include "yuck/dashboard.yuck")

@@ -1,0 +1,135 @@
+(defvar icon-path "/usr/share/icons/Papirus-Dark")
+(defvar apps-path "/usr/share/applications")
+
+(defwidget app-icon [program-name ?icon]
+  (button
+    :onclick "dex ${apps-path}/${program-name}.desktop"
+    (image :path "${icon-path}/64x64/apps/${icon ?: program-name}.svg")
+  )
+)
+
+(defwidget big-time []
+  (box :height 200
+    (box :orientation "v" :space-evenly false :spacing 10 :valign "center"
+      (box :orientation "h" :space-evenly false :spacing 15 :halign "center"
+        (label :text hour :class "bigtext")
+        (label :text minute :class "bigtext accent")
+      )
+      (label :text uptime :class "sub-header")
+    )
+  )
+)
+
+(defwidget profile []
+  (box :class "container" :orientation "h" :space-evenly false :spacing 20
+    (box :class "pfp" :style "background-image: url(\"pfp.png\")" :width 100 :height 100)
+    (box :orientation "v" :space-evenly false :valign "center" :spacing 10
+      (label :text "Nikki / Phoenix" :class "header" :xalign 0)
+      (label :text "\"${rand-quote}\"" :class "sub-header" :xalign 0)
+    )
+  )
+)
+
+(defwidget apps []
+  (box :orientation "v" :class "container"
+    (box :orientation "h" :space-evenly true
+      (app-icon :program-name "firefox")
+      (app-icon :program-name "code")
+      (app-icon :program-name "com.github.xournalpp.xournalpp")
+    )
+
+    (box :orientation "h" :space-evenly true
+      (app-icon :program-name "aseprite")
+      (app-icon :program-name "gimp")
+      (app-icon :program-name "com.obsproject.Studio")
+    )
+
+    (box :orientation "h" :space-evenly true
+      (app-icon :program-name "steam")
+      (app-icon :program-name "discord")
+      (app-icon :program-name "spotify-launcher" :icon "spotify")
+    )
+  )
+)
+
+(defwidget now-playing []
+  (box
+    :class "container"
+    :orientation "h"
+    :space-evenly false
+    :style "padding: 0;"
+    (box
+      :style "background-image: url(\"${album-art}\"); padding: 0; margin: 0;"
+      :class "container now-playing"
+      :height 200
+      :hexpand true
+      (box
+        :orientation "v"
+        :class "container music-gradient"
+        :style "margin: 0;"
+        :space-evenly false
+        (label :text song-title :halign "start" :class "song-title")
+        (label :text song-artist :halign "start" :class "song-artist")
+      )
+    )
+    (scale
+      :value media-volume
+      :orientation "v"
+      :class "media-volume"
+      :flipped true
+    )
+  )
+)
+
+(defwidget cal []
+  (box :class "container" :orientation "v" :space-evenly false
+    (box
+      :class "cal-date"
+      :orientation "h"
+      :halign "center"
+      :space-evenly false
+      :spacing 10
+      (label :text "${monthword} ${day}")
+      (label :text "${year}" :class "accent")
+    )
+    (calendar
+      :day day
+      :month month
+      :year year
+      :show-heading false
+    )
+  )
+)
+
+(defvar dashboard-opened false)
+(defwindow dashboard
+  :monitor 0
+  :geometry (geometry
+    :y "50%"
+    :x "-15px"
+    :height "100%"
+    :width "10px"
+    :anchor "center right"
+  )
+  :exclusive false
+  :stacking "fg"
+  (revealer
+    :transition "slideleft"
+    :reveal dashboard-opened
+    :duration "100ms"
+    (eventbox
+      :onhoverlost "eww update dashboard-opened=false"
+      (box
+        :space-evenly false
+        :spacing 20
+        :orientation "v"
+        :class "panel"
+        :style "padding-right: 20px;"
+        (big-time)
+        ; (profile)
+        (now-playing)
+        (cal)
+      )
+    )
+  )
+)

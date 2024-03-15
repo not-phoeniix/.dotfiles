@@ -7,10 +7,11 @@
 (defwidget virtual-keyboard []
   (eventbox
     :onclick "sh ~/.scripts/toggle_wvkbd.sh"
-    :class "bar-widget"
+    :class "bar-widget ${keyboard-running == 1 ? 'open' : ''}"
+    :visible {bat-enable == 1}
     (box
       :class "container"
-      (label :text "󰌌")
+      (label :text {keyboard-running == 1 ? "󰌐" : "󰌌"})
     )
   )
 )
@@ -119,50 +120,21 @@
     )
   )
 )
-(defvar ctrl-opened false)
 
 ; time/date
 
 (defwidget time []
-  (box
-    :orientation "v"
-    :space-evenly true
-    :valign "center"
-    (label :text hour)
-    (label :text minute :class "accent")
-  )
-)
-
-(defwidget date []
-  (box
-    :orientation "v"
-    :space-evenly false
-    :valign "center"
-    :style "margin-top: 20px;"
-    (label :text weekday)
-    (label :text day :class "accent")
-  )
-)
-
-(defwidget time-date []
-  (eventbox
-    :onhover "eww update date-shown=true"
-    :onhoverlost "eww update date-shown=false"
-    :onclick "sh scripts/panel_opener --toggle-cal"
-    :class "bar-widget ${cal-opened == true ? 'open' : ''}"
+  (box :class "bar-widget"
     (box
       :orientation "v"
+      :space-evenly true
+      :valign "center"
       :class "container"
-      :space-evenly false
-      (time)
-      (revealer :transition "slideup" :reveal date-shown :duration "300ms"
-        (date)
-      )
+      (label :text hour)
+      (label :text minute :class "accent")
     )
   )
 )
-(defvar date-shown false)
-(defvar cal-opened false)
 
 ; ~~~ main bar setup ~~~
 
@@ -178,14 +150,14 @@
 
     ; center box
     (box :orientation "v" :valign "center" :space-evenly false
-      (dbus-notif)
     )
 
     ; bottom box
     (box :orientation "v" :valign "end" :space-evenly false
+      (dbus-notif)
       (virtual-keyboard)
       (ctrl)
-      (time-date)
+      (time)
     )
   )
 )

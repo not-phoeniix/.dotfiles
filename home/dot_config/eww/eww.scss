@@ -38,6 +38,10 @@ button {
     &:hover {
         background-color: $color8;
     }
+
+    &:active {
+        background-color: $color9;
+    }
 }
 
 scale {
@@ -54,6 +58,45 @@ scale {
         }
     }
 }
+
+.accent {
+    color: $color1;
+}
+
+
+.bigtext {
+    font-size: 100;
+    font-weight: bold;
+}
+
+.header {
+    font-size: 40;
+}
+
+.sub-header {
+    font-size: 25;
+    color: $color8;
+}
+
+calendar {
+    color: $foreground;
+
+    &:selected {
+        background-color: $color1;
+        border-radius: 10px;
+    }
+
+    &:indeterminate {
+        color: transparentize($foreground, 0.85);
+    }
+
+    &.highlight {
+        color: $color1;
+    }
+
+    padding: 3px;
+}
+
 
 /*#endregion*/
 
@@ -79,10 +122,6 @@ scale {
     .separator {
         color: $color8;
         margin: -5px;
-    }
-
-    .accent {
-        color: $color1;
     }
 
     &.open,
@@ -133,33 +172,6 @@ scale {
 .title {
     padding-left: 0px;
     padding-right: 0px;
-}
-
-/*#endregion*/
-
-// === music panel ========================================
-/*#region*/
-
-.album-art {
-    background-size: 100%;
-    background-repeat: no-repeat;
-    border-radius: 14px;
-}
-
-.music-info {
-    padding: 20px;
-}
-
-.song-title {
-    font-size: 30px;
-}
-
-// .song-artist {
-//     font-size: 20px;
-// }
-
-.music-panel {
-    margin-bottom: 10px;
 }
 
 /*#endregion*/
@@ -229,32 +241,21 @@ scale {
 
 /*#endregion*/
 
-// === cal panel ==========================================
+// === dashboard ===============================================
 /*#region*/
 
-.calendar {
-    color: $foreground;
+.pfp {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: 100px;
 }
 
-/*#endregion*/
-
-// === dock ===============================================
-/*#region*/
-
-.dock {
-    &.panel {
-        border: 3px solid $color1;
-    }
-
-    padding: 10px;
+.cal-date {
+    margin: 13px;
 }
 
 .app-icon {
     border-radius: 8px;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    background-size: 100%;
-    background-position: 50%;
 
     &:hover {
         background-color: $color8;
@@ -264,5 +265,38 @@ scale {
         background-color: $color1;
     }
 }
+
+.now-playing {
+    background-size: 100%;
+    background-repeat: no-repeat;
+
+    .music-gradient {
+        background: transparentize($color0, 0.4);
+    }
+
+    .song-title {
+        font-size: 30px;
+    }
+
+    .song-artist {
+        color: transparentize($foreground, 0.4);
+        font-size: 25px;
+    }
+}
+
+.media-volume {
+    trough {
+        // background-color: $color0;
+        min-width: 10px;
+        border-radius: 5px;
+        margin: 15px;
+
+        highlight {
+            background-color: $color1;
+            border-radius: 5px;
+        }
+    }
+}
+
 
 /*#endregion*/

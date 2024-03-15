@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#
+# hiya! this is a random quote generator :] i can put whatever
+# i want in here and it'll pick a random quote from the array
+# that's different every time
+#
+
+QUOTE_CACHE_FILE=$HOME/.cache/prev_quote
+PREV_QUOTE=$(cat $QUOTE_CACHE_FILE)
+
+# collection of quotes
+QUOTES=(
+    "marinara"
+    "it's just that easy!"
+    "gabagool"
+    "im NOT a furry"
+    "ANOTHER microwave"
+    "weemp womp"
+    "violently beatboxes"
+    "erm,, what the spruce"
+    "nuh uh"
+    "what the fork"
+)
+
+# random quote selected
+index=$RANDOM
+let "index %= ${#QUOTES[@]}"
+QUOTE="${QUOTES[$index]}"
+
+# loop ensures the selected quote isn't the previous one
+while [ "$QUOTE" = "$PREV_QUOTE" ]; do
+    index=$RANDOM
+    let "index %= ${#QUOTES[@]}"
+    QUOTE="${QUOTES[$index]}"
+done
+
+# put new quote into cache file and print to console
+echo $QUOTE > $QUOTE_CACHE_FILE
+echo $QUOTE

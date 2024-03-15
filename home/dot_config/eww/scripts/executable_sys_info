@@ -109,6 +109,13 @@ get_vol_output() {
     pamixer --get-default-sink | sed "1 d" | sed "s/^[^\"]*.[^\"]*..//g" | sed "s/\"//g"
 }
 
+get_media_vol() {
+    vol=$(playerctl volume)
+    mult=$(echo "$vol*100" | bc)
+    int=$(echo $mult | sed 's/\..*//')
+    echo $int
+}
+
 # returns the status of connection (nmcli-dependent)
 get_net_status() {
     echo $(nmcli networking connectivity)
@@ -284,6 +291,16 @@ toggle_wlsunset() {
     killall wlsunset || wlsunset &
 }
 
+get_wvkbd() {
+    PROCESS=$(pgrep -l "wvkbd-mobintl")
+
+    if [ -z $PROCESS ]; then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
 # ~~~ kslfjdglkdfs ~~~
 
 case "$1" in
@@ -325,6 +342,10 @@ case "$1" in
 
     "--get-vol-output")
         get_vol_output
+        ;;
+
+    "--get-media-vol")
+        get_media_vol
         ;;
 
     "--get-net-status")
@@ -381,6 +402,10 @@ case "$1" in
 
     "--toggle-wlsunset")
         toggle_wlsunset
+        ;;
+
+    "--get-wvkbd")
+        get_wvkbd
         ;;
 
 esac

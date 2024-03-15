@@ -24,5 +24,8 @@ height=200
 default-timeout=10000
 ignore-timeout=0
 
+max-history=20
+max-visible=7
+
 [mode=dnd]
 invisible=1

@@ -23,40 +23,20 @@ toggle_ctrl() {
         eww close ctrl-panel
     else
         eww open ctrl-panel
-        eww close cal-panel
     fi
 
     eww update ctrl-opened=$NEW_STATE
 }
 
-toggle_music() {
-    CURRENT_STATE=$(eww get music-opened)
+toggle_dashboard() {
+    CURRENT_STATE=$(eww get dashboard-opened)
     NEW_STATE="true"
 
     if [[ $CURRENT_STATE == "true" ]]; then
         NEW_STATE="false"
-        eww close music-panel
-    else
-        eww open music-panel
     fi
 
-    eww update music-opened=$NEW_STATE
-}
-
-toggle_cal() {
-    CURRENT_STATE=$(eww get cal-opened)
-    NEW_STATE="true"
-
-    if [[ $CURRENT_STATE == "true" ]]; then
-        NEW_STATE="false"
-        eww close cal-panel
-    else
-        eww open cal-panel
-        eww close ctrl-panel
-        eww update ctrl-opened=false
-    fi
-
-    eww update cal-opened=$NEW_STATE
+    eww update dashboard-opened=$NEW_STATE
 }
 
 case "$1" in
@@ -64,19 +44,11 @@ case "$1" in
         toggle_bar
         ;;
 
-    "--toggle-dock")
-        toggle_dock
-        ;;
-
     "--toggle-ctrl")
         toggle_ctrl
         ;;
 
-    "--toggle-music")
-        toggle_music
-        ;;
-
-    "--toggle-cal")
-        toggle_cal
+    "--toggle-dashboard")
+        toggle_dashboard
         ;;
 esac
