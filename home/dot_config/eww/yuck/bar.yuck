@@ -7,6 +7,7 @@
 (defwidget virtual-keyboard []
   (eventbox
     :onclick "sh ~/.scripts/toggle_wvkbd.sh"
+    :class "bar-widget"
     (box
       :class "container"
       (label :text "󰌌")
@@ -84,12 +85,13 @@
 
 (defwidget ctrl []
   (eventbox
-    :class "ctrl-tray"
+    ; :class "ctrl-tray"
+    :class "bar-widget ${ctrl-opened == true ? 'open' : ''}"
     :onclick "sh scripts/panel_opener --toggle-ctrl"
     (box
       :orientation "v"
       :space-evenly false
-      :class "container ${ctrl-opened == true ? 'open' : ''}"
+      :class "container"
       :spacing 10
       (box :visible {slack-running == "1"}
         (slack-icon)
@@ -121,17 +123,24 @@
 
 ; time/date
 
-(defwidget date []
-  (box :orientation "v" :space-evenly false :valign "center"
-    (label :text weekday :class "weekday")
-    (label :text day :class "day")
+(defwidget time []
+  (box
+    :orientation "v"
+    :space-evenly true
+    :valign "center"
+    (label :text hour)
+    (label :text minute :class "accent")
   )
 )
 
-(defwidget time []
-  (box :orientation "v" :space-evenly true :valign "center"
-    (label :text hour :class "hour")
-    (label :text minute :class "minute")
+(defwidget date []
+  (box
+    :orientation "v"
+    :space-evenly false
+    :valign "center"
+    :style "margin-top: 20px;"
+    (label :text weekday)
+    (label :text day :class "accent")
   )
 )
 
@@ -140,10 +149,10 @@
     :onhover "eww update date-shown=true"
     :onhoverlost "eww update date-shown=false"
     :onclick "sh scripts/panel_opener --toggle-cal"
-    :class "time-date"
+    :class "bar-widget ${cal-opened == true ? 'open' : ''}"
     (box
       :orientation "v"
-      :class "container ${cal-opened == true ? 'open' : ''}"
+      :class "container"
       :space-evenly false
       (time)
       (revealer :transition "slideup" :reveal date-shown :duration "300ms"

@@ -65,7 +65,6 @@ scale {
 
     button {
         padding: 10px 10px;
-        border-color: $color0;
     }
 
     .current {
@@ -76,29 +75,37 @@ scale {
 
 // tray colors
 
-.ctrl-tray {
-    .open {
-        background-color: $color1;
-    }
-
+.bar-widget {
     .separator {
         color: $color8;
         margin: -5px;
     }
 
-    .open,
+    .accent {
+        color: $color1;
+    }
+
+    &.open,
     &:hover {
         .container {
             background-color: $color1;
         }
 
+        .accent,
         .separator {
-            color: $color0;
+            color: $background;
         }
     }
 
-    &:active .container {
-        background-color: $color9;
+    &:active {
+        .container {
+            background-color: $color9;
+        }
+
+        .accent,
+        .separator {
+            color: $background;
+        }
     }
 }
 
@@ -119,45 +126,6 @@ scale {
 }
 
 // time date colors
-
-.day,
-.minute {
-    color: $color1
-}
-
-.weekday {
-    margin-top: 20px;
-    font-size: 24px;
-}
-
-.time-date {
-    .open {
-        background-color: $color1;
-    }
-
-    .open,
-    &:hover {
-        .container {
-            background-color: $color1;
-        }
-
-        .day,
-        .minute {
-            color: $background;
-        }
-    }
-
-    &:active {
-        box {
-            background-color: $color9;
-        }
-
-        .day,
-        .minute {
-            color: $background;
-        }
-    }
-}
 
 // this prevents the entire bar from getting bigger
 //   when certain text characters show up in the
