@@ -67,30 +67,6 @@
   )
 )
 
-(defwidget music-toggle []
-  (eventbox
-    :onclick {music-shown ? 'eww update music-shown=false' : 'eww update music-shown=true'}
-    :class "ctrl-infobox"
-    (box :class "container ${music-shown == true ? 'enabled' : ''}"
-      (label
-        :class "ctrl-label"
-        :text {music-shown ? " " : " "}
-      )
-    )
-  )
-)
-(defvar music-shown true)
-
-(defwidget update-button []
-  (eventbox
-    :onclick "foot yay &"
-    :class "ctrl-infobox"
-    (box :class "container"
-      (label :text "󰏖")
-    )
-  )
-)
-
 (defwidget edit-button []
   (eventbox
     :onclick "code $(pwd)"
@@ -105,10 +81,14 @@
   (eventbox
     :onclick "sh scripts/sys_info --toggle-wlsunset"
     :class "ctrl-infobox"
-    (box :class "container ${wlsunset-enabled == 1 ? 'enabled' : ''}"
+    (box :orientation "v" :class "container ${wlsunset-enabled == 1 ? 'enabled' : ''}"
       (label
         :class "ctrl-label"
         :text {wlsunset-enabled == 1 ? "󰖚" : "󱓤"}
+      )
+      (label
+        :class "secondary"
+        :text "wlsunset ${wlsunset-enabled == 1 ? 'on' : 'off'}"
       )
     )
   )
@@ -118,8 +98,9 @@
   (eventbox
     :onclick "killall eww && eww open bar"
     :class "ctrl-infobox"
-    (box :class "container"
-      (label :text "")
+    (box :class "container" :orientation "v"
+      (label :text "" :class "ctrl-label")
+      (label :class "secondary" :text "reset EWW")
     )
   )
 )
@@ -199,47 +180,41 @@
   )
 )
 
-(defwidget smaller-toggles []
+(defwidget rotate-buttons []
   (box :orientation "h"
-    (box :orientation "v"
-      (wlsunset-toggle)
-      (reset-eww-button)
-    )
-    (box :orientation "v"
-      (update-button)
-      (edit-button)
-    )
-    (box :orientation "v" :visible {bat-enable == 1}
-      (rotate-reset)
-      (box :orientation "h"
-        (rotate-ccw)
-        (rotate-cw)
-      )
-    )
+    (rotate-ccw)
+    (rotate-reset)
+    (rotate-cw)
   )
 )
 
 ; ~~~ grouping widgets ~~~
 
 (defwidget status-toggles []
-  (box :orientation "v"
-    (box :orientation "h"
-      (network)
-      (bluetooth)
+  (box :orientation "v" :space-evenly false
+    (rotate-buttons)
+    (box :orientation "v"
+      (box :orientation "h"
+        (network)
+        (bluetooth)
+      )
+      (box :orientation "h"
+        (vol-output)
+        (dnd-toggle)
+      )
+      (box :orientation "h"
+        (wlsunset-toggle)
+        (reset-eww-button)
+      )
     )
-    (box :orientation "h"
-      (vol-output)
-      (dnd-toggle)
-    )
-    (smaller-toggles)
   )
 )
 
 (defwidget session-buttons []
-  (box :orientation "h" :space-evenly true
+  (box :orientation "h"
     (battery)
 
-    (box :orientation "h" :space-evenly true
+    (box :orientation "h"
       (session-button
         :variable-name "logout-confirm"
         :variable-value "${logout-confirm}"
