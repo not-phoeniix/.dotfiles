@@ -143,7 +143,7 @@
     :visible {brightness-enable == 1}
     (label :text "󰃠")
     (scale
-      :value brightness
+      :value {brightness ?: 0}
       :orientation "h"
       :class "ctrl-slider"
       :max 101
@@ -250,6 +250,7 @@
   :geometry (geometry
     :x "10px"
     :y "10px"
+    :width "16%"
     :anchor "bottom left"
   )
   :exclusive false

@@ -73,7 +73,7 @@
       )
     )
     (scale
-      :value media-volume
+      :value {media-volume ?: 0}
       :orientation "v"
       :class "media-volume"
       :flipped true
