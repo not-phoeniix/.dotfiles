@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Hi! This is a quick script I wrote
 # for my laptop that can change Ryzen cpu

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #
 # script for rotating my silly little HP Envy x360 :3 

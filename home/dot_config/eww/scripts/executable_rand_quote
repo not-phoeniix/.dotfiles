@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # hiya! this is a random quote generator :] i can put whatever
