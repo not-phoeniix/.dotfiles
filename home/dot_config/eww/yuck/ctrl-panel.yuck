@@ -181,7 +181,7 @@
 )
 
 (defwidget rotate-buttons []
-  (box :orientation "h"
+  (box :orientation "h" :visible {bat-enable == 1}
     (rotate-ccw)
     (rotate-reset)
     (rotate-cw)
