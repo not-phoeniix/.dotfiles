@@ -288,7 +288,7 @@ get_wlsunset() {
 }
 
 toggle_wlsunset() {
-    killall wlsunset || wlsunset &
+    killall wlsunset || wlsunset -t 4000 -T 4001 &
 }
 
 get_wvkbd() {
