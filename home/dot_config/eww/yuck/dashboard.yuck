@@ -25,7 +25,7 @@
     (box :class "pfp" :style "background-image: url(\"pfp.png\")" :width 100 :height 100)
     (box :orientation "v" :space-evenly false :valign "center" :spacing 10
       (label :text "Nikki / Phoenix" :class "header" :xalign 0)
-      (label :text "\"${rand-quote}\"" :class "sub-header" :xalign 0)
+      (label :text "\"rand-quote\"" :class "sub-header" :xalign 0)
     )
   )
 )
@@ -93,9 +93,9 @@
       (label :text "${year}" :class "accent")
     )
     (calendar
-      :day day
-      :month month
-      :year year
+      :day {day ?: 1}
+      :month {month ?: 1}
+      :year {year ?: 1}
       :show-heading false
     )
   )
