@@ -58,11 +58,15 @@
     :orientation "h"
     :space-evenly false
     :style "padding: 0;"
+
+    ; main background box
     (box
       :style "background-image: url(\"${album-art}\"); padding: 0; margin: 0;"
+      :height 300
+      :width 300
       :class "container now-playing"
-      :height 200
       :hexpand true
+      :visible {song-title != ""}
       (box
         :orientation "v"
         :class "container music-gradient"
@@ -72,11 +76,24 @@
         (label :text song-artist :halign "start" :class "song-artist")
       )
     )
+
+    ; volume slider
     (scale
       :value {media-volume ?: 0}
       :orientation "v"
       :class "media-volume"
       :flipped true
+      :visible {song-title != ""}
+    )
+
+    ; "nothing playing" box
+    (box
+      :height 150
+      :width 300
+      :orientation "v"
+      :class "container now-playing"
+      :visible {song-title == ""}
+      (label :text "nothing playing :(" :class "sub-header")
     )
   )
 )
@@ -93,9 +110,9 @@
       (label :text "${year}" :class "accent")
     )
     (calendar
-      :day {day ?: 1}
-      :month {month ?: 1}
-      :year {year ?: 1}
+      :day day
+      :month month
+      :year year
       :show-heading false
     )
   )
