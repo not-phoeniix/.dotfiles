@@ -8,7 +8,7 @@
   (eventbox
     :onclick "sh ~/.scripts/toggle_wvkbd.sh"
     :class "bar-widget ${keyboard-running == 1 ? 'open' : ''}"
-    :visible {bat-enable == 1}
+    :visible {bat-exists == 1}
     (box
       :class "container"
       (label :text {keyboard-running == 1 ? "󰌐" : "󰌌"})
@@ -22,7 +22,7 @@
   (box
     :tooltip "Battery: ${battery}%"
     :class "${battery-icon =~ '󰂄' ? 'charging' : ''} ${battery == 100 ? 'charged' : ''}"
-    :visible {bat-enable == 1}
+    :visible {bat-exists == 1}
     (label :text battery-icon)
   )
 )
@@ -124,7 +124,9 @@
 ; time/date
 
 (defwidget time []
-  (box :class "bar-widget"
+  (eventbox
+    :class "bar-widget ${dashboard-opened == true ? 'open' : ''}"
+    :onclick "sh scripts/panel_opener --toggle-dashboard"
     (box
       :orientation "v"
       :space-evenly true

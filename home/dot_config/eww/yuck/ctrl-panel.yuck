@@ -22,7 +22,7 @@
     :class "ctrl-infobox"
     (box :orientation "h" :class "container"
       (box :orientation "v" :space-evenly false :valign "center"
-        (label :text "${volume-icon} - ${volume}%")
+        (label :text volume-icon)
         (label :text volume-output :class "secondary" :wrap true :limit-width 16)
       )
     )
@@ -96,7 +96,7 @@
 
 (defwidget reset-eww-button []
   (eventbox
-    :onclick "killall eww && eww open bar"
+    :onclick "eww kill && eww open bar"
     :class "ctrl-infobox"
     (box :class "container" :orientation "v"
       (label :text "" :class "ctrl-label")
@@ -135,12 +135,30 @@
   )
 )
 
+(defwidget vol-slider []
+  (box
+    :orientation "h"
+    :space-evenly false
+    :class "container"
+    (label :text volume-icon)
+    (scale
+      :value {volume-icon == "" ? 0 : volume}
+      :orientation "h"
+      :class "ctrl-slider"
+      :max 101
+      :min 0
+      :onchange "pamixer --set-volume {}"
+      :width 350
+    )
+  )
+)
+
 (defwidget bright-slider []
   (box
     :orientation "h"
     :space-evenly false
     :class "container"
-    :visible {brightness-enable == 1}
+    :visible {brightness-exists == 1}
     (label :text "󰃠")
     (scale
       :value {brightness ?: 0}
@@ -158,7 +176,7 @@
   (eventbox
     :onclick "notify-send 'battery noise' 'mmmmmmmmmmmmmmmmmm'"
     :class "ctrl-infobox"
-    :visible {bat-enable == 1}
+    :visible {bat-exists == 1}
     (box
       :class "container ${battery-icon =~ '󰂄' ? 'charging' : ''}"
       :orientation "v"
@@ -181,7 +199,7 @@
 )
 
 (defwidget rotate-buttons []
-  (box :orientation "h" :visible {bat-enable == 1}
+  (box :orientation "h" :visible {bat-exists == 1}
     (rotate-ccw)
     (rotate-reset)
     (rotate-cw)
@@ -260,6 +278,7 @@
     (box :orientation "v" :space-evenly false
       (box :orientation "v" :class "panel" :space-evenly false
         (status-toggles)
+        (vol-slider)
         (bright-slider)
         (session-buttons)
       )
