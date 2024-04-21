@@ -10,7 +10,6 @@
 
 // === global =============================================
 /*#region*/
-
 label {
     color: $foreground;
 }
@@ -63,7 +62,6 @@ scale {
     color: $color1;
 }
 
-
 .bigtext {
     font-size: 100;
     font-weight: bold;
@@ -97,12 +95,9 @@ calendar {
     padding: 3px;
 }
 
-
 /*#endregion*/
-
 // === bar ================================================
 /*#region*/
-
 .workspaces {
     padding: 0px;
 
@@ -117,7 +112,6 @@ calendar {
 }
 
 // tray colors
-
 .bar-widget {
     .separator {
         color: $color8;
@@ -165,7 +159,6 @@ calendar {
 }
 
 // time date colors
-
 // this prevents the entire bar from getting bigger
 //   when certain text characters show up in the
 //   title (like the hyphen in firefox's titles)
@@ -175,10 +168,8 @@ calendar {
 }
 
 /*#endregion*/
-
 // === ctrl panel =========================================
 /*#region*/
-
 .ctrl-slider {
     trough {
         highlight {
@@ -240,10 +231,8 @@ calendar {
 }
 
 /*#endregion*/
-
 // === dashboard ===============================================
 /*#region*/
-
 .pfp {
     background-size: 100%;
     background-repeat: no-repeat;
@@ -297,6 +286,5 @@ calendar {
         }
     }
 }
-
 
 /*#endregion*/

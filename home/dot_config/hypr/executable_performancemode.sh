@@ -4,7 +4,7 @@
 # script grabbed from https://wiki.hyprland.org/Configuring/Uncommon-tips--tricks/
 # 
 
-HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==2{print $2}')
+HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')
 if [ "$HYPRGAMEMODE" = 1 ] ; then
     hyprctl --batch "\
         keyword animations:enabled 0;\
@@ -15,5 +15,6 @@ if [ "$HYPRGAMEMODE" = 1 ] ; then
 		keyword misc:vfr 1"
     exit
 fi
+
 hyprctl reload
 
