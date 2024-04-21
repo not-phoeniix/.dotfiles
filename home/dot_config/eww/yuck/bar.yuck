@@ -69,6 +69,14 @@
   )
 )
 
+(defwidget vnc-icon []
+  (eventbox
+    :tooltip "wayvnc running!!"
+    :onrightclick "sh scripts/program_tray --kill-vnc"
+    (label :text "󰢹")
+  )
+)
+
 (defwidget separator []
   (label :text "󰇘" :class "separator")
 )
@@ -106,7 +114,11 @@
         (steam-icon)
       )
 
-      (box :visible {discord-running == "1" || slack-running == "1" || steam-running == "1"}
+      (box :visible {vnc-running == "1"}
+        (vnc-icon)
+      )
+
+      (box :visible {discord-running == "1" || slack-running == "1" || steam-running == "1" || vnc-running == "1"}
         (separator)
       )
 

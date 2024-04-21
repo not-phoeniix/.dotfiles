@@ -35,6 +35,7 @@
 (defpoll discord-running :interval "10s" "sh scripts/program_tray --get-discord")
 (defpoll slack-running :interval "10s" "sh scripts/program_tray --get-slack")
 (defpoll steam-running :interval "10s" "sh scripts/program_tray --get-steam")
+(defpoll vnc-running :interval "10s" "sh scripts/program_tray --get-vnc")
 
 (deflisten album-art :initial "" "playerctl --follow metadata --format '{{mpris:artUrl}}'")
 (deflisten song-title :initial "" "playerctl --follow metadata --format '{{title}}'")

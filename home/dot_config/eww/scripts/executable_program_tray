@@ -28,6 +28,10 @@ case "$1" in
         get_process slack
         ;;
 
+    "--get-vnc")
+        get_process wayvnc
+        ;;
+
     "--kill-slack")
         pkill slack
         ;;
@@ -38,5 +42,9 @@ case "$1" in
 
     "--kill-steam")
         pkill steam
+        ;;
+
+    "--kill-vnc")
+        pkill wayvnc
         ;;
 esac
