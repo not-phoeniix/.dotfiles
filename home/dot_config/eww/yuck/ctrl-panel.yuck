@@ -1,4 +1,3 @@
-
 ; ~~~ buttons/actual widgets ~~~
 
 (defwidget network []

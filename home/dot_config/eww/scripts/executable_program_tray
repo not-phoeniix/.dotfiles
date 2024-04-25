@@ -32,6 +32,10 @@ case "$1" in
         get_process wayvnc
         ;;
 
+    "--get-telegram")
+        get_process telegram-deskto
+        ;;
+
     "--kill-slack")
         pkill slack
         ;;
@@ -46,5 +50,9 @@ case "$1" in
 
     "--kill-vnc")
         pkill wayvnc
+        ;;
+
+    "--kill-telegram")
+        pkill telegram-desktop
         ;;
 esac

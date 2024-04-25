@@ -110,9 +110,9 @@
       (label :text "${year}" :class "accent")
     )
     (calendar
-      :day day
-      :month month
-      :year year
+      :day {day ?: 0}
+      :month {month ?: 0}
+      :year {year ?: 0}
       :show-heading false
     )
   )

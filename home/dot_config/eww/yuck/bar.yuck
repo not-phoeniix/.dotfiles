@@ -45,35 +45,13 @@
   (label :text "")
 )
 
-(defwidget discord-icon []
-  (eventbox
-    :tooltip "Dibscorb"
-    :onrightclick "sh scripts/program_tray --kill-discord"
-    (label :text "󰙯")
-  )
-)
-
-(defwidget slack-icon []
-  (eventbox
-    :tooltip "Slabck"
-    :onrightclick "sh scripts/program_tray --kill-slack"
-    (label :text "󰒱")
-  )
-)
-
-(defwidget steam-icon []
-  (eventbox
-    :tooltip "STEEM"
-    :onrightclick "sh scripts/program_tray --kill-steam"
-    (label :text "󰓓")
-  )
-)
-
-(defwidget vnc-icon []
-  (eventbox
-    :tooltip "wayvnc running!!"
-    :onrightclick "sh scripts/program_tray --kill-vnc"
-    (label :text "󰢹")
+(defwidget program-tray-icon [process icon running-var ?tooltip]
+  (box :visible {running-var == "1"}
+    (eventbox
+      :tooltip {tooltip ?: ""}
+      :onrightclick "pkill -f ${process}"
+      (label :text icon)
+    )
   )
 )
 
@@ -102,23 +80,47 @@
       :space-evenly false
       :class "container"
       :spacing 10
-      (box :visible {slack-running == "1"}
-        (slack-icon)
+
+      (program-tray-icon
+        :process "slack"
+        :icon ""
+        :running-var slack-running
+        :tooltip "slabck........"
       )
 
-      (box :visible {discord-running == "1"}
-        (discord-icon)
+      (program-tray-icon
+        :process "Discord"
+        :icon "󰙯"
+        :running-var discord-running
+        :tooltip "Discord :D"
       )
 
-      (box :visible {steam-running == "1"}
-        (steam-icon)
+      (program-tray-icon
+        :process "steam"
+        :icon "󰓓"
+        :running-var steam-running
+        :tooltip "steam......"
       )
 
-      (box :visible {vnc-running == "1"}
-        (vnc-icon)
+      (program-tray-icon
+        :process "wayvnc"
+        :icon "󰢹"
+        :running-var vnc-running
+        :tooltip "wayvnc running!"
       )
 
-      (box :visible {discord-running == "1" || slack-running == "1" || steam-running == "1" || vnc-running == "1"}
+      (program-tray-icon
+        :process "telegram-deskto"
+        :icon ""
+        :running-var telegram-running
+        :tooltip "fuckin furry lmao"
+      )
+
+      (box :visible {discord-running == "1" ||
+                     slack-running == "1" ||
+                     steam-running == "1" ||
+                     vnc-running == "1" ||
+                     telegram-running == "1"}
         (separator)
       )
 
