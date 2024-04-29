@@ -62,7 +62,7 @@ case "$1" in
 	"--set-rot")
 		set_rot $2
 		;;
-	
+
 	*)
 		echo "option $1 not recognized!"
 		exit 1

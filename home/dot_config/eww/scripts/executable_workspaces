@@ -19,6 +19,7 @@ workspaces_literal() {
         # builds local button string
         BUTTON="(button"
         BUTTON+=" :onclick \"hyprctl dispatch workspace $ID\""
+        BUTTON+=" :tooltip \"Workspace $ID\""
         BUTTON+=" :class \"workspace-entry"
         if [[ $ID == $CURRENT_ID ]]; then
             BUTTON+=" current"

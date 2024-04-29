@@ -9,6 +9,7 @@
     :onclick "sh ~/.scripts/toggle_wvkbd.sh"
     :class "bar-widget ${keyboard-running == 1 ? 'open' : ''}"
     :visible {bat-exists == 1}
+    :tooltip "Virtual keyboard !!"
     (box
       :class "container"
       (label :text {keyboard-running == 1 ? "󰌐" : "󰌌"})
@@ -116,11 +117,12 @@
         :tooltip "fuckin furry lmao"
       )
 
-      (box :visible {discord-running == "1" ||
-                     slack-running == "1" ||
-                     steam-running == "1" ||
-                     vnc-running == "1" ||
-                     telegram-running == "1"}
+      (box :visible {
+        discord-running == "1" ||
+        slack-running == "1" ||
+        steam-running == "1" ||
+        vnc-running == "1" ||
+        telegram-running == "1"}
         (separator)
       )
 

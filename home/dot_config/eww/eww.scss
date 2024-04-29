@@ -95,6 +95,15 @@ calendar {
     padding: 3px;
 }
 
+tooltip {
+    border-radius: 4px;
+    background-color: $background;
+
+    label {
+        color: $foreground;
+    }
+}
+
 /*#endregion*/
 // === bar ================================================
 /*#region*/
