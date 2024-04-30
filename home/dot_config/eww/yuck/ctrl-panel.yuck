@@ -147,7 +147,7 @@
       :max 101
       :min 0
       :onchange "pamixer --set-volume {}"
-      :width 350
+      :hexpand true
     )
   )
 )

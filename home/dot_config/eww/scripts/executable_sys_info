@@ -85,15 +85,15 @@ get_vol_icon() {
     OUTPUT=""
 
     if [[ $VOLUME_HUMAN == "muted" ]]; then
-        OUTPUT=""
+        OUTPUT="󰝟"
     elif [[ $DEFAULT_SINK =~ "bluez" ]]; then
         OUTPUT="󰂰"
     elif [[ $VOLUME > 66 ]] || [[ $VOLUME = 100 ]]; then
-        OUTPUT=""
+        OUTPUT="󰕾"
     elif [[ $VOLUME > 33 ]]; then
-        OUTPUT=""
+        OUTPUT="󰖀"
     else
-        OUTPUT=""
+        OUTPUT="󰕿"
     fi
 
     echo $OUTPUT

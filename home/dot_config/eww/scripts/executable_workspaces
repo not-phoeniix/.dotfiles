@@ -2,7 +2,7 @@
 
 SOCKET_PATH="/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
 
-LABELS=("I" "II" "III" "IV" "V" "VI" "VII" "" "󰙯" "")
+LABELS=("I" "II" "III" "IV" "V" "VI" "VII" "󰊖" "󰙯" "")
 
 # creates a string that can be put into
 workspaces_literal() {
