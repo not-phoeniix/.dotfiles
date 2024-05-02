@@ -158,7 +158,7 @@
 
 (defwindow bar
   :monitor 0
-  :geometry (geometry :height "100%" :width 68 :anchor "center left")
+  :geometry (geometry :height "100%" :width 70 :anchor "center left")
   :exclusive true
   (centerbox :orientation "v" :class "panel" :style "border-radius: 0px; padding: 2px;"
     ; top box
