@@ -30,8 +30,8 @@ toggle_ctrl() {
 
 toggle_dashboard() {
     # open window itself if it's not open and then exit early
-    DASHBOARD_WINDOW=$(eww windows | grep "dashboard")
-    if ! [[ $DASHBOARD_WINDOW =~ "*" ]]; then
+    DASHBOARD_WINDOW=$(eww active-windows | grep "dashboard")
+    if [[ -z $DASHBOARD_WINDOW ]]; then
         eww open dashboard
         eww update dashboard-opened=true
         exit 0

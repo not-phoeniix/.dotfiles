@@ -104,36 +104,6 @@
   )
 )
 
-(defwidget rotate-cw []
-  (eventbox
-    :onclick "sh ~/.scripts/rotate.sh --cw"
-    :class "ctrl-infobox"
-    (box :class "container"
-      (label :text "󱨽")
-    )
-  )
-)
-
-(defwidget rotate-ccw []
-  (eventbox
-    :onclick "sh ~/.scripts/rotate.sh --ccw"
-    :class "ctrl-infobox"
-    (box :class "container"
-      (label :text "󱨻")
-    )
-  )
-)
-
-(defwidget rotate-reset []
-  (eventbox
-    :onclick "sh ~/.scripts/rotate.sh --reset"
-    :class "ctrl-infobox"
-    (box :class "container"
-      (label :text "󰩍")
-    )
-  )
-)
-
 (defwidget vol-slider []
   (box
     :orientation "h"
@@ -197,19 +167,10 @@
   )
 )
 
-(defwidget rotate-buttons []
-  (box :orientation "h" :visible {bat-exists == 1}
-    (rotate-ccw)
-    (rotate-reset)
-    (rotate-cw)
-  )
-)
-
 ; ~~~ grouping widgets ~~~
 
 (defwidget status-toggles []
   (box :orientation "v" :space-evenly false
-    (rotate-buttons)
     (box :orientation "v"
       (box :orientation "h"
         (network)
