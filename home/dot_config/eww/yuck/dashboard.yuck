@@ -113,7 +113,7 @@
       :day {day ?: 0}
       :month {month ?: 0}
       :year {year ?: 0}
-      :show-heading false
+      :show-heading true
     )
   )
 )
@@ -135,7 +135,7 @@
     :reveal dashboard-opened
     :duration "100ms"
     (eventbox
-      :onhoverlost "eww update dashboard-opened=false"
+      :onhoverlost "sh scripts/panel_opener --toggle-dashboard"
       (box
         :space-evenly false
         :spacing 20
