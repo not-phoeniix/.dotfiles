@@ -1,0 +1,72 @@
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+//     taskbar stylesheet
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.workspaces {
+    padding: 0px;
+
+    button {
+        padding: 10px 10px;
+    }
+
+    .current {
+        background-color: $color1;
+        box-shadow: inset 3px 0 $foreground;
+    }
+}
+
+// tray colors
+.bar-widget {
+    .separator {
+        color: $color8;
+        margin: -5px;
+    }
+
+    &.open,
+    &:hover {
+        .container {
+            background-color: $color1;
+        }
+
+        .accent,
+        .separator {
+            color: $background;
+        }
+    }
+
+    &:active {
+        .container {
+            background-color: $color9;
+        }
+
+        .accent,
+        .separator {
+            color: $background;
+        }
+    }
+}
+
+.charging {
+    color: $background;
+    background-color: $color3;
+    border-radius: 6px;
+
+    label {
+        color: $background;
+    }
+}
+
+.charged {
+    label {
+        color: $color2;
+    }
+}
+
+// time date colors
+// this prevents the entire bar from getting bigger
+//   when certain text characters show up in the
+//   title (like the hyphen in firefox's titles)
+.title {
+    padding-left: 0px;
+    padding-right: 0px;
+}

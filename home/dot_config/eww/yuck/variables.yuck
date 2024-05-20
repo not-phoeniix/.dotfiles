@@ -1,4 +1,4 @@
-(defpoll hour :interval "10s" `date "+%I"`)
+(defpoll hour :interval "10s" `date "+%H"`)
 (defpoll minute :interval "10s" `date "+%M"`)
 (defpoll weekday :interval "1m" `date "+%a"`)
 (defpoll month :interval "1m" `date "+%m"`)
