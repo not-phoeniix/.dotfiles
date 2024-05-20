@@ -2,6 +2,11 @@
 //   dashboard stylesheet
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.dashboard {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 .pfp {
     background-size: 100%;
     background-repeat: no-repeat;

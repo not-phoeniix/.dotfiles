@@ -16,27 +16,17 @@ toggle_wlsunset() {
 
 toggle_ctrl() {
     CURRENT_STATE=$(eww get ctrl-opened)
-    NEW_STATE="true"
 
     if [[ $CURRENT_STATE == "true" ]]; then
-        NEW_STATE="false"
         eww close ctrl-panel
+        eww update ctrl-opened=false
     else
         eww open ctrl-panel
+        eww update ctrl-opened=true
     fi
-
-    eww update ctrl-opened=$NEW_STATE
 }
 
 toggle_dashboard() {
-    # open window itself if it's not open and then exit early
-    # DASHBOARD_WINDOW=$(eww active-windows | grep "dashboard")
-    # if [[ -z $DASHBOARD_WINDOW ]]; then
-    #     eww open dashboard
-    #     eww update dashboard-opened=true
-    #     exit 0
-    # fi
-
     # toggle state of the dashboard-opened variable:
     CURRENT_STATE=$(eww get dashboard-opened)
     if [[ $CURRENT_STATE == "true" ]]; then
@@ -48,7 +38,6 @@ toggle_dashboard() {
         eww open dashboard
         eww update dashboard-opened=true
     fi
-
 }
 
 case "$1" in
