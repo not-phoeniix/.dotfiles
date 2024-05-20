@@ -37,7 +37,6 @@ update_hypr() {
 	CURRENT_ROT=$(cat $ROT_CACHE)
 
 	hyprctl keyword monitor eDP-1,preferred,auto,1,transform,$CURRENT_ROT
-	hyprctl keyword input:touchdevice:transform $CURRENT_ROT
 
 	echo "rotated to value of $CURRENT_ROT!"
 }
@@ -71,4 +70,5 @@ case "$1" in
 esac
 
 update_hypr
+sleep 0.1
 eww reload
