@@ -32,7 +32,6 @@ toggle_dashboard() {
     if [[ $CURRENT_STATE == "true" ]]; then
         # update variable, wait a second, then close the window
         eww update dashboard-opened=false
-        sleep 0.5
         eww close dashboard
     else
         eww open dashboard

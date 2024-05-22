@@ -77,61 +77,17 @@
     :class "bar-widget ${ctrl-opened == true ? 'open' : ''}"
     :onclick "sh scripts/panel_opener --toggle-ctrl"
     (box
-      :orientation "v"
+      :orientation {bar-is-vertical ? "v" : "h"}
       :space-evenly false
       :class "container"
       :spacing 10
-
-      (program-tray-icon
-        :process "slack"
-        :icon ""
-        :running-var slack-running
-        :tooltip "slabck........"
-      )
-
-      (program-tray-icon
-        :process "Discord"
-        :icon "󰙯"
-        :running-var discord-running
-        :tooltip "Discord :D"
-      )
-
-      (program-tray-icon
-        :process "steam"
-        :icon "󰓓"
-        :running-var steam-running
-        :tooltip "steam......"
-      )
-
-      (program-tray-icon
-        :process "wayvnc"
-        :icon "󰢹"
-        :running-var vnc-running
-        :tooltip "wayvnc running!"
-      )
-
-      (program-tray-icon
-        :process "telegram-deskto"
-        :icon ""
-        :running-var telegram-running
-        :tooltip "fuckin furry lmao"
-      )
-
-      (box :visible {
-        discord-running == "1" ||
-        slack-running == "1" ||
-        steam-running == "1" ||
-        vnc-running == "1" ||
-        telegram-running == "1"}
-        (separator)
-      )
 
       (box :visible {dnd-enabled == "1"}
         (dnd-icon)
       )
 
       (vol-icon)
-      (net-icon)
+      ; (net-icon)
       (bat-icon)
     )
   )
@@ -144,7 +100,7 @@
     :class "bar-widget ${dashboard-opened == true ? 'open' : ''}"
     :onclick "sh scripts/panel_opener --toggle-dashboard"
     (box
-      :orientation "v"
+      :orientation {bar-is-vertical ? "v" : "h"}
       :space-evenly true
       :valign "center"
       :class "container"
@@ -158,25 +114,40 @@
 
 (defwindow bar
   :monitor 0
-  :geometry (geometry :height "100%" :width 70 :anchor "center left")
+  ; vertical geometry
+  :geometry (geometry
+    :height "100%"
+    :width 70
+    :anchor "center left"
+  )
+  ; horizontal geometry
+  ; :geometry (geometry
+  ;   :height 70
+  ;   :width "100%"
+  ;   :anchor "top center"
+  ; )
   :exclusive true
-  (centerbox :orientation "v" :class "panel" :style "border-radius: 0px; padding: 2px;"
+  (centerbox :orientation {bar-is-vertical ? "v" : "h"} :class "panel" :style "border-radius: 0px; padding: 2px;"
     ; top box
-    (box :orientation "v" :valign "start" :space-evenly false
+    (box :orientation {bar-is-vertical ? "v" : "h"} :valign "start" :space-evenly false
       (workspaces)
     )
 
     ; center box
-    (box :orientation "v" :valign "center" :space-evenly false
+    (box :orientation {bar-is-vertical ? "v" : "h"} :valign "center" :space-evenly false
     )
 
     ; bottom box
-    (box :orientation "v" :valign "end" :space-evenly false
+    (box :orientation {bar-is-vertical ? "v" : "h"} :valign "end" :space-evenly false
       (dbus-notif)
       (virtual-keyboard)
       (box :class "bar-widget"
         (box :class "container"
-          (systray :orientation "v")
+          (systray
+            :orientation {bar-is-vertical ? "v" : "h"}
+            :spacing 10
+            :icon-size 28
+          )
         )
       )
       (ctrl)
