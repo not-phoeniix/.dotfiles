@@ -4,11 +4,18 @@ SOCKET_PATH="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
 
 LABELS=("I" "II" "III" "IV" "V" "VI" "VII" "󰊖" "󰙯" "")
 
-# creates a string that can be put into
+# creates a string literal that can be put into an EWW config,
+#   takes in one ($1) parameter for "true" or "false" on whether or
+#   not the workspace literal is created to be vertical or not
 workspaces_literal() {
+    ORIENTATION="v"
+    if [[ $1 == "false" ]]; then
+        ORIENTATION="h"
+    fi
+
     CURRENT_ID=$(hyprctl activeworkspace -j | jq -c '.id')
 
-    OUTPUT="(box :class \"container workspaces\" :orientation \"v\" :space-evenly false :valign \"center\""
+    OUTPUT="(box :class \"container workspaces\" :orientation \"$ORIENTATION\" :space-evenly false :valign \"center\""
 
     # each line read is a workspace json object, sorted by id lowest to highest
     lines=$(hyprctl workspaces -j | jq 'sort_by(.id)' | jq -c '.[]')
@@ -42,10 +49,10 @@ workspaces_literal() {
 
 case "$1" in
     "--get-workspaces")
-        workspaces_literal
+        workspaces_literal $2
 
         socat -u UNIX-CONNECT:$SOCKET_PATH - | while read -r line; do
-            workspaces_literal
+            workspaces_literal $2
         done
         ;;
 

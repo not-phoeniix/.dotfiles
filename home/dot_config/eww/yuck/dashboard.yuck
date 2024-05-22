@@ -137,23 +137,18 @@
     )
     :exclusive false
     :stacking "fg"
-    (revealer
-      :transition "slideleft"
-      :reveal dashboard-opened
-      :duration "100ms"
-      (eventbox
-        :onhoverlost "sh scripts/panel_opener --toggle-dashboard"
-        (box
-          :space-evenly false
-          :spacing 20
-          :orientation "v"
-          :class "panel dashboard"
-          (big-time)
-          ; (profile)
-          (now-playing)
-          (apps)
-          (cal)
-        )
+    (eventbox
+      :onhoverlost "sh scripts/panel_opener --toggle-dashboard"
+      (box
+        :space-evenly false
+        :spacing 20
+        :orientation "v"
+        :class "panel dashboard"
+        (big-time)
+        ; (profile)
+        (now-playing)
+        ; (apps)
+        (cal)
       )
     )
   )

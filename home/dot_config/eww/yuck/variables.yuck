@@ -1,4 +1,6 @@
-(defpoll hour :interval "10s" `date "+%H"`)
+(defvar bar-is-vertical true)
+
+(defpoll hour :interval "10s" `date "+%I"`)
 (defpoll minute :interval "10s" `date "+%M"`)
 (defpoll weekday :interval "1m" `date "+%a"`)
 (defpoll month :interval "1m" `date "+%m"`)
@@ -6,7 +8,7 @@
 (defpoll day :interval "1m" `date "+%d"`)
 (defpoll year :interval "1m" `date "+%Y"`)
 
-(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces")
+(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces $(eww get bar-is-vertical)")
 (defpoll uptime :interval "10s" "uptime -p")
 (defpoll dbus-running :interval "1m" "sh scripts/sys_info --get-dbus-status")
 
