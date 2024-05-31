@@ -109,7 +109,7 @@
     :orientation "h"
     :space-evenly false
     :class "container"
-    (label :text volume-icon)
+    (label :text volume-icon :width 30)
     (scale
       :value {volume-icon == "" ? 0 : volume}
       :orientation "h"
@@ -128,7 +128,7 @@
     :space-evenly false
     :class "container"
     :visible {brightness-exists == 1}
-    (label :text "󰃠")
+    (label :text "󰃠" :width 30)
     (scale
       :value {brightness ?: 0}
       :orientation "h"
