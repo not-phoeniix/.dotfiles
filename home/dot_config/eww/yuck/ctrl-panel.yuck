@@ -95,7 +95,7 @@
 
 (defwidget reset-eww-button []
   (eventbox
-    :onclick "eww kill && eww open bar"
+    :onclick "killall eww && eww open bar"
     :class "ctrl-infobox"
     (box :class "container" :orientation "v"
       (label :text "" :class "ctrl-label")

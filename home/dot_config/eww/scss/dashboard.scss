@@ -1,20 +1,17 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //   dashboard stylesheet
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
-
 .dashboard {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.pfp {
-    background-size: 100%;
-    background-repeat: no-repeat;
-    border-radius: 100px;
-}
-
 .cal-date {
     margin: 13px;
+}
+
+.updatable-count {
+    color: transparentize($color1, 0.2);
 }
 
 .app-icon {
@@ -36,27 +33,31 @@
     .music-gradient {
         background: transparentize($color0, 0.4);
     }
+}
+
+.media-info {
+    margin: 15px;
 
     .song-title {
-        font-size: 30px;
+        font-size: 35px;
     }
 
     .song-artist {
         color: transparentize($foreground, 0.4);
         font-size: 25px;
     }
-}
 
-.media-volume {
-    trough {
-        // background-color: $color0;
-        min-width: 10px;
-        border-radius: 5px;
-        margin: 15px;
-
-        highlight {
-            background-color: $color1;
+    .media-volume {
+        trough {
+            // background-color: $color0;
+            min-width: 20px;
+            min-height: 10px;
             border-radius: 5px;
+
+            highlight {
+                background-color: $color1;
+                border-radius: 5px;
+            }
         }
     }
 }

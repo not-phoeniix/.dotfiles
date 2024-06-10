@@ -82,6 +82,12 @@
       :class "container"
       :spacing 10
 
+      (systray
+        :orientation {bar-is-vertical ? "v" : "h"}
+        :spacing 10
+        :icon-size 28
+      )
+
       (box :visible {dnd-enabled == "1"}
         (dnd-icon)
       )
@@ -106,6 +112,14 @@
       :class "container"
       (label :text hour)
       (label :text minute :class "accent")
+    )
+  )
+)
+
+(defwidget start-opener []
+  (eventbox :class "bar-widget"
+    (box :class "container"
+      (label :text "󰀻")
     )
   )
 )
@@ -141,17 +155,9 @@
     (box :orientation {bar-is-vertical ? "v" : "h"} :valign "end" :space-evenly false
       (dbus-notif)
       (virtual-keyboard)
-      (box :class "bar-widget"
-        (box :class "container"
-          (systray
-            :orientation {bar-is-vertical ? "v" : "h"}
-            :spacing 10
-            :icon-size 28
-          )
-        )
-      )
       (ctrl)
       (time)
+      (start-opener)
     )
   )
 )
