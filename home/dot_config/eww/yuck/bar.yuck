@@ -1,7 +1,7 @@
 ; ~~~ widgets ~~~
 
 (defwidget workspaces []
-  (literal :content workspaces)
+  (literal :content workspaces-literal)
 )
 
 (defwidget virtual-keyboard []
@@ -117,7 +117,9 @@
 )
 
 (defwidget start-opener []
-  (eventbox :class "bar-widget"
+  (eventbox
+    :class "bar-widget ${apps-opened == true ? 'open' : ''}"
+    :onclick "sh scripts/panel_opener --toggle-apps"
     (box :class "container"
       (label :text "󰀻")
     )
@@ -136,9 +138,9 @@
   )
   ; horizontal geometry
   ; :geometry (geometry
-  ;   :height 70
-  ;   :width "100%"
-  ;   :anchor "top center"
+    ;   :height 70
+    ;   :width "100%"
+    ;   :anchor "top center"
   ; )
   :exclusive true
   (centerbox :orientation {bar-is-vertical ? "v" : "h"} :class "panel" :style "border-radius: 0px; padding: 2px;"

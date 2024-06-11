@@ -16,38 +16,6 @@
   )
 )
 
-(defvar icon-path "/usr/share/icons/Papirus-Dark")
-(defvar apps-path "/usr/share/applications")
-
-(defwidget app-icon [program-name ?icon]
-  (button
-    :onclick "dex ${apps-path}/${program-name}.desktop"
-    (image :path "${icon-path}/64x64/apps/${icon ?: program-name}.svg")
-  )
-)
-
-(defwidget apps []
-  (box :orientation "v" :class "container"
-    (box :orientation "h" :space-evenly true
-      (app-icon :program-name "firefox")
-      (app-icon :program-name "code")
-      (app-icon :program-name "com.github.xournalpp.xournalpp")
-    )
-
-    (box :orientation "h" :space-evenly true
-      (app-icon :program-name "aseprite")
-      (app-icon :program-name "gimp")
-      (app-icon :program-name "com.obsproject.Studio")
-    )
-
-    (box :orientation "h" :space-evenly true
-      (app-icon :program-name "steam")
-      (app-icon :program-name "discord")
-      (app-icon :program-name "spotify-launcher" :icon "spotify")
-    )
-  )
-)
-
 (defwidget now-playing []
   (box
     :class "container"

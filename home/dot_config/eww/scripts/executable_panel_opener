@@ -6,36 +6,24 @@ toggle_bar() {
     eww close bar || eww open bar
 }
 
-toggle_dock() {
-    eww close dock || eww open dock
-}
-
 toggle_wlsunset() {
     killall wlsunset || wlsunset &
 }
 
-toggle_ctrl() {
-    CURRENT_STATE=$(eww get ctrl-opened)
-
+# toggles a panel that has a variable
+#   keeping track of its open state
+#
+# params:
+# $1 == name of window to toggle
+# $2 == name of variable to toggle
+toggle_panel() {
+    CURRENT_STATE=$(eww get $2)
     if [[ $CURRENT_STATE == "true" ]]; then
-        eww close ctrl-panel
-        eww update ctrl-opened=false
+        eww update $2=false
+        eww close $1
     else
-        eww open ctrl-panel
-        eww update ctrl-opened=true
-    fi
-}
-
-toggle_dashboard() {
-    # toggle state of the dashboard-opened variable:
-    CURRENT_STATE=$(eww get dashboard-opened)
-    if [[ $CURRENT_STATE == "true" ]]; then
-        # update variable, wait a second, then close the window
-        eww update dashboard-opened=false
-        eww close dashboard
-    else
-        eww open dashboard
-        eww update dashboard-opened=true
+        eww open $1
+        eww update $2=true
     fi
 }
 
@@ -45,10 +33,20 @@ case "$1" in
         ;;
 
     "--toggle-ctrl")
-        toggle_ctrl
+        toggle_panel "ctrl-panel" "ctrl-opened"
+        if [[ $(eww get apps-opened) == "true" ]]; then
+            toggle_panel "apps-panel" "apps-opened"
+        fi
         ;;
 
     "--toggle-dashboard")
-        toggle_dashboard
+        toggle_panel "dashboard" "dashboard-opened"
+        ;;
+
+    "--toggle-apps")
+        toggle_panel "apps-panel" "apps-opened"
+        if [[ $(eww get ctrl-opened) == "true" ]]; then
+            toggle_panel "ctrl-panel" "ctrl-opened"
+        fi
         ;;
 esac
