@@ -1,0 +1,87 @@
+(defvar icon-path "/usr/share/icons/Papirus-Dark")
+(defvar apps-path "/usr/share/applications")
+
+(defwidget app-entry [name icon]
+  (eventbox
+    :class "app-entry"
+    :onclick "dex ${apps-path}/${name}.desktop"
+    (box :class "container" :orientation "h" :space-evenly false :spacing 15
+      (image :icon icon :icon-size "dnd")
+      (label
+        :text name
+        :xalign 0
+      )
+    )
+  )
+)
+
+(defwidget apps-page [literal-content name]
+  (box
+    :orientation "v"
+    :class "container"
+    :space-evenly false
+    :visible {apps-current-page == name}
+    :vexpand true
+    (label :text name :class "current-page-label")
+    (scroll
+      :vscroll true
+      :hscroll false
+      :vexpand true
+      :visible {literal-content != ""}
+      (literal :content "${literal-content ?: ''}")
+    )
+    (label
+      :text "indexing page \"${name}\"..."
+      :visible {literal-content == ""}
+      :vexpand true
+    )
+  )
+)
+
+(defwidget page-button [description icon-text]
+  (eventbox
+    :onclick "eww update apps-current-page='${description}'"
+    :class "page-button ${apps-current-page == description ? 'selected' : ''}"
+    :tooltip description
+    (box :class "container"
+      (label :text icon-text)
+    )
+  )
+)
+
+(defvar apps-opened false)
+(defvar apps-current-page "All Apps")
+(defwindow apps-panel
+  :monitor 0
+  :geometry (geometry
+    :x "10px"
+    :y "10px"
+    :width "25%"
+    :height "500px"
+    :anchor "bottom left"
+  )
+  :exclusive false
+
+  (eventbox
+    :onhoverlost "eww close apps-panel && eww update apps-opened=false"
+    ; :visible apps-opened
+    (box :class "panel"
+      (box :orientation "h" :space-evenly false :vexpand true
+        (box :orientation "v" :hexpand true
+          (apps-page :literal-content "" :name "Favs")
+          (apps-page :literal-content games-apps-literal :name "Games")
+          (apps-page :literal-content network-apps-literal :name "Network")
+          (apps-page :literal-content audio-apps-literal :name "Audio")
+          (apps-page :literal-content all-apps-literal :name "All Apps")
+        )
+        (box :orientation "v"
+          (page-button :description "Favs" :icon-text "")
+          (page-button :description "Games" :icon-text "󰮂")
+          (page-button :description "Audio" :icon-text "")
+          (page-button :description "Network" :icon-text "")
+          (page-button :description "All Apps" :icon-text "")
+        )
+      )
+    )
+  )
+)
