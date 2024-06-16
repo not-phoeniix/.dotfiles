@@ -2,3 +2,4 @@
 (include "yuck/bar.yuck")
 (include "yuck/ctrl-panel.yuck")
 (include "yuck/dashboard.yuck")
+(include "yuck/apps-panel.yuck")

@@ -8,7 +8,7 @@
 (defpoll day :interval "1m" `date "+%d"`)
 (defpoll year :interval "1m" `date "+%Y"`)
 
-(deflisten workspaces :initial "[]" "sh scripts/workspaces --get-workspaces $(eww get bar-is-vertical)")
+(deflisten workspaces-literal :initial "[]" "sh scripts/workspaces --get-workspaces $(eww get bar-is-vertical)")
 (defpoll uptime :interval "10s" "uptime -p")
 (defpoll dbus-running :interval "1m" "sh scripts/sys_info --get-dbus-status")
 
@@ -39,3 +39,8 @@
 (deflisten song-artist :initial "" "playerctl --follow metadata --format '{{artist}}'")
 (defpoll media-volume :interval "0.5s" "sh scripts/sys_info --get-media-vol")
 (defpoll num-updates :interval "1h" "checkupdates | wc -l")
+
+(defpoll all-apps-literal :interval "1h" "sh scripts/apps_getter")
+(defpoll games-apps-literal :interval "1h" "sh scripts/apps_getter 'Game'")
+(defpoll audio-apps-literal :interval "1h" "sh scripts/apps_getter 'Audio'")
+(defpoll network-apps-literal :interval "1h" "sh scripts/apps_getter 'Network'")

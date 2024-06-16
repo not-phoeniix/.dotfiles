@@ -72,5 +72,3 @@ case "$1" in
         done
         ;;
 esac
-
-# hyprctl workspaces -j | jq -c
