@@ -45,8 +45,6 @@ const WorkspacesMain = Widget.Box({
 });
 
 const WorkspacesSpecial = Widget.Box({
-    className: "widget",
-    css: "background-color: transparent;",
     vertical: IsVertical.bind(),
     spacing: 5,
     children: [
@@ -183,7 +181,7 @@ const BarWidgets = Widget.CenterBox({
 
     startWidget: Widget.Box({
         vertical: IsVertical.bind(),
-        spacing: 10,
+        spacing: 20,
         children: [
             Widget.Label({ label: "" }),
             WorkspacesMain,

@@ -4,7 +4,7 @@
 unset -v IMG_PATH
 unset -v THEME_NAME
 SCHEMES_DIR=$HOME/.config/wal/colorschemes
-USAGE="change_theme.sh [-l] [-t] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-t theme_name (without '.json')] \n\t[-i bg_image (path)]"
+USAGE="change_theme.sh [-l] [-t] [-L] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-t theme_name (without '.json')]\n\t[-L (use flag if light mode)]\n\t[-i bg_image (path)]"
 
 set -e
 
@@ -16,8 +16,10 @@ if [[ -z "$@" ]]; then
 	exit 0
 fi
 
+is_light_theme="false"
+
 # parsing arguments (a colon after means it accepts arguments)
-while getopts 't:i:hl' opt; do
+while getopts 't:i:hlL' opt; do
 	case "$opt" in
 		h) # help
 			echo -e "usage: $USAGE"
@@ -32,6 +34,10 @@ while getopts 't:i:hl' opt; do
 
 		t) # theme name
 			THEME_NAME="$OPTARG"
+			;;
+
+		L) # light mode
+			is_light_theme="true"
 			;;
 
 		i) # image path
@@ -63,7 +69,12 @@ fi
 
 # update pywal
 wal -n -i $IMG_PATH
-wal -n --theme $THEME_NAME
+
+if [[ $is_light_mode == "true" ]]; then
+	wal -n --theme $THEME_NAME -l
+else 
+	wal -n --theme $THEME_NAME
+fi
 
 # update other app colors
 spicetify config color_scheme $THEME_NAME &
@@ -74,9 +85,9 @@ $HOME/.config/mako/update-theme.sh &
 killall swaybg
 swaybg -i "$IMG_PATH" &> /dev/null &
 
-spicetify apply
+$HOME/.config/ags/open.sh
 
-eww reload
+spicetify apply
 
 echo
 echo "successfully changed theme to $THEME_NAME! :]"

@@ -10,10 +10,16 @@ const ChangeVerticalityButton = Widget.Button({
 });
 
 const RestartAgsButton = Widget.Button({
-    label: "ags ",
+    label: "",
     className: "widget",
     onClicked: () => Utils.exec(App.configDir + "/open.sh")
 });
+
+const ShowGuysButton = Widget.Button({
+    label: "",
+    className: "widget",
+    onClicked: () => App.toggleWindow("freaking_guys")
+})
 
 const VolumeBar = Widget.Box({
     className: "widget",
@@ -27,7 +33,9 @@ const VolumeBar = Widget.Box({
             self.value = audio.speaker.volume;
         })
     ]
-})
+});
+
+// #region Session buttons
 
 const DoubleClickButton = (label, onExecute = () => { }, className = "widget", tmpClickedClassName = "widget alert") => Widget.Button({
     className: className,
@@ -50,7 +58,7 @@ const DoubleClickButton = (label, onExecute = () => { }, className = "widget", t
             self.className = className;
         };
     }
-})
+});
 
 const WidgetSpacing = 10;
 
@@ -65,12 +73,13 @@ const SessionButtons = Widget.Box({
     ]
 });
 
+// #endregion
+
 const CtrlWidgets = Widget.Box({
     vertical: true,
     spacing: WidgetSpacing,
-    // homogeneous: true,
     children: [
-        Widget.Label({ label: "ctrl panel :3" }),
+        Widget.Label({ label: "girl panel" }),
         Widget.Box({
             spacing: WidgetSpacing,
             vertical: false,
@@ -78,6 +87,7 @@ const CtrlWidgets = Widget.Box({
             children: [
                 RestartAgsButton,
                 ChangeVerticalityButton,
+                ShowGuysButton
             ]
         }),
         VolumeBar,

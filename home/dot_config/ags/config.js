@@ -1,6 +1,7 @@
-import { Bar, IsVertical } from "./widgets/bar.js";
-import { CtrlPanel } from "./widgets/ctrl_panel.js";
-import { Dashboard } from "./widgets/dashboard.js"
+import { Bar, IsVertical } from "./panels/bar.js";
+import { CtrlPanel } from "./panels/ctrl_panel.js";
+import { Dashboard } from "./panels/dashboard.js"
+import { FreakingGuys } from "./panels/freaking_guys.js"
 
 const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
 Utils.exec(`mkdir -p ${CachePath}`);
@@ -59,13 +60,23 @@ reloadStyling();
 
 // #endregion
 
+// #region Freaking guys cache reading
+
+const guysPath = CachePath + "/guys.json";
+const guysJsonString = Utils.readFile(guysPath);
+const guys = guysJsonString ? JSON.parse(guysJsonString) : [];
+
+// #endregion
+
 App.config({
     windows: [
         Bar(0),
         CtrlPanel,
-        Dashboard
+        Dashboard,
+        FreakingGuys(guys),
     ]
 });
 
 App.closeWindow("ctrl_panel");
 App.closeWindow("dashboard");
+App.closeWindow("freaking_guys");

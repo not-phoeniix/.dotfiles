@@ -1,59 +1,25 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //   dashboard stylesheet
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.cal-date {
-    margin: 13px;
-}
-
-.updatable-count {
-    color: transparentize($color1, 0.2);
-}
-
-.app-icon {
-    border-radius: 8px;
-
-    &:hover {
-        background-color: $color8;
-    }
-
-    &:active {
-        background-color: $color1;
-    }
-}
-
-.now-playing {
+.media-cover-art {
     background-size: 100%;
-    background-repeat: no-repeat;
-
-    .music-gradient {
-        background: transparentize($color0, 0.4);
-    }
+    border-radius: 10px;
 }
 
 .media-info {
-    margin: 15px;
+    padding: 20px;
+}
 
-    .song-title {
-        font-size: 35px;
-    }
+.media-title {
+    font-size: 35px;
+}
 
-    .song-artist {
-        color: transparentize($foreground, 0.4);
-        font-size: 25px;
-    }
+.media-artist {
+    font-size: 25px;
+    color: transparentize($foreground, 0.6);
+}
 
-    .media-volume {
-        trough {
-            // background-color: $color0;
-            min-width: 20px;
-            min-height: 10px;
-            border-radius: 5px;
-
-            highlight {
-                background-color: $color1;
-                border-radius: 5px;
-            }
-        }
-    }
+.media-progress-label {
+    font-size: 20px;
+    color: transparentize($foreground, 0.6);
 }
