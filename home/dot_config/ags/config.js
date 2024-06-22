@@ -2,9 +2,12 @@ import { Bar, IsVertical } from "./widgets/bar.js";
 import { CtrlPanel } from "./widgets/ctrl_panel.js";
 import { Dashboard } from "./widgets/dashboard.js"
 
+const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
+Utils.exec(`mkdir -p ${CachePath}`);
+
 // #region Settings JSON writing/loading
 
-const SettingsPath = "/tmp/ags_desktop_settings.json";
+const SettingsPath = CachePath + "/settings.json";
 
 function WriteSettings() {
     const settingsObj = {
@@ -42,7 +45,7 @@ ReadSettings();
 
 function reloadStyling() {
     const scss = `${App.configDir}/style.scss`;
-    const css = "/tmp/ags_style_compiled.css";
+    const css = CachePath + "/style.css";
     Utils.exec(`sassc ${scss} ${css}`);
 
     App.resetCss();

@@ -147,7 +147,7 @@ const BatIcon = Widget.Label({
 
 const StatusIcons = Widget.Box({
     className: "widget",
-    spacing: 4,
+    spacing: 10,
     vertical: IsVertical.bind(),
     children: [
         VolumeIcon(),
