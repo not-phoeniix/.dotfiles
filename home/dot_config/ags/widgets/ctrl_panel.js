@@ -1,4 +1,5 @@
 const audio = await Service.import("audio");
+const hyprland = await Service.import("hyprland");
 
 import { IsVertical, VolumeIcon } from "./bar.js";
 
@@ -9,7 +10,7 @@ const ChangeVerticalityButton = Widget.Button({
 });
 
 const RestartAgsButton = Widget.Button({
-    label: "",
+    label: "ags ",
     className: "widget",
     onClicked: () => Utils.exec(App.configDir + "/open.sh")
 });
@@ -28,7 +29,41 @@ const VolumeBar = Widget.Box({
     ]
 })
 
+const DoubleClickButton = (label, onExecute = () => { }, className = "widget", tmpClickedClassName = "widget alert") => Widget.Button({
+    className: className,
+    label: label,
+    setup: (self) => {
+        let isClicked = false;
+        self.onClicked = () => {
+            if (isClicked) {
+                onExecute();
+                isClicked = false;
+                self.className = className;
+            } else {
+                isClicked = true;
+                self.className = tmpClickedClassName;
+            }
+        };
+
+        self.onHoverLost = () => {
+            isClicked = false
+            self.className = className;
+        };
+    }
+})
+
 const WidgetSpacing = 10;
+
+const SessionButtons = Widget.Box({
+    spacing: WidgetSpacing,
+    vertical: false,
+    homogeneous: true,
+    children: [
+        DoubleClickButton("󰍃", () => hyprland.messageAsync("dispatch exit")),
+        DoubleClickButton("", () => Utils.exec("sudo reboot")),
+        DoubleClickButton("⏻", () => Utils.exec("sudo poweroff")),
+    ]
+});
 
 const CtrlWidgets = Widget.Box({
     vertical: true,
@@ -45,9 +80,12 @@ const CtrlWidgets = Widget.Box({
                 ChangeVerticalityButton,
             ]
         }),
-        VolumeBar
+        VolumeBar,
+        SessionButtons
     ]
 });
+
+// #region Window itself
 
 const VertAnchor = ["bottom", "left"];
 const HorizAnchor = ["top", "right"];
@@ -67,3 +105,5 @@ export const CtrlPanel = Widget.Window({
         ]
     })
 });
+
+// #endregion

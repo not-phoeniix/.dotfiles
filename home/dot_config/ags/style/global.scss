@@ -17,7 +17,7 @@
     background-color: $color0;
     color: $foreground;
     padding: 12px;
-    border-radius: 30px;
+    border-radius: 16px;
 }
 
 button {
@@ -25,10 +25,6 @@ button {
     color: $foreground;
     padding: 5px 10px;
     border-radius: 10px;
-
-    &.enabled {
-        background-color: $color1;
-    }
 
     &:hover {
         background-color: $color8;
@@ -47,10 +43,25 @@ button {
             background-color: $color9;
         }
     }
+
+    &.enabled {
+        background-color: $color1;
+    }
+
+    &.alert {
+        background-color: $color3;
+
+        &:hover {
+            background-color: $color3;
+
+            label {
+                color: $background;
+            }
+        }
+    }
 }
 
-levelbar,
-scale {
+levelbar {
     trough {
         background-color: $background;
         border-radius: 100px;
