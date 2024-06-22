@@ -1,43 +1,61 @@
-import { IsVertical } from "./bar.js";
+const audio = await Service.import("audio");
+
+import { IsVertical, VolumeIcon } from "./bar.js";
 
 const ChangeVerticalityButton = Widget.Button({
-    onClicked: () => {
-        IsVertical.value = !IsVertical.value;
-    },
     label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪"),
-    className: "widget"
+    className: "widget",
+    onClicked: () => IsVertical.value = !IsVertical.value
 });
 
 const RestartAgsButton = Widget.Button({
-    onClicked: () => Utils.exec(App.configDir + "/open.sh"),
     label: "",
-    className: "widget"
+    className: "widget",
+    onClicked: () => Utils.exec(App.configDir + "/open.sh")
 });
+
+const VolumeBar = Widget.Box({
+    className: "widget",
+    vertical: false,
+    spacing: 16,
+    children: [
+        VolumeIcon(),
+        Widget.LevelBar({
+            widthRequest: 300
+        }).hook(audio.speaker, (self) => {
+            self.value = audio.speaker.volume;
+        })
+    ]
+})
+
+const WidgetSpacing = 10;
 
 const CtrlWidgets = Widget.Box({
     vertical: true,
-    homogeneous: true,
+    spacing: WidgetSpacing,
+    // homogeneous: true,
     children: [
         Widget.Label({ label: "ctrl panel :3" }),
         Widget.Box({
+            spacing: WidgetSpacing,
             vertical: false,
             homogeneous: true,
             children: [
                 RestartAgsButton,
                 ChangeVerticalityButton,
             ]
-        })
+        }),
+        VolumeBar
     ]
 });
 
 const VertAnchor = ["bottom", "left"];
 const HorizAnchor = ["top", "right"];
 
-export const CtrlPanel = (monitor = 0) => Widget.Window({
-    monitor,
+export const CtrlPanel = Widget.Window({
+    monitor: 0,
     name: "ctrl_panel",
     anchor: IsVertical.bind().as(v => v ? VertAnchor : HorizAnchor),
-    // exclusivity: "normal",
     child: Widget.Box({
         spacing: 20,
         homogeneous: true,

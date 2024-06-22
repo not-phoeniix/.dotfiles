@@ -4,7 +4,7 @@ import { Dashboard } from "./widgets/dashboard.js"
 
 // #region Settings JSON writing/loading
 
-const SettingsPath = "/tmp/desktop_settings.json";
+const SettingsPath = "/tmp/ags_desktop_settings.json";
 
 function WriteSettings() {
     const settingsObj = {
@@ -42,7 +42,7 @@ ReadSettings();
 
 function reloadStyling() {
     const scss = `${App.configDir}/style.scss`;
-    const css = "/tmp/ags-style-compiled.css";
+    const css = "/tmp/ags_style_compiled.css";
     Utils.exec(`sassc ${scss} ${css}`);
 
     App.resetCss();
@@ -59,8 +59,8 @@ reloadStyling();
 App.config({
     windows: [
         Bar(0),
-        CtrlPanel(0),
-        Dashboard()
+        CtrlPanel,
+        Dashboard
     ]
 });
 

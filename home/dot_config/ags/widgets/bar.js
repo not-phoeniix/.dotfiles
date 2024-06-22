@@ -19,25 +19,7 @@ IsVertical.connect("changed", () => {
 
 // #region Workspaces
 
-const WorkspaceButton = (workspace, label = workspace) => Widget.Button({
-    attribute: workspace,
-    label: `${label}`,
-    tooltipText: `Workspace ${workspace}`,
-    onClicked: () => hyprland.messageAsync(`dispatch workspace ${workspace}`),
-    setup: (self) => self.hook(hyprland, () => {
-        self.className =
-            "workspace container " +
-            (hyprland.active.workspace.id === workspace ? "enabled" : "");
-    })
-});
-
-const CustomIcons = {
-    8: "",
-    9: "",
-    10: ""
-};
-
-const WorkspaceIcon = (workspace) => Widget.Button({
+const WorkspaceIcon = (workspace, hideIfNotExist = false, icon = "") => Widget.Button({
     attribute: workspace,
     onClicked: () => hyprland.messageAsync(`dispatch workspace ${workspace}`),
     setup: (self) => self.hook(hyprland, () => {
@@ -45,25 +27,33 @@ const WorkspaceIcon = (workspace) => Widget.Button({
         const workspaceExists = hyprland.workspaces.some((ws => ws.id === workspace));
 
         self.className = "workspace container " + (wsFocused ? "focused" : "");
+
         self.label = workspaceExists ? "" : "";
-        if (workspaceExists) {
-            self.label = CustomIcons[workspace];
+        if (icon != "") self.label = icon;
+
+        if (hideIfNotExist) {
+            self.visible = workspaceExists;
         }
     })
 });
 
-// const WorkspaceLabels = ["I", "II", "III", "IV", "V", "VI", "VII", "󰊖", "󰙯", ""];
-const Workspaces = Widget.Box({
-    vertical: IsVertical.bind(),
+const WorkspacesMain = Widget.Box({
     className: "widget",
-    // css: "padding: 0px;",
-    // children: Array.from({ length: 10 }, (_, i) => i + 1)
-    //     .map(i => WorkspaceButton(i, WorkspaceLabels[i - 1])),
-    // setup: (self) => self.hook(hyprland, () => self.children.forEach(btn => {
-    //     btn.visible = hyprland.workspaces.some(ws => ws.id === btn.attribute)
-    // }))
-    children: Array.from({ length: 10 }, (_, i) => i + 1)
+    vertical: IsVertical.bind(),
+    children: Array.from({ length: 5 }, (_, i) => i + 1)
         .map(i => WorkspaceIcon(i))
+});
+
+const WorkspacesSpecial = Widget.Box({
+    className: "widget",
+    css: "background-color: transparent;",
+    vertical: IsVertical.bind(),
+    spacing: 5,
+    children: [
+        WorkspaceIcon(6, true, ""),
+        WorkspaceIcon(7, true, ""),
+        WorkspaceIcon(8, true, ""),
+    ]
 });
 
 // #endregion
@@ -91,17 +81,35 @@ const SysTray = Widget.Box({
 const Time = Widget.Box({
     vertical: IsVertical.bind(),
     homogeneous: true,
-    className: "widget",
     spacing: 3,
     children: [
         Widget.Label({ label: Hour.bind() }),
         Widget.Label({ label: Minute.bind(), className: "accent" })
     ],
+
+    // set class names to change when dashboard window is toggled
+    setup: (self) => {
+        self.hook(
+            App,
+            (self, windowName, visible) => {
+                self.className =
+                    "widget " +
+                    (windowName == "dashboard" && visible ? "open" : "");
+            },
+            "window-toggled"
+        );
+    }
 });
 
 // #endregion
 
-// #region Battery
+// #region Status icons
+
+export const VolumeIcon = () => Widget.Label({
+    label: audio.speaker.bind("is_muted").as(m => m ? "󰝟" : "󰕾"),
+    // onMiddleClick: () => Utils.execAsync("pavucontrol"),
+    // onPrimaryClick: () => audio.speaker.is_muted = !audio.speaker.is_muted
+});
 
 const BatIconsDischarging = ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"];
 const BatIconCharging = "󰂄";
@@ -124,18 +132,32 @@ const BatIcon = Widget.Label({
                     break;
                 case "discharging":
                     const index = Math.floor(battery.percent / 100 * (BatIconsDischarging.length - 1));
-                    self.label = BatIconsDischarging[index];
+                    if (BatIconsDischarging[index]) {
+                        self.label = BatIconsDischarging[index];
+                    }
                     break;
             }
 
             self.tooltipText = `${state}: ${battery.percent}%`;
-            self.className = `widget ${state}`;
+            self.className = `${state}`;
         },
         "changed"
     )
 });
 
+const StatusIcons = Widget.Box({
+    className: "widget",
+    spacing: 4,
+    vertical: IsVertical.bind(),
+    children: [
+        VolumeIcon(),
+        BatIcon
+    ]
+})
+
 // #endregion
+
+// #region Toggle keyboard
 
 const keyboardOpen = Variable(Utils.exec("pgrep -l 'wvkbd-mobintl'") != "");
 function toggleKeyboard() {
@@ -154,31 +176,18 @@ const TouchKeyboardButton = Widget.Button({
     label: keyboardOpen.bind().as(o => o ? "󰌐" : "󰌌")
 });
 
-const AppsLauncherButton = Widget.Button({
-    onClicked: () => Utils.exec(
-        "notify-send -t 4000 " +
-        `"app launcher button :3" ` +
-        `"yeah yeah yeah check me out im gay and im also gay yeah yeah"`
-    ),
-    label: "",
-    className: "widget"
-})
-
-const VolumeIcon = Widget.Button({
-    label: audio.speaker.bind("is_muted").as(m => m ? "󰝟" : "󰕾"),
-    className: "widget",
-    onMiddleClick: () => Utils.execAsync("pavucontrol"),
-    onPrimaryClick: () => audio.speaker.is_muted = !audio.speaker.is_muted
-});
+// #endregion
 
 const BarWidgets = Widget.CenterBox({
     vertical: IsVertical.bind(),
 
     startWidget: Widget.Box({
         vertical: IsVertical.bind(),
+        spacing: 10,
         children: [
-            AppsLauncherButton,
-            Workspaces,
+            Widget.Label({ label: "" }),
+            WorkspacesMain,
+            WorkspacesSpecial,
 
             // expanding box to push above widgets to start
             Widget.Box({ vexpand: true, hexpand: true }),
@@ -186,12 +195,13 @@ const BarWidgets = Widget.CenterBox({
     }),
 
     centerWidget: Widget.Box({
+        spacing: 10,
         vertical: IsVertical.bind(),
-        children: [
-        ]
+        children: []
     }),
 
     endWidget: Widget.Box({
+        spacing: 10,
         vertical: IsVertical.bind(),
         children: [
             // expanding box to push below widgets to end
@@ -199,8 +209,7 @@ const BarWidgets = Widget.CenterBox({
 
             TouchKeyboardButton,
             SysTray,
-            VolumeIcon,
-            BatIcon,
+            StatusIcons,
             Time,
         ]
     })

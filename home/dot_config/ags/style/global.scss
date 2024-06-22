@@ -10,7 +10,7 @@
 .panel {
     background-color: $background;
     border-radius: 20px;
-    padding: 5px;
+    padding: 10px;
 }
 
 .widget {
@@ -18,7 +18,6 @@
     color: $foreground;
     padding: 10px 10px;
     border-radius: 30px;
-    margin: 5px;
 }
 
 button {
@@ -50,16 +49,14 @@ button {
     }
 }
 
+levelbar,
 scale {
     trough {
         background-color: $background;
-        min-height: 30px;
-        min-width: 100px;
         border-radius: 100px;
 
-        highlight {
-            // background: linear-gradient(135deg, $color1 30%, $color3);
-            background-color: $foreground;
+        .filled {
+            background-color: $color1;
             border-radius: 100px;
         }
     }
@@ -81,6 +78,14 @@ scale {
 .sub-header {
     font-size: 25px;
     color: $color8;
+}
+
+.open {
+    background-color: $color1;
+
+    .accent {
+        color: $background;
+    }
 }
 
 .widget>calendar>* {

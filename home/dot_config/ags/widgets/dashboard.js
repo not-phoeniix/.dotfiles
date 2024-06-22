@@ -74,7 +74,7 @@ const Calendar = Widget.Box({
     ]
 });
 
-export const Dashboard = () => Widget.Window({
+export const Dashboard = Widget.Window({
     monitor: 0,
     name: "dashboard",
     anchor: ["top", "bottom", "right"],
