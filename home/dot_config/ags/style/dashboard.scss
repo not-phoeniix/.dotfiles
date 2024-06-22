@@ -1,0 +1,59 @@
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+//   dashboard stylesheet
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.cal-date {
+    margin: 13px;
+}
+
+.updatable-count {
+    color: transparentize($color1, 0.2);
+}
+
+.app-icon {
+    border-radius: 8px;
+
+    &:hover {
+        background-color: $color8;
+    }
+
+    &:active {
+        background-color: $color1;
+    }
+}
+
+.now-playing {
+    background-size: 100%;
+    background-repeat: no-repeat;
+
+    .music-gradient {
+        background: transparentize($color0, 0.4);
+    }
+}
+
+.media-info {
+    margin: 15px;
+
+    .song-title {
+        font-size: 35px;
+    }
+
+    .song-artist {
+        color: transparentize($foreground, 0.4);
+        font-size: 25px;
+    }
+
+    .media-volume {
+        trough {
+            // background-color: $color0;
+            min-width: 20px;
+            min-height: 10px;
+            border-radius: 5px;
+
+            highlight {
+                background-color: $color1;
+                border-radius: 5px;
+            }
+        }
+    }
+}

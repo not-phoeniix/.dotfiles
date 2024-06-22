@@ -1,0 +1,23 @@
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+//     taskbar stylesheet
+// ~~~~~~~~~~~~~~~~~~~~~~~~~
+.workspace {
+    padding: 3px;
+
+    * {
+        font-size: 20px;
+    }
+
+    &.focused * {
+        color: $color1;
+    }
+}
+
+.charging {
+    color: $background;
+    background-color: $color3;
+}
+
+.charged {
+    color: $color2;
+}
