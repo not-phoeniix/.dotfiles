@@ -62,7 +62,7 @@ reloadStyling();
 
 // #region Freaking guys cache reading
 
-const guysPath = CachePath + "/guys.json";
+const guysPath = App.configDir + "/guys.json";
 const guysJsonString = Utils.readFile(guysPath);
 const guys = guysJsonString ? JSON.parse(guysJsonString) : [];
 
