@@ -1,7 +1,8 @@
 const audio = await Service.import("audio");
 const hyprland = await Service.import("hyprland");
+const battery = await Service.import("battery");
 
-import { IsVertical, VolumeIcon } from "./bar.js";
+import { IsVertical, VolumeIcon, BatteryIcon } from "./bar.js";
 
 const ChangeVerticalityButton = Widget.Button({
     label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪"),
@@ -21,6 +22,44 @@ const ShowGuysButton = Widget.Button({
     onClicked: () => App.toggleWindow("freaking_guys")
 })
 
+// #region Battery 
+
+function secToHourMin(seconds) {
+    const hour = Math.floor(seconds / 3600);
+    const min = Math.floor(seconds / 60) % 60;
+    const min0 = min < 10 ? "0" : "";
+    return `${hour}:${min0}${min}`;
+}
+
+const BatteryStatus = Widget.Button({
+    className: "widget",
+    onClicked: () => Utils.exec("notify-send \"battery noise\" \"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\""),
+    visible: battery.available,
+    child: Widget.Box({
+        spacing: 4,
+        hpack: "center",
+        vertical: true,
+        children: [
+            Widget.Box({
+                hpack: "center",
+                spacing: 5,
+                children: [
+                    BatteryIcon(),
+                    Widget.Label({ label: battery.bind("percent").as(p => `${p}%`) })
+                ]
+            }),
+            Widget.Label({
+                label: battery.bind("time_remaining").as(r => 
+                    secToHourMin(r) + (battery.charging ? " till charged" : " remaining")
+                ),
+                className: "description"
+            })
+        ]
+    })
+})
+
+// #endregion
+
 const VolumeBar = Widget.Box({
     className: "widget",
     vertical: false,
@@ -28,7 +67,7 @@ const VolumeBar = Widget.Box({
     children: [
         VolumeIcon(),
         Widget.LevelBar({
-            widthRequest: 300
+            widthRequest: 400
         }).hook(audio.speaker, (self) => {
             self.value = audio.speaker.volume;
         })
@@ -91,19 +130,24 @@ const CtrlWidgets = Widget.Box({
             ]
         }),
         VolumeBar,
-        SessionButtons
+        Widget.Box({
+            spacing: WidgetSpacing,
+            vertical: false,
+            homogeneous: true,
+            children: [
+                BatteryStatus,
+                SessionButtons
+            ]
+        })
     ]
 });
 
 // #region Window itself
 
-const VertAnchor = ["bottom", "left"];
-const HorizAnchor = ["top", "right"];
-
-export const CtrlPanel = Widget.Window({
+export const QuickSettings = Widget.Window({
     monitor: 0,
-    name: "ctrl_panel",
-    anchor: IsVertical.bind().as(v => v ? VertAnchor : HorizAnchor),
+    name: "quick_settings",
+    anchor: ["top", "left"],
     child: Widget.Box({
         spacing: 20,
         homogeneous: true,
