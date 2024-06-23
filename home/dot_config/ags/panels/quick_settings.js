@@ -34,7 +34,7 @@ function secToHourMin(seconds) {
 const BatteryStatus = Widget.Button({
     className: "widget",
     onClicked: () => Utils.exec("notify-send \"battery noise\" \"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\""),
-    visible: battery.available,
+    visible: battery.bind("available"),
     child: Widget.Box({
         spacing: 4,
         hpack: "center",
