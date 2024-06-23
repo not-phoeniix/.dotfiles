@@ -20,10 +20,13 @@ const Guy = (imgUrl, imgWidth, imgHeight, requestor = "idk lol") => Widget.Box({
 export const FreakingGuys = (guysArray = []) => Widget.Window({
     monitor: 0,
     name: "freaking_guys",
+    keymode: "on-demand",
     child: Widget.Box({
         className: "panel",
         vertical: true,
         spacing: 10,
         children: guysArray.map(g => Guy(g.url, g.width, g.height, g.requestor))
     })
-})
+}).keybind("Escape", () => {
+    App.closeWindow("freaking_guys");
+});

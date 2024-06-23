@@ -11,6 +11,7 @@
     background-color: $background;
     border-radius: 20px;
     padding: 10px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
 }
 
 .widget {
@@ -18,6 +19,11 @@
     color: $foreground;
     padding: 12px;
     border-radius: 16px;
+}
+
+.description {
+    color: $color8;
+    font-size: 24;
 }
 
 button {
@@ -28,6 +34,10 @@ button {
 
     &:hover {
         background-color: $color8;
+
+        .description {
+            color: $color0;
+        }
     }
 
     &:active {
@@ -37,6 +47,10 @@ button {
     &.widget {
         &:hover {
             background-color: $color1;
+
+            .accent {
+                color: $background;
+            }
         }
 
         &:active {

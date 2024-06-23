@@ -20,3 +20,19 @@
 .charged {
     color: $color2;
 }
+
+.logo {
+
+    &.open,
+    &:hover {
+        background-color: unset;
+
+        label {
+            color: $color1;
+        }
+    }
+
+    &:active label {
+        color: $color9;
+    }
+}

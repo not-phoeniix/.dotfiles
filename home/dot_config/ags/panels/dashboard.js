@@ -120,7 +120,7 @@ const MediaInfo = (player) => Widget.Box({
 const Player = (player) => Widget.Box({
     vertical: false,
     children: [
-        CoverArt(player, 250),
+        CoverArt(player),
         MediaInfo(player),
     ]
 })
@@ -169,8 +169,10 @@ export const Dashboard = Widget.Window({
     anchor: ["top", "bottom", "right"],
     child: Widget.Box({
         className: "panel",
-        css: `border-top-right-radius: 0px;
-              border-bottom-right-radius: 0px;`,
+        css: `
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+        `,
         vertical: true,
         spacing: 15,
         children: [

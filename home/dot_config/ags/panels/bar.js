@@ -17,6 +17,23 @@ IsVertical.connect("changed", () => {
     hyprland.messageAsync("keyword animation workspaces,1,3,default," + style);
 });
 
+const LogoButton = Widget.Button({
+    onClicked: () => App.toggleWindow("quick_settings"),
+    className: "logo",
+    label: "",
+    setup: (self) => {
+        self.hook(
+            App,
+            (self, windowName, visible) => {
+                self.className =
+                    "logo " +
+                    (windowName == "quick_settings" && visible ? "open" : "");
+            },
+            "window-toggled"
+        )
+    }
+});
+
 // #region Workspaces
 
 const WorkspaceIcon = (workspace, hideIfNotExist = false, icon = "") => Widget.Button({
@@ -76,14 +93,17 @@ const SysTray = Widget.Box({
 
 // #region Time
 
-const Time = Widget.Box({
-    vertical: IsVertical.bind(),
-    homogeneous: true,
-    spacing: 3,
-    children: [
-        Widget.Label({ label: Hour.bind() }),
-        Widget.Label({ label: Minute.bind(), className: "accent" })
-    ],
+const Time = Widget.Button({
+    onClicked: () => App.toggleWindow("dashboard"),
+    child: Widget.Box({
+        vertical: IsVertical.bind(),
+        homogeneous: true,
+        spacing: 3,
+        children: [
+            Widget.Label({ label: Hour.bind() }),
+            Widget.Label({ label: Minute.bind(), className: "accent" })
+        ]
+    }),
 
     // set class names to change when dashboard window is toggled
     setup: (self) => {
@@ -113,7 +133,7 @@ const BatIconsDischarging = ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "�
 const BatIconCharging = "󰂄";
 const BatIconCharged = "󱈑";
 
-const BatIcon = Widget.Label({
+export const BatteryIcon = () => Widget.Label({
     setup: (self) => self.hook(
         battery,
         (self) => {
@@ -149,7 +169,7 @@ const StatusIcons = Widget.Box({
     vertical: IsVertical.bind(),
     children: [
         VolumeIcon(),
-        BatIcon
+        BatteryIcon()
     ]
 })
 
@@ -169,7 +189,7 @@ function toggleKeyboard() {
 }
 
 const TouchKeyboardButton = Widget.Button({
-    on_clicked: toggleKeyboard,
+    onClicked: toggleKeyboard,
     className: "widget",
     label: keyboardOpen.bind().as(o => o ? "󰌐" : "󰌌")
 });
@@ -183,7 +203,7 @@ const BarWidgets = Widget.CenterBox({
         vertical: IsVertical.bind(),
         spacing: 20,
         children: [
-            Widget.Label({ label: "" }),
+            LogoButton,
             WorkspacesMain,
             WorkspacesSpecial,
 

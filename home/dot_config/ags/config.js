@@ -1,5 +1,5 @@
 import { Bar, IsVertical } from "./panels/bar.js";
-import { CtrlPanel } from "./panels/ctrl_panel.js";
+import { QuickSettings } from "./panels/quick_settings.js";
 import { Dashboard } from "./panels/dashboard.js"
 import { FreakingGuys } from "./panels/freaking_guys.js"
 
@@ -60,7 +60,7 @@ reloadStyling();
 
 // #endregion
 
-// #region Freaking guys cache reading
+// #region Freaking guys config reading
 
 const guysPath = App.configDir + "/guys.json";
 const guysJsonString = Utils.readFile(guysPath);
@@ -71,12 +71,12 @@ const guys = guysJsonString ? JSON.parse(guysJsonString) : [];
 App.config({
     windows: [
         Bar(0),
-        CtrlPanel,
+        QuickSettings,
         Dashboard,
         FreakingGuys(guys),
     ]
 });
 
-App.closeWindow("ctrl_panel");
+App.closeWindow("quick_settings");
 App.closeWindow("dashboard");
 App.closeWindow("freaking_guys");
