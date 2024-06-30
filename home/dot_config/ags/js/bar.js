@@ -6,6 +6,8 @@ const hyprland = await Service.import("hyprland");
 const battery = await Service.import("battery");
 const systemtray = await Service.import("systemtray");
 const audio = await Service.import("audio");
+const network = await Service.import("network");
+const bluetooth = await Service.import("bluetooth");
 
 import { Hour, Minute } from "../variables.js"
 
@@ -17,29 +19,23 @@ IsVertical.connect("changed", () => {
     hyprland.messageAsync("keyword animation workspaces,1,3,default," + style);
 });
 
+// #region Logo button
+
 const LogoButton = Widget.Button({
-    onClicked: () => App.toggleWindow("quick_settings"),
+    onClicked: () => Utils.exec("notify-send 'under construction' 'this is gonna open the app launcher i write later uwu'"),
     className: "logo",
-    label: "",
-    setup: (self) => {
-        self.hook(
-            App,
-            (self, windowName, visible) => {
-                self.className =
-                    "logo " +
-                    (windowName == "quick_settings" && visible ? "open" : "");
-            },
-            "window-toggled"
-        )
-    }
+    label: ""
 });
+
+// #endregion
 
 // #region Workspaces
 
 const WorkspaceIcon = (workspace, hideIfNotExist = false, icon = "") => Widget.Button({
     attribute: workspace,
-    onClicked: () => hyprland.messageAsync(`dispatch workspace ${workspace}`),
-    setup: (self) => self.hook(hyprland, () => {
+    onClicked: () => hyprland.messageAsync(`dispatch workspace ${workspace}`)
+}).hook(
+    hyprland, (self) => {
         const wsFocused = hyprland.active.workspace.id === workspace;
         const workspaceExists = hyprland.workspaces.some((ws => ws.id === workspace));
 
@@ -51,8 +47,8 @@ const WorkspaceIcon = (workspace, hideIfNotExist = false, icon = "") => Widget.B
         if (hideIfNotExist) {
             self.visible = workspaceExists;
         }
-    })
-});
+    }
+);
 
 const WorkspacesMain = Widget.Box({
     className: "widget",
@@ -95,6 +91,7 @@ const SysTray = Widget.Box({
 
 const Time = Widget.Button({
     onClicked: () => App.toggleWindow("dashboard"),
+    className: "widget",
     child: Widget.Box({
         vertical: IsVertical.bind(),
         homogeneous: true,
@@ -104,20 +101,11 @@ const Time = Widget.Button({
             Widget.Label({ label: Minute.bind(), className: "accent" })
         ]
     }),
-
-    // set class names to change when dashboard window is toggled
-    setup: (self) => {
-        self.hook(
-            App,
-            (self, windowName, visible) => {
-                self.className =
-                    "widget " +
-                    (windowName == "dashboard" && visible ? "open" : "");
-            },
-            "window-toggled"
-        );
+}).hook(App, (self, windowName, visible) => {
+    if (windowName == "dashboard") {
+        self.toggleClassName("open", visible);
     }
-});
+}, "window-toggled");
 
 // #endregion
 
@@ -125,53 +113,98 @@ const Time = Widget.Button({
 
 export const VolumeIcon = () => Widget.Label({
     label: audio.speaker.bind("is_muted").as(m => m ? "󰝟" : "󰕾"),
-    // onMiddleClick: () => Utils.execAsync("pavucontrol"),
-    // onPrimaryClick: () => audio.speaker.is_muted = !audio.speaker.is_muted
 });
 
-const BatIconsDischarging = ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"];
-const BatIconCharging = "󰂄";
-const BatIconCharged = "󱈑";
+export const BatteryIcon = () => Widget.Label().hook(
+    battery,
+    (self) => {
+        self.visible = battery.available;
 
-export const BatteryIcon = () => Widget.Label({
-    setup: (self) => self.hook(
-        battery,
-        (self) => {
-            self.visible = battery.available;
+        const state = battery.charged ? "charged" : battery.charging ? "charging" : "discharging";
 
-            const state = battery.charged ? "charged" : battery.charging ? "charging" : "discharging";
+        switch (state) {
+            case "charging":
+                self.label = "󰂄";
+                break;
+            case "charged":
+                self.label = "󱈑";
+                break;
+            case "discharging":
+                const icons = ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"];
+                const index = Math.floor(battery.percent / 100 * (icons.length - 1));
+                if (icons[index]) {
+                    self.label = icons[index];
+                }
+                break;
+        }
 
-            switch (state) {
-                case "charging":
-                    self.label = BatIconCharging;
-                    break;
-                case "charged":
-                    self.label = BatIconCharged;
-                    break;
-                case "discharging":
-                    const index = Math.floor(battery.percent / 100 * (BatIconsDischarging.length - 1));
-                    if (BatIconsDischarging[index]) {
-                        self.label = BatIconsDischarging[index];
-                    }
-                    break;
-            }
+        self.tooltipText = `${state}: ${battery.percent}%`;
+        self.className = `${state}`;
+    },
+    "changed"
+);
 
-            self.tooltipText = `${state}: ${battery.percent}%`;
-            self.className = `${state}`;
-        },
-        "changed"
-    )
+const WifiIcon = () => Widget.Stack({
+    children: {
+        "disabled": Widget.Label("󰤮"),
+        "connecting": Widget.Label("󰤫"),
+        "disconnected": Widget.Label("󰤫"),
+        "connected": Widget.Label({
+            label: network.wifi.bind("strength").as(s => {
+                const icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"];
+                const index = Math.floor((s / 100) * (icons.length - 1));
+                return icons[index];
+            }),
+            visible:
+                network.wifi.bind("enabled") &&
+                network.wifi.bind("internet").as(i => i == "connected"),
+        })
+    },
+    shown: network.wifi.bind("internet").as(i => network.wifi.enabled ? i : "disabled")
 });
 
-const StatusIcons = Widget.Box({
-    className: "widget",
-    spacing: 10,
-    vertical: IsVertical.bind(),
-    children: [
-        VolumeIcon(),
-        BatteryIcon()
-    ]
+const WiredIcon = () => Widget.Stack({
+    children: {
+        "connected": Widget.Label("󰈁"),
+        "connecting": Widget.Label("󰈂"),
+        "disconnected": Widget.Label("󰈂"),
+    }
+});
+
+export const NetworkIcon = () => Widget.Stack({
+    children: {
+        "wifi": WifiIcon(),
+        "wired": WiredIcon()
+    },
+    shown: network.bind("primary").as(p => p || "wifi")
+});
+
+export const BluetoothIcon = () => Widget.Label().hook(bluetooth, (self) => {
+    self.label = bluetooth.connected_devices.length > 0 ? "󰂱" : bluetooth.enabled ? "󰂯" : "󰂲";
 })
+
+const StatusIcons = Widget.Button({
+    className: "widget",
+    onClicked: () => App.toggleWindow("quick_settings"),
+    child: Widget.Box({
+        spacing: 10,
+        vertical: IsVertical.bind(),
+        children: [
+            NetworkIcon(),
+            BluetoothIcon(),
+            VolumeIcon(),
+            BatteryIcon()
+        ]
+    })
+}).hook(
+    App,
+    (self, windowName, visible) => {
+        if (windowName == "quick_settings") {
+            self.toggleClassName("open", visible);
+        }
+    },
+    "window-toggled"
+);
 
 // #endregion
 

@@ -16,19 +16,16 @@
 
 .widget {
     background-color: $color0;
-    color: $foreground;
     padding: 12px;
     border-radius: 16px;
 }
 
 .description {
     color: $color8;
-    font-size: 24;
+    font-size: 22;
 }
 
 button {
-    // background-color: $color0;
-    color: $foreground;
     padding: 5px 10px;
     border-radius: 10px;
 
@@ -58,20 +55,47 @@ button {
         }
     }
 
-    &.enabled {
-        background-color: $color1;
+    &.alert:hover {
+        background-color: $color3;
     }
 
-    &.alert {
-        background-color: $color3;
+    &.nobg:hover {
+        background-color: transparent;
+    }
+}
 
-        &:hover {
-            background-color: $color3;
+.alert,
+.alert * {
+    background-color: $color3;
+    color: $background;
+}
 
-            label {
-                color: $background;
-            }
-        }
+.nobg {
+    background-color: transparent;
+
+    &:hover,
+    &:hover * {
+        background-color: transparent;
+        color: $color1;
+    }
+
+    &:active,
+    &:active * {
+        background-color: transparent;
+        color: $color9;
+    }
+}
+
+.enabled {
+    background-color: $foreground;
+
+    &,
+    * {
+        color: $background;
+    }
+
+    .description {
+        color: $color8;
     }
 }
 

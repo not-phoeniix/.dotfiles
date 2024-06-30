@@ -3,7 +3,7 @@ const Guy = (imgUrl, imgWidth, imgHeight, requestor = "idk lol") => Widget.Box({
     spacing: 20,
     children: [
         // requestor label
-        Widget.Label({ label: `requested by: ${requestor}` }),
+        Widget.Label(`requested by: ${requestor}`),
 
         // image of guy itself
         Widget.Box({

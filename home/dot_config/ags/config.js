@@ -1,7 +1,8 @@
-import { Bar, IsVertical } from "./panels/bar.js";
-import { QuickSettings } from "./panels/quick_settings.js";
-import { Dashboard } from "./panels/dashboard.js"
-import { FreakingGuys } from "./panels/freaking_guys.js"
+import { Bar, IsVertical } from "./js/bar.js";
+import { QuickSettings } from "./js/quick_settings.js";
+import { Dashboard } from "./js/dashboard.js"
+import { FreakingGuys } from "./js/freaking_guys.js"
+import { ConfigWindow } from "./js/config_window.js"
 
 const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
 Utils.exec(`mkdir -p ${CachePath}`);
@@ -74,6 +75,7 @@ App.config({
         QuickSettings,
         Dashboard,
         FreakingGuys(guys),
+        ConfigWindow
     ]
 });
 

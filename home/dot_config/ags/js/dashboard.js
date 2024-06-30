@@ -59,7 +59,7 @@ const CoverArt = (player, size = 200) => Widget.Box({
     css: player.bind("coverPath").as(p =>
         `background-image: url('${p}');`
     )
-})
+});
 
 function formatSecString(seconds) {
     const min = Math.floor(seconds / 60);
@@ -77,10 +77,13 @@ const MediaInfo = (player) => Widget.Box({
         Widget.Label({
             className: "media-title",
             label: player.bind("trackTitle").as(t => ` ${t}`),
+            wrap: true,
             hpack: "start"
         }),
         Widget.Label({
             className: "media-artist",
+            maxWidthChars: 40,
+            truncate: "end",
             label: player.bind("trackArtists").as(a => "󰠃 " + a.join(", ")),
             hpack: "start"
         }),
@@ -123,7 +126,7 @@ const Player = (player) => Widget.Box({
         CoverArt(player),
         MediaInfo(player),
     ]
-})
+});
 
 const players = mpris.bind("players");
 
@@ -137,31 +140,42 @@ const NowPlaying = Widget.Box({
 
 // #endregion
 
+// #region Calendar
+
+const DateLabel = Widget.Box({
+    vertical: false,
+    hpack: "center",
+    spacing: 12,
+    css: "margin: 20px",
+    children: [
+        Widget.Label({ label: Month.bind() }),
+        Widget.Label({ label: Day.bind() }),
+        Widget.Label({ label: Year.bind(), className: "accent" }),
+    ]
+});
+
 const Calendar = Widget.Box({
     vertical: true,
     className: "widget",
     children: [
-
-        // current date label
-        Widget.Box({
-            vertical: false,
-            hpack: "center",
-            spacing: 12,
-            css: "margin: 20px",
-            children: [
-                Widget.Label({ label: Month.bind() }),
-                Widget.Label({ label: Day.bind() }),
-                Widget.Label({ label: Year.bind(), className: "accent" }),
-            ]
-        }),
-
-        // calendar itself
-        Widget.Calendar({
-            showDayNames: true,
-            showHeading: true,
-        })
     ]
-});
+}).hook(
+    App,
+    (self, windowName, visible) => {
+        if (windowName == "dashboard" && visible) {
+            self.children = [
+                DateLabel,
+                Widget.Calendar({
+                    showDayNames: true,
+                    showHeading: true,
+                })
+            ];
+        }
+    },
+    "window-toggled"
+);
+
+// #endregion
 
 export const Dashboard = Widget.Window({
     monitor: 0,
