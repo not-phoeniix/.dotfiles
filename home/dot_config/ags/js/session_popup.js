@@ -5,15 +5,17 @@
 const hyprland = await Service.import("hyprland");
 const wallpaper = Utils.exec(`bash -c "cat $XDG_CACHE_HOME/wal/wal"`);
 
-const SessionButton = (label, icon, command = () => { }) => Widget.Box({
-    vertical: true,
-    children: [
-        Widget.Button({
-            label: icon,
-            onClicked: command
-        }),
-        Widget.Label(label)
-    ]
+const SessionButton = (label, icon, command = () => { }) => Widget.Button({
+    onClicked: command,
+    child: Widget.Box({
+        vertical: true,
+        spacing: 10,
+        className: "widget nobg",
+        children: [
+            Widget.Label({ label: icon, className: "header" }),
+            Widget.Label({ label: label, className: "sub-header accent" }),
+        ]
+    })
 });
 
 const Buttons = Widget.Box({
@@ -23,6 +25,7 @@ const Buttons = Widget.Box({
         vexpand: true,
         hpack: "center",
         vpack: "center",
+        spacing: 30,
         children: [
             SessionButton("poweroff", "⏻", () => Utils.exec("sudo poweroff")),
             SessionButton("reboot", "", () => Utils.exec("sudo reboot")),

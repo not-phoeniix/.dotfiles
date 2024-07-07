@@ -7,34 +7,13 @@
     color: $foreground;
 }
 
-.panel {
-    background-color: $background;
-    border-radius: 20px;
-    padding: 10px;
-    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
-}
-
-.widget {
-    background-color: $color0;
-    padding: 12px;
-    border-radius: 16px;
-}
-
-.description {
-    color: $color8;
-    font-size: 22px;
-}
-
+// #region main widget selectors
 button {
     padding: 5px 10px;
     border-radius: 10px;
 
     &:hover {
-        background-color: $color8;
-
-        .description {
-            color: $color0;
-        }
+        background-color: transparentize($foreground, 0.9);
     }
 
     &:active {
@@ -45,7 +24,12 @@ button {
         &:hover {
             background-color: $color1;
 
-            .accent {
+            * {
+                color: $foreground;
+            }
+
+            .accent,
+            .description {
                 color: $background;
             }
         }
@@ -69,58 +53,6 @@ button {
     }
 }
 
-.alert,
-.alert * {
-    background-color: $color3;
-    color: $background;
-}
-
-.critical,
-.critical * {
-    color: $color1;
-
-    &.open {
-        color: $background;
-    }
-}
-
-.nobg {
-    background-color: transparent;
-
-    &:hover,
-    &:hover * {
-        background-color: transparent;
-        color: $color1;
-
-        .description {
-            color: $color8;
-        }
-    }
-
-    &:active,
-    &:active * {
-        background-color: transparent;
-        color: $color9;
-    }
-
-    &.alert:hover {
-        color: $color3;
-    }
-}
-
-.enabled {
-    background-color: $foreground;
-
-    &,
-    * {
-        color: $background;
-    }
-
-    .description {
-        color: $color8;
-    }
-}
-
 levelbar {
     trough {
         background-color: $background;
@@ -130,37 +62,6 @@ levelbar {
             background-color: $color1;
             border-radius: 100px;
         }
-    }
-}
-
-.accent {
-    color: $color1;
-}
-
-.bigtext {
-    font-size: 100px;
-    font-weight: bold;
-}
-
-.header {
-    font-size: 40px;
-}
-
-.smoltxt * {
-    font-size: 24px;
-}
-
-.sub-header {
-    font-size: 25px;
-    color: $color8;
-}
-
-.open {
-    background-color: $color1;
-
-    .accent,
-    .critical {
-        color: $background;
     }
 }
 
@@ -227,4 +128,109 @@ popover {
     background-color: red;
 }
 
-/*#endregion*/
+// #endregion
+// #region classes
+.panel {
+    background-color: $background;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+}
+
+.widget {
+    background-color: $color0;
+    padding: 12px;
+    border-radius: 16px;
+}
+
+.description {
+    color: $color8;
+    font-size: 22px;
+}
+
+.nobg {
+    background-color: transparent;
+
+    &:hover,
+    &:hover * {
+        background-color: transparent;
+        color: $color1;
+
+        .description {
+            color: $color8;
+        }
+    }
+
+    &:active,
+    &:active * {
+        background-color: transparent;
+        color: $color9;
+    }
+
+    &.alert:hover {
+        color: $color3;
+    }
+}
+
+.bigtext,
+.bigtext * {
+    font-size: 100px;
+    font-weight: bold;
+}
+
+.smoltext,
+.smoltext * {
+    font-size: 24px;
+}
+
+.header {
+    font-size: 40px;
+}
+
+.sub-header {
+    font-size: 25px;
+    color: $color8;
+}
+
+.enabled {
+    background-color: $foreground;
+
+    &,
+    * {
+        color: $background;
+    }
+
+    .description {
+        color: $color8;
+    }
+}
+
+.open {
+    background-color: $color1;
+
+    .accent,
+    .critical {
+        color: $background;
+    }
+}
+
+.accent {
+    color: $color1;
+}
+
+.alert,
+.alert * {
+    background-color: $color3;
+    color: $background;
+}
+
+.critical,
+.critical * {
+    color: $color1;
+
+    &.open {
+        color: $background;
+    }
+}
+
+// #endregion

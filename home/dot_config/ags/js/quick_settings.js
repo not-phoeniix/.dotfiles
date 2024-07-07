@@ -19,7 +19,8 @@ const WidgetSpacing = 10;
 const BigButton = (onClicked = () => { }, mainLabel, descLabel) => Widget.Button({
     className: "widget",
     onClicked: onClicked,
-    heightRequest: 100,
+    heightRequest: 120,
+    widthRequest: 200,
     child: Widget.Box({
         vertical: true,
         spacing: 6,
@@ -30,7 +31,9 @@ const BigButton = (onClicked = () => { }, mainLabel, descLabel) => Widget.Button
         ]
     }),
     setup: () => {
-        descLabel.toggleClassName("description", true)
+        descLabel.toggleClassName("description", true);
+        descLabel.maxWidthChars = 50;
+        descLabel.wrap = true;
     }
 });
 
@@ -208,14 +211,14 @@ const SessionButtons = Widget.Box({
         // config button
         Widget.Button({
             label: "",
-            className: "smoltxt",
+            className: "smoltext",
             onClicked: () => App.openWindow("desktop_cfg")
         }),
 
         // session exit button
         Widget.Button({
             label: "⏻",
-            className: "smoltxt",
+            className: "smoltext",
             onClicked: () => App.openWindow("session_popup")
         })
     ]
