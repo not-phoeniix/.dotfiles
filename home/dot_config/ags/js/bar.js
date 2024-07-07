@@ -11,11 +11,10 @@ const bluetooth = await Service.import("bluetooth");
 
 import { Hour, Minute } from "../variables.js"
 
-export const IsVertical = Variable(false);
+export const IsVertical = Variable(false)
 
-// change hyprland animation when variable changes
-IsVertical.connect("changed", () => {
-    const style = IsVertical.value ? "slidevert" : "slidehoriz";
+IsVertical.connect("changed", (self) => {
+    const style = self.value ? "slidevert" : "slidehoriz";
     hyprland.messageAsync("keyword animation workspaces,1,3,default," + style);
 });
 
@@ -130,8 +129,8 @@ export const BatteryIcon = () => Widget.Label().hook(
                 self.label = "󱈑";
                 break;
             case "discharging":
-                const icons = ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"];
-                const index = Math.floor(battery.percent / 100 * (icons.length - 1));
+                const icons = ["󱃍", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"];
+                const index = Math.round(battery.percent / 100 * (icons.length - 1));
                 if (icons[index]) {
                     self.label = icons[index];
                 }
@@ -140,8 +139,8 @@ export const BatteryIcon = () => Widget.Label().hook(
 
         self.tooltipText = `${state}: ${battery.percent}%`;
         self.className = `${state}`;
-    },
-    "changed"
+        self.toggleClassName("critical", battery.percent < 15 && !battery.charging);
+    }
 );
 
 const WifiIcon = () => Widget.Stack({
@@ -152,7 +151,7 @@ const WifiIcon = () => Widget.Stack({
         "connected": Widget.Label({
             label: network.wifi.bind("strength").as(s => {
                 const icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"];
-                const index = Math.floor((s / 100) * (icons.length - 1));
+                const index = Math.round((s / 100) * (icons.length - 1));
                 return icons[index];
             }),
             visible:
@@ -168,7 +167,8 @@ const WiredIcon = () => Widget.Stack({
         "connected": Widget.Label("󰈁"),
         "connecting": Widget.Label("󰈂"),
         "disconnected": Widget.Label("󰈂"),
-    }
+    },
+    shown: network.wired.bind("internet")
 });
 
 export const NetworkIcon = () => Widget.Stack({
@@ -184,10 +184,10 @@ export const BluetoothIcon = () => Widget.Label().hook(bluetooth, (self) => {
 })
 
 const StatusIcons = Widget.Button({
-    className: "widget",
+    className: "widget status-icons",
     onClicked: () => App.toggleWindow("quick_settings"),
     child: Widget.Box({
-        spacing: 10,
+        spacing: 15,
         vertical: IsVertical.bind(),
         children: [
             NetworkIcon(),
@@ -268,13 +268,10 @@ const BarWidgets = Widget.CenterBox({
 
 // #region Bar window itself
 
-const VertAnchor = ["left", "top", "bottom"];
-const HorizAnchor = ["top", "left", "right"];
-
 export const Bar = (monitor = 0) => Widget.Window({
     monitor,
     name: `bar${monitor}`,
-    anchor: IsVertical.bind().as(v => v ? VertAnchor : HorizAnchor),
+    anchor: IsVertical.bind().as(v => v ? ["left", "top", "bottom"] : ["top", "left", "right"]),
     exclusivity: "exclusive",
     child: Widget.Box({
         spacing: 20,

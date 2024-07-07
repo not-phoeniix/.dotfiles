@@ -1,3 +1,7 @@
+//
+// quick settings panel file !!
+//
+
 const audio = await Service.import("audio");
 const hyprland = await Service.import("hyprland");
 const battery = await Service.import("battery");
@@ -7,6 +11,8 @@ const bluetooth = await Service.import("bluetooth");
 import { IsVertical, VolumeIcon, BatteryIcon, NetworkIcon, BluetoothIcon } from "./bar.js";
 
 const WidgetSpacing = 10;
+
+// #region Main Page
 
 // #region Big buttons
 
@@ -22,14 +28,17 @@ const BigButton = (onClicked = () => { }, mainLabel, descLabel) => Widget.Button
             mainLabel,
             descLabel
         ]
-    })
+    }),
+    setup: () => {
+        descLabel.toggleClassName("description", true)
+    }
 });
 
 // network big button
 const Network = () => BigButton(
     () => network.toggleWifi(),
     NetworkIcon(),
-    Widget.Label({ className: "description" }).hook(network, (self) => {
+    Widget.Label().hook(network, (self) => {
         self.label = `${network.wifi.internet}: ${network.wifi.ssid}`;
         self.visible = network.primary == "wifi" && network.wifi.enabled;
     })
@@ -42,27 +51,40 @@ const Bluetooth = () => BigButton(
     () => bluetooth.toggle(),
     BluetoothIcon(),
     Widget.Label({
-        label: "device",
+        label: bluetooth.bind("connected_devices").as(d => d[0].name),
         visible: bluetooth.bind("connected_devices").as(d => d.length > 0)
     })
 ).hook(bluetooth, (self) => {
     self.toggleClassName("enabled", bluetooth.enabled);
 }, "notify::enabled");
 
-// collection of all big buttons
+// toggle IsVertical button
+const ChangeVerticalityButton = () => BigButton(
+    () => IsVertical.value = !IsVertical.value,
+    Widget.Label({ label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪") }),
+    Widget.Label({ label: IsVertical.bind().as(v => v ? "make horiz" : "make vert") }),
+)
+
+// button that restarts AGS
+const RestartAgsButton = () => BigButton(
+    () => Utils.exec(`bash -c "pkill ags && ags &"`),
+    Widget.Label(""),
+    Widget.Label("restart AGS")
+);
+
+const BigRow = (children = []) => Widget.Box({
+    homogeneous: true,
+    spacing: WidgetSpacing,
+    children: children
+});
+
 const BigButtons = Widget.Box({
     homogeneous: true,
     vertical: true,
     spacing: WidgetSpacing,
     children: [
-        Widget.Box({
-            homogeneous: true,
-            spacing: WidgetSpacing,
-            children: [
-                Network(),
-                Bluetooth()
-            ]
-        }),
+        BigRow([Network(), Bluetooth()]),
+        BigRow([RestartAgsButton(), ChangeVerticalityButton()])
     ]
 })
 
@@ -96,24 +118,6 @@ const Profile = Widget.Box({
 
 // #region Smaller buttons
 
-const ChangeVerticalityButton = Widget.Button({
-    label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪"),
-    className: "widget",
-    onClicked: () => IsVertical.value = !IsVertical.value
-});
-
-const RestartAgsButton = Widget.Button({
-    label: "",
-    className: "widget",
-    onClicked: () => Utils.exec(App.configDir + "/open.sh")
-});
-
-const ShowGuysButton = Widget.Button({
-    label: "",
-    className: "widget",
-    onClicked: () => App.toggleWindow("freaking_guys")
-});
-
 // #endregion
 
 // #region Battery 
@@ -124,37 +128,6 @@ function secToHourMin(seconds) {
     const min0 = min < 10 ? "0" : "";
     return `${hour}:${min0}${min}`;
 }
-
-const BatteryStatus = Widget.Button({
-    className: "widget",
-    onClicked: () => Utils.exec("notify-send \"battery noise\" \"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\""),
-    visible: battery.available,
-    widthRequest: 150,
-    heightRequest: 90,
-    child: Widget.Box({
-        spacing: 4,
-        hpack: "center",
-        vpack: "center",
-        vertical: true,
-        children: [
-            Widget.Box({
-                hpack: "center",
-                spacing: 5,
-                children: [
-                    BatteryIcon(),
-                    Widget.Label({ label: battery.bind("percent").as(p => `${p}%`) })
-                ]
-            }),
-            Widget.Label({
-                label: battery.bind("time_remaining").as(r =>
-                    secToHourMin(r) + (battery.charging ? " till charged" : " remaining")
-                ),
-                className: "description",
-                visible: battery.bind("percent").as(p => p < 100)
-            })
-        ]
-    })
-})
 
 // #endregion
 
@@ -193,111 +166,102 @@ const BrightnessBar = Widget.Box({
 
 // #region Session buttons
 
-const DoubleClickButton = (label, onExecute = () => { }) => Widget.Button({
-    className: "widget",
-    label: label,
-    setup: (self) => {
-        let isClicked = false;
-        self.onClicked = () => {
-            if (isClicked) {
-                onExecute();
-                isClicked = false;
-            } else {
-                isClicked = true;
-            }
-
-            self.toggleClassName("alert", isClicked);
-        };
-
-        self.onHoverLost = () => {
-            isClicked = false
-            self.toggleClassName("alert", false);
-        };
-    }
-});
+const BatteryStatus = Widget.Button({
+    onClicked: () => Utils.exec("notify-send \"battery noise\" \"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\""),
+    visible: battery.available,
+    widthRequest: 150,
+    child: Widget.Box({
+        spacing: 10,
+        hpack: "center",
+        vpack: "center",
+        vertical: false,
+        children: [
+            Widget.Box({
+                hpack: "center",
+                spacing: 5,
+                children: [
+                    BatteryIcon(),
+                    Widget.Label({ label: battery.bind("percent").as(p => `${p}%`) })
+                ]
+            }),
+            Widget.Label({
+                label: battery.bind("time_remaining").as(r =>
+                    secToHourMin(r) + (battery.charging ? " till charged" : " remaining")
+                ),
+                className: "description",
+                visible: battery.bind("percent").as(p => p < 100)
+            })
+        ]
+    })
+})
 
 const SessionButtons = Widget.Box({
     spacing: WidgetSpacing,
     vertical: false,
-    homogeneous: true,
+    className: "widget nobg",
     children: [
-        DoubleClickButton("󰍃", () => hyprland.messageAsync("dispatch exit")),
-        DoubleClickButton("", () => Utils.exec("sudo reboot")),
-        DoubleClickButton("⏻", () => Utils.exec("sudo poweroff")),
+        BatteryStatus,
+
+        // expanding separator
+        Widget.Box({ hexpand: true }),
+
+        // config button
+        Widget.Button({
+            label: "",
+            className: "smoltxt",
+            onClicked: () => App.openWindow("desktop_cfg")
+        }),
+
+        // session exit button
+        Widget.Button({
+            label: "⏻",
+            className: "smoltxt",
+            onClicked: () => App.openWindow("session_popup")
+        })
     ]
 });
 
 // #endregion
 
-const ConfigButton = Widget.Button({
-    className: "widget nobg",
-    label: "",
-    onClicked: () => App.openWindow("config_window")
-})
-
-const CtrlWidgets = Widget.Box({
+const MainPage = Widget.Box({
     vertical: true,
     spacing: WidgetSpacing,
     children: [
-        Widget.Box({
-            children: [
-                Widget.Label({
-                    className: "widget",
-                    css: "background-color: transparent;",
-                    label: "girl panel™",
-                    hexpand: true
-                }),
-                ConfigButton
-            ]
-        }),
-
         BigButtons,
-
-        Widget.Box({
-            spacing: WidgetSpacing,
-            children: [
-                Widget.Box({
-                    spacing: WidgetSpacing,
-                    homogeneous: true,
-                    hexpand: true,
-                    children: [
-                        RestartAgsButton,
-                        ChangeVerticalityButton,
-                        ShowGuysButton,
-                    ]
-                }),
-                BatteryStatus
-            ]
-        }),
-
         VolumeBar,
-
-        Widget.Box({
-            spacing: WidgetSpacing,
-            vertical: false,
-            homogeneous: true,
-            children: [
-                Profile,
-                SessionButtons
-            ]
-        })
+        SessionButtons
     ]
 });
 
-// #region Window itself
+// #endregion
 
-const anchorVert = ["bottom", "left"];
-const anchorHoriz = ["top", "right"];
+// #region Network Page
+
+const NetworkPage = Widget.Box({
+    children: [
+        Widget.Label("hi hi net page :3")
+    ]
+});
+
+// #endregion
+
+// #region Window itself
 
 export const QuickSettings = Widget.Window({
     monitor: 0,
     name: "quick_settings",
-    anchor: IsVertical.bind().as(v => v ? anchorVert : anchorHoriz),
+    anchor: IsVertical.bind().as(v => v ? ["bottom", "left"] : ["top", "right"]),
     child: Widget.Box({
         className: "panel",
-        css: "margin: 10px",
+        css: "margin: 10px;",
         children: [
-            CtrlWidgets
+            Widget.Stack({
+                children: {
+                    "main": MainPage,
+                    "net": NetworkPage
+                },
+                shown: "main"
+            })
         ]
     })
 });

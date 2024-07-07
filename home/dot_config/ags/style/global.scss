@@ -22,7 +22,7 @@
 
 .description {
     color: $color8;
-    font-size: 22;
+    font-size: 22px;
 }
 
 button {
@@ -55,8 +55,13 @@ button {
         }
     }
 
-    &.alert:hover {
+    &.alert:hover,
+    &.alert.nobg:hover {
         background-color: $color3;
+
+        * {
+            color: $background;
+        }
     }
 
     &.nobg:hover {
@@ -70,6 +75,15 @@ button {
     color: $background;
 }
 
+.critical,
+.critical * {
+    color: $color1;
+
+    &.open {
+        color: $background;
+    }
+}
+
 .nobg {
     background-color: transparent;
 
@@ -77,12 +91,20 @@ button {
     &:hover * {
         background-color: transparent;
         color: $color1;
+
+        .description {
+            color: $color8;
+        }
     }
 
     &:active,
     &:active * {
         background-color: transparent;
         color: $color9;
+    }
+
+    &.alert:hover {
+        color: $color3;
     }
 }
 
@@ -124,6 +146,10 @@ levelbar {
     font-size: 40px;
 }
 
+.smoltxt * {
+    font-size: 24px;
+}
+
 .sub-header {
     font-size: 25px;
     color: $color8;
@@ -132,7 +158,8 @@ levelbar {
 .open {
     background-color: $color1;
 
-    .accent {
+    .accent,
+    .critical {
         color: $background;
     }
 }

@@ -1,8 +1,14 @@
+//
+// main AGS config file :3
+//
+
 import { Bar, IsVertical } from "./js/bar.js";
 import { QuickSettings } from "./js/quick_settings.js";
-import { Dashboard } from "./js/dashboard.js"
-import { FreakingGuys } from "./js/freaking_guys.js"
-import { ConfigWindow } from "./js/config_window.js"
+import { Dashboard } from "./js/dashboard.js";
+import { ConfigWindow } from "./js/config_window.js";
+import { SessionPopup } from "./js/session_popup.js";
+
+const hyprland = await Service.import("hyprland");
 
 const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
 Utils.exec(`mkdir -p ${CachePath}`);
@@ -30,12 +36,18 @@ function ReadSettings() {
         return;
     }
 
+    // parse settings string and set program values
     const settings = JSON.parse(Utils.readFile(SettingsPath));
     IsVertical.value = settings.IsVertical;
+
+    // set hyprland anim style based on IsVertical variable
+    const style = IsVertical.value ? "slidevert" : "slidehoriz";
+    hyprland.messageAsync("keyword animation workspaces,1,3,default," + style);
+
     print("settings loaded from \"" + SettingsPath + "\" :3");
 }
 
-// set up variables to write settings when they change
+// make IsVertical write settings and set hyprland animation when changed
 IsVertical.connect("changed", WriteSettings);
 
 // load settings at startup
@@ -61,24 +73,16 @@ reloadStyling();
 
 // #endregion
 
-// #region Freaking guys config reading
-
-const guysPath = App.configDir + "/guys.json";
-const guysJsonString = Utils.readFile(guysPath);
-const guys = guysJsonString ? JSON.parse(guysJsonString) : [];
-
-// #endregion
-
 App.config({
     windows: [
         Bar(0),
         QuickSettings,
         Dashboard,
-        FreakingGuys(guys),
-        ConfigWindow
+        ConfigWindow,
+        SessionPopup
     ]
 });
 
 App.closeWindow("quick_settings");
 App.closeWindow("dashboard");
-App.closeWindow("freaking_guys");
+App.closeWindow("session_popup");
