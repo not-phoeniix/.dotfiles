@@ -130,7 +130,7 @@ export const BatteryIcon = () => Widget.Label().hook(
                 break;
             case "discharging":
                 const icons = ["󱃍", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"];
-                const index = Math.round(battery.percent / 100 * (icons.length - 1));
+                const index = Math.floor(battery.percent / 100 * (icons.length - 1));
                 if (icons[index]) {
                     self.label = icons[index];
                 }
@@ -151,7 +151,7 @@ const WifiIcon = () => Widget.Stack({
         "connected": Widget.Label({
             label: network.wifi.bind("strength").as(s => {
                 const icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"];
-                const index = Math.round((s / 100) * (icons.length - 1));
+                const index = Math.floor((s / 100) * (icons.length - 1));
                 return icons[index];
             }),
             visible:
