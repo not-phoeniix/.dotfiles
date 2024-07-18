@@ -12,19 +12,20 @@ thanks for checkin out my dotfiles :]
 
 here are the details about my current setup:
 
- - **WM:** [Sway](https://github.com/swaywm/sway)
- - **OS:** Artix Linux
- - **Terminal:** [Foot](https://codeberg.org/dnkl/foot)
+ - **WM:** [Hyprland](https://github.com/swaywm/sway)
+ - **OS:** [Artix Linux](https://artixlinux.org/)
+ - **UI:** [AGS](https://aylur.github.io/ags-docs/)
  - **Shell:** Zsh
- - **Launcher:** [Fuzzel](https://codeberg.org/dnkl/fuzzel)
- - **Bar:** [Waybar](https://github.com/Alexays/Waybar)
- - **Notifs:** [Mako](https://github.com/emersion/mako)
+ - **Terminal:** [Foot](https://codeberg.org/dnkl/foot)
  - **File Manager(s):** [LF](https://github.com/gokcehan/lf) & [Nemo](https://github.com/linuxmint/nemo)
+ - **Theme Management:** [Pywal](https://github.com/dylanaraps/pywal)
 
 ---
 
 ### Screenshots
 
-<img src="assets/screenshots/empty.png">
+[to add later]
+
+<!-- <img src="assets/screenshots/empty.png">
 <img src="assets/screenshots/music.png">
-<img src="assets/screenshots/active.png">
+<img src="assets/screenshots/active.png"> -->
