@@ -7,6 +7,7 @@ import { QuickSettings } from "./js/quick_settings.js";
 import { Dashboard } from "./js/dashboard.js";
 import { ConfigWindow } from "./js/config_window.js";
 import { SessionPopup } from "./js/session_popup.js";
+import { AppLauncher } from "./js/app_launcher.js";
 
 const hyprland = await Service.import("hyprland");
 
@@ -79,10 +80,12 @@ App.config({
         QuickSettings,
         Dashboard,
         ConfigWindow,
-        SessionPopup
+        SessionPopup,
+        AppLauncher
     ]
 });
 
 App.closeWindow("quick_settings");
 App.closeWindow("dashboard");
 App.closeWindow("session_popup");
+App.closeWindow("app_launcher");

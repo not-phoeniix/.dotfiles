@@ -1,6 +1,6 @@
 const mpris = await Service.import("mpris");
 
-import { Hour, Minute, Day, Month, Year } from "../variables.js"
+import { Hour, Minute, Day, Month, Year } from "./variables.js"
 
 // #region Time
 
@@ -180,6 +180,7 @@ const Calendar = Widget.Box({
 export const Dashboard = Widget.Window({
     monitor: 0,
     name: "dashboard",
+    keymode: "on-demand",
     anchor: ["top", "bottom", "right"],
     child: Widget.Box({
         className: "panel",
@@ -195,4 +196,4 @@ export const Dashboard = Widget.Window({
             Calendar
         ]
     })
-});
+}).keybind("Escape", () => App.closeWindow("dashboard"));

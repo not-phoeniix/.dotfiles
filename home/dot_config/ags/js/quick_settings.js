@@ -253,6 +253,7 @@ const NetworkPage = Widget.Box({
 export const QuickSettings = Widget.Window({
     monitor: 0,
     name: "quick_settings",
+    keymode: "on-demand",
     anchor: IsVertical.bind().as(v => v ? ["bottom", "left"] : ["top", "right"]),
     child: Widget.Box({
         className: "panel",
@@ -267,6 +268,6 @@ export const QuickSettings = Widget.Window({
             })
         ]
     })
-});
+}).keybind("Escape", () => App.closeWindow("quick_settings"));
 
 // #endregion

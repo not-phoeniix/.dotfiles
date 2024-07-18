@@ -9,7 +9,7 @@ const audio = await Service.import("audio");
 const network = await Service.import("network");
 const bluetooth = await Service.import("bluetooth");
 
-import { Hour, Minute } from "../variables.js"
+import { Hour, Minute } from "./variables.js"
 
 export const IsVertical = Variable(false)
 
@@ -21,10 +21,14 @@ IsVertical.connect("changed", (self) => {
 // #region Logo button
 
 const LogoButton = Widget.Button({
-    onClicked: () => Utils.exec("notify-send 'under construction' 'this is gonna open the app launcher i write later uwu'"),
+    onClicked: () => App.toggleWindow("app_launcher"),
     className: "logo",
     label: ""
-});
+}).hook(App, (self, windowName, visible) => {
+    if (windowName == "app_launcher") {
+        self.toggleClassName("open", visible);
+    }
+}, "window-toggled");
 
 // #endregion
 
@@ -38,7 +42,7 @@ const WorkspaceIcon = (workspace, hideIfNotExist = false, icon = "") => Widget.B
         const wsFocused = hyprland.active.workspace.id === workspace;
         const workspaceExists = hyprland.workspaces.some((ws => ws.id === workspace));
 
-        self.className = "workspace container " + (wsFocused ? "focused" : "");
+        self.class_name = "workspace container " + (wsFocused ? "focused" : "");
 
         self.label = workspaceExists ? "" : "";
         if (icon != "") self.label = icon;
@@ -137,8 +141,8 @@ export const BatteryIcon = () => Widget.Label().hook(
                 break;
         }
 
-        self.tooltipText = `${state}: ${battery.percent}%`;
-        self.className = `${state}`;
+        self.tooltip_text = `${state}: ${battery.percent}%`;
+        self.class_name = `${state}`;
         self.toggleClassName("critical", battery.percent < 15 && !battery.charging);
     }
 );
