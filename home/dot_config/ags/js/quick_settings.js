@@ -3,7 +3,6 @@
 //
 
 const audio = await Service.import("audio");
-const hyprland = await Service.import("hyprland");
 const battery = await Service.import("battery");
 const network = await Service.import("network");
 const bluetooth = await Service.import("bluetooth");
@@ -119,21 +118,6 @@ const Profile = Widget.Box({
     ]
 });
 
-// #region Smaller buttons
-
-// #endregion
-
-// #region Battery 
-
-function secToHourMin(seconds) {
-    const hour = Math.floor(seconds / 3600);
-    const min = Math.floor(seconds / 60) % 60;
-    const min0 = min < 10 ? "0" : "";
-    return `${hour}:${min0}${min}`;
-}
-
-// #endregion
-
 // #region Level bars
 
 const VolumeBar = Widget.Box({
@@ -169,9 +153,16 @@ const BrightnessBar = Widget.Box({
 
 // #region Session buttons
 
+function secToHourMin(seconds) {
+    const hour = Math.floor(seconds / 3600);
+    const min = Math.floor(seconds / 60) % 60;
+    const min0 = min < 10 ? "0" : "";
+    return `${hour}:${min0}${min}`;
+}
+
 const BatteryStatus = Widget.Button({
     onClicked: () => Utils.exec("notify-send \"battery noise\" \"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\""),
-    visible: battery.available,
+    visible: battery.bind("available"),
     widthRequest: 150,
     child: Widget.Box({
         spacing: 10,
@@ -196,7 +187,7 @@ const BatteryStatus = Widget.Button({
             })
         ]
     })
-})
+});
 
 const SessionButtons = Widget.Box({
     spacing: WidgetSpacing,

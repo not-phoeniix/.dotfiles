@@ -163,7 +163,8 @@ const WifiIcon = () => Widget.Stack({
                 network.wifi.bind("internet").as(i => i == "connected"),
         })
     },
-    shown: network.wifi.bind("internet").as(i => network.wifi.enabled ? i : "disabled")
+}).hook(network.wifi, (self) => {
+    self.shown = network.wifi.enabled ? network.wifi.internet : "disabled";
 });
 
 const WiredIcon = () => Widget.Stack({
