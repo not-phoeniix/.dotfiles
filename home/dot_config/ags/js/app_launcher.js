@@ -21,10 +21,10 @@ const AppEntry = (app) => Widget.Button({
 });
 
 const Launcher = ({ width = 500, height = 500, spacing = 12 }) => {
-    // define alphabetical sort rules
+    // define alphabetical/launch freq sort rules
     function sortRules(a, b) {
-        if (a.name > b.name) return 1;
-        if (a.name < b.name) return -1;
+        if (a.name > b.name && a.frequency < b.frequency) return 1;
+        if (a.name < b.name && a.frequency > b.frequency) return -1;
         return 0;
     }
 

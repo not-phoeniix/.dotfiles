@@ -186,7 +186,19 @@ export const NetworkIcon = () => Widget.Stack({
 
 export const BluetoothIcon = () => Widget.Label().hook(bluetooth, (self) => {
     self.label = bluetooth.connected_devices.length > 0 ? "󰂱" : bluetooth.enabled ? "󰂯" : "󰂲";
-})
+});
+
+const DbusEnabled = Variable(false);
+Utils.interval(3_600_000, () => {
+    DbusEnabled.value = Utils.exec(`pgrep -l "dbus-run-"`) == "";
+});
+
+const DbusIcon = () => Widget.Label({
+    label: "󰀦",
+    className: "critical",
+    tooltipText: "WM not run thru dbus!",
+    visible: DbusEnabled.bind()
+});
 
 const StatusIcons = Widget.Button({
     className: "widget status-icons",
@@ -195,6 +207,7 @@ const StatusIcons = Widget.Button({
         spacing: 15,
         vertical: IsVertical.bind(),
         children: [
+            DbusIcon(),
             NetworkIcon(),
             BluetoothIcon(),
             VolumeIcon(),
