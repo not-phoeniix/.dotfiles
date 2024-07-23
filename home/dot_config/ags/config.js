@@ -2,6 +2,9 @@
 // main AGS config file :3
 //
 
+const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
+Utils.exec(`mkdir -p ${CachePath}`);
+
 import { Bar, IsVertical } from "./js/bar.js";
 import { QuickSettings } from "./js/quick_settings.js";
 import { Dashboard } from "./js/dashboard.js";
@@ -10,9 +13,6 @@ import { SessionPopup } from "./js/session_popup.js";
 import { AppLauncher } from "./js/app_launcher.js";
 
 const hyprland = await Service.import("hyprland");
-
-const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
-Utils.exec(`mkdir -p ${CachePath}`);
 
 // #region Settings JSON writing/loading
 
@@ -81,7 +81,7 @@ App.config({
         Dashboard,
         ConfigWindow,
         SessionPopup,
-        AppLauncher
+        AppLauncher({ width: 450, height: 500 })
     ]
 });
 

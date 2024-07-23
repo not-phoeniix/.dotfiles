@@ -156,9 +156,7 @@ const DateLabel = Widget.Box({
 
 const Calendar = Widget.Box({
     vertical: true,
-    className: "widget",
-    children: [
-    ]
+    className: "widget"
 }).hook(
     App,
     (self, windowName, visible) => {

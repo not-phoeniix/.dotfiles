@@ -10,6 +10,7 @@ const network = await Service.import("network");
 const bluetooth = await Service.import("bluetooth");
 
 import { Hour, Minute } from "./variables.js"
+import { ToggleFavs } from "./app_launcher.js";
 
 export const IsVertical = Variable(false)
 
@@ -21,7 +22,7 @@ IsVertical.connect("changed", (self) => {
 // #region Logo button
 
 const LogoButton = Widget.Button({
-    onClicked: () => App.toggleWindow("app_launcher"),
+    onClicked: ToggleFavs,
     className: "logo",
     label: ""
 }).hook(App, (self, windowName, visible) => {

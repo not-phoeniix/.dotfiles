@@ -53,7 +53,7 @@ const Bluetooth = () => BigButton(
     () => bluetooth.toggle(),
     BluetoothIcon(),
     Widget.Label({
-        label: bluetooth.bind("connected_devices").as(d => d[0].name),
+        label: bluetooth.bind("connected_devices").as(d => d[0]?.name || ""),
         visible: bluetooth.bind("connected_devices").as(d => d.length > 0)
     })
 ).hook(bluetooth, (self) => {
