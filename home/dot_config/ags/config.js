@@ -2,7 +2,7 @@
 // main AGS config file :3
 //
 
-const CachePath = Utils.exec(`bash -c "echo $HOME"`) + "/.cache/ags";
+const CachePath = Utils.exec(`bash -c "echo $XDG_CACHE_HOME"`) + "/ags";
 Utils.exec(`mkdir -p ${CachePath}`);
 
 import { Bar, IsVertical } from "./js/bar.js";
@@ -11,6 +11,7 @@ import { Dashboard } from "./js/dashboard.js";
 import { ConfigWindow } from "./js/config_window.js";
 import { SessionPopup } from "./js/session_popup.js";
 import { AppLauncher } from "./js/app_launcher.js";
+import { Dock } from "./js/dock.js";
 
 const hyprland = await Service.import("hyprland");
 
@@ -81,7 +82,8 @@ App.config({
         Dashboard,
         ConfigWindow,
         SessionPopup,
-        AppLauncher({ width: 450, height: 500 })
+        AppLauncher({ width: 450, height: 500 }),
+        Dock(0)
     ]
 });
 

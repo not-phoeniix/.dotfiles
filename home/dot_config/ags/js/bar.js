@@ -9,29 +9,14 @@ const audio = await Service.import("audio");
 const network = await Service.import("network");
 const bluetooth = await Service.import("bluetooth");
 
-import { Hour, Minute } from "./variables.js"
-import { ToggleFavs } from "./app_launcher.js";
+import { Hour, Minute } from "./variables.js";
 
-export const IsVertical = Variable(false)
+export const IsVertical = Variable(false);
 
 IsVertical.connect("changed", (self) => {
     const style = self.value ? "slidevert" : "slidehoriz";
     hyprland.messageAsync("keyword animation workspaces,1,3,default," + style);
 });
-
-// #region Logo button
-
-const LogoButton = Widget.Button({
-    onClicked: ToggleFavs,
-    className: "logo",
-    label: ""
-}).hook(App, (self, windowName, visible) => {
-    if (windowName == "app_launcher") {
-        self.toggleClassName("open", visible);
-    }
-}, "window-toggled");
-
-// #endregion
 
 // #region Workspaces
 
@@ -255,7 +240,6 @@ const BarWidgets = Widget.CenterBox({
         vertical: IsVertical.bind(),
         spacing: 20,
         children: [
-            LogoButton,
             WorkspacesMain,
             WorkspacesSpecial,
 

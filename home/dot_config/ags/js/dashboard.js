@@ -1,6 +1,6 @@
 const mpris = await Service.import("mpris");
 
-import { Hour, Minute, Day, Month, Year } from "./variables.js"
+import { Hour, Minute, Day, Month, Year } from "./variables.js";
 
 // #region Time
 
@@ -134,7 +134,7 @@ const NowPlaying = Widget.Box({
     className: "widget",
     css: "padding: 0px",
     vertical: true,
-    children: players.as(p => p.map(Player)),
+    child: players.as(p => Player(p[0])),
     visible: players.as(p => p.length > 0)
 });
 
