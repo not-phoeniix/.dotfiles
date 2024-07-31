@@ -72,8 +72,22 @@ export const Dock = (monitor = 0) => {
     }).hook(hyprland, () => {
         // make dock visible when either the focused client 
         //   is floating or the active workspace is empty
-        const currentClient = hyprland.getClient(hyprland.active.client.address);
         const currentWorkspace = hyprland.getWorkspace(hyprland.active.workspace.id);
-        IsVisible.value = currentClient?.floating || currentWorkspace?.windows == 0;
+
+        // check if ANY clients are tiled
+        let allAreFloating = true;
+        for (let client of hyprland.clients) {
+            const sameWorkspace = client.workspace.id == currentWorkspace?.id;
+            const isFloating = client.floating;
+            if (sameWorkspace && !isFloating) {
+                allAreFloating = false;
+                break;
+            }
+        }
+
+        // only update value if any of this is happening on the correct monitor
+        if (hyprland.active.monitor.id == monitor) {
+            IsVisible.value = currentWorkspace?.windows == 0 || allAreFloating;
+        }
     });
 };
