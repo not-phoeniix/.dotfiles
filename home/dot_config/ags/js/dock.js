@@ -21,7 +21,7 @@ function ReloadSettings(appsBox) {
         print(`dock settings file not found, writing new file to "${SettingsPath}"!!!`);
 
         // if no file found, make a new object and write the JSON to that file
-        const contents = { "apps": [], "location": "bottom", "size": 60 };
+        const contents = { "apps": [], "location": "bottom", "iconSize": 60 };
         Utils.writeFile(JSON.stringify(contents), SettingsPath);
     }
 
@@ -38,7 +38,7 @@ function ReloadSettings(appsBox) {
     //   buttons, and then assign the inputted box's children to that 
     //   new array
     if (obj.apps) {
-        const size = obj.size || 60;
+        const size = obj.iconSize || 60;
         appsBox.children = obj.apps.map(a => AppButton(query(a)[0], size));
     }
 
