@@ -135,6 +135,10 @@ popover {
     border-radius: 20px;
     padding: 10px;
     box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+    
+    &.nobg {
+        box-shadow: unset;
+    }
 }
 
 .widget {

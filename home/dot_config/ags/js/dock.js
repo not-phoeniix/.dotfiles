@@ -4,14 +4,14 @@ const hyprland = await Service.import("hyprland");
 const Location = Variable("bottom");
 const SettingsPath = Utils.exec(`bash -c "echo $XDG_CACHE_HOME"`) + "ags/dock.json";
 
-const AppButton = (app) => Widget.Button({
+const AppButton = (app, size) => Widget.Button({
     onClicked: () => {
         App.closeWindow("app_launcher");
         app.launch();
     },
     attribute: { app },
     tooltipText: app.name,
-    child: Widget.Icon({ icon: app.iconName || "", size: 60 })
+    child: Widget.Icon({ icon: app.iconName || "", size })
 });
 
 function ReloadSettings(appsBox) {
@@ -21,7 +21,7 @@ function ReloadSettings(appsBox) {
         print(`dock settings file not found, writing new file to "${SettingsPath}"!!!`);
 
         // if no file found, make a new object and write the JSON to that file
-        const contents = { "apps": [], "location": "bottom" };
+        const contents = { "apps": [], "location": "bottom", "size": 60 };
         Utils.writeFile(JSON.stringify(contents), SettingsPath);
     }
 
@@ -38,7 +38,8 @@ function ReloadSettings(appsBox) {
     //   buttons, and then assign the inputted box's children to that 
     //   new array
     if (obj.apps) {
-        appsBox.children = obj.apps.map(a => AppButton(query(a)[0]));
+        const size = obj.size || 60;
+        appsBox.children = obj.apps.map(a => AppButton(query(a)[0], size));
     }
 
     // if location is specified, set location
@@ -48,7 +49,10 @@ function ReloadSettings(appsBox) {
 }
 
 export const Dock = (monitor = 0) => {
-    const IsVisible = Variable(true);
+    const Unobstructed = Variable(false);
+    const Hovered = Variable(false);
+    const IsVisible = Utils.derive([Unobstructed, Hovered], (u, h) => u || h);
+    const DrawBg = Utils.derive([Unobstructed, Hovered], (u, h) => !u && h);
 
     const Apps = Widget.Box({
         spacing: 10,
@@ -60,16 +64,26 @@ export const Dock = (monitor = 0) => {
         }
     });
 
-    return Widget.Window({
-        monitor,
-        name: `dock${monitor}`,
-        anchor: Location.bind().as(l => [l]),
+    const hoverTrig = Widget.EventBox({
+        onHover: () => Hovered.value = true,
+        setup: self => self.poll(4000, () => {
+            // poll every 4 seconds to check if mouse is still hovered
+            //   if not, change the variable to reflect that lol
+            if (!self.is_focus && Hovered.value == true) {
+                Hovered.value = false;
+            }
+        }),
+
         child: Widget.Box({
-            className: IsVisible.bind().as(v => v ? "panel" : ""),
+            className: DrawBg.bind().as(d => IsVisible.value ? d ? "panel" : "panel nobg" : ""),
             css: "margin: 10px;",
-            child: Apps,
+            heightRequest: Location.bind().as(l => l == "left" || l == "right" ? 300 : 0),
+            widthRequest: Location.bind().as(l => l == "left" || l == "right" ? 0 : 300),
+            child: Apps
         })
-    }).hook(hyprland, () => {
+    });
+
+    function UpdateUnobstructed() {
         // make dock visible when either the focused client 
         //   is floating or the active workspace is empty
         const currentWorkspace = hyprland.getWorkspace(hyprland.active.workspace.id);
@@ -87,7 +101,14 @@ export const Dock = (monitor = 0) => {
 
         // only update value if any of this is happening on the correct monitor
         if (hyprland.active.monitor.id == monitor) {
-            IsVisible.value = currentWorkspace?.windows == 0 || allAreFloating;
+            Unobstructed.value = currentWorkspace?.windows == 0 || allAreFloating;
         }
-    });
+    }
+
+    return Widget.Window({
+        monitor,
+        name: `dock${monitor}`,
+        anchor: Location.bind().as(l => [l]),
+        child: hoverTrig
+    }).hook(hyprland, UpdateUnobstructed);
 };
