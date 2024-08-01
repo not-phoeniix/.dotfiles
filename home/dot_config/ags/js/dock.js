@@ -5,13 +5,13 @@ const Location = Variable("bottom");
 const SettingsPath = Utils.exec(`bash -c "echo $XDG_CACHE_HOME"`) + "ags/dock.json";
 
 const AppButton = (app, size) => Widget.Button({
+    child: Widget.Icon({ icon: app.iconName || "", size }),
     onClicked: () => {
         App.closeWindow("app_launcher");
         app.launch();
     },
     attribute: { app },
-    tooltipText: app.name,
-    child: Widget.Icon({ icon: app.iconName || "", size })
+    tooltipText: app.name
 });
 
 function ReloadSettings(appsBox) {
