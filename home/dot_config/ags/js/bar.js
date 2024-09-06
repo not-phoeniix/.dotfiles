@@ -277,14 +277,10 @@ export const Bar = (monitor = 0) => Widget.Window({
     anchor: IsVertical.bind().as(v => v ? ["left", "top", "bottom"] : ["top", "left", "right"]),
     exclusivity: "exclusive",
     child: Widget.Box({
-        spacing: 20,
-        homogeneous: true,
         vertical: IsVertical.bind(),
         className: "panel",
         css: "border-radius: 0px;",
-        children: [
-            BarWidgets
-        ]
+        child: BarWidgets
     }),
 });
 

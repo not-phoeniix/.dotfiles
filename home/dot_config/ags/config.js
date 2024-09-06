@@ -12,6 +12,7 @@ import { ConfigWindow } from "./js/config_window.js";
 import { SessionPopup } from "./js/session_popup.js";
 import { AppLauncher } from "./js/app_launcher.js";
 import { Dock } from "./js/dock.js";
+import { Notifications } from "./js/notifications.js";
 
 const hyprland = await Service.import("hyprland");
 
@@ -83,7 +84,8 @@ App.config({
         ConfigWindow,
         SessionPopup,
         AppLauncher({ width: 450, height: 500 }),
-        Dock(0)
+        Dock(0),
+        Notifications({ width: 350, maxNotifs: 10, monitor: 0 })
     ]
 });
 
