@@ -1,0 +1,17 @@
+.notif-icon {
+    border-radius: 10px;
+}
+
+.notif-title {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.notif-body {
+    color: transparentize($foreground, 0.5);
+    font-size: 22px;
+}
+
+.notif-action label {
+    font-size: 20px;
+}
