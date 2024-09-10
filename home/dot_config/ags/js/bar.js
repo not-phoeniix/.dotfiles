@@ -101,7 +101,14 @@ const Time = Widget.Button({
 // #region Status icons
 
 export const VolumeIcon = () => Widget.Label({
-    label: audio.speaker.bind("is_muted").as(m => m ? "󰝟" : "󰕾"),
+    setup: self => {
+        const muted = "󰝟";
+        const icons = ["󰕿", "󰖀", "󰕾"];
+        self.hook(audio.speaker, () => {
+            const index = Math.floor(audio.speaker.volume * icons.length);
+            self.label = audio.speaker.is_muted ? muted : icons[index];
+        })
+    }
 });
 
 export const BatteryIcon = () => Widget.Label().hook(
@@ -133,39 +140,10 @@ export const BatteryIcon = () => Widget.Label().hook(
     }
 );
 
-const WifiIcon = () => Widget.Stack({
-    children: {
-        "disabled": Widget.Label("󰤮"),
-        "connecting": Widget.Label("󰤫"),
-        "disconnected": Widget.Label("󰤫"),
-        "connected": Widget.Label({
-            label: network.wifi.bind("strength").as(s => {
-                const icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"];
-                const index = Math.floor((s / 100) * (icons.length - 1));
-                return icons[index];
-            }),
-            visible:
-                network.wifi.bind("enabled") &&
-                network.wifi.bind("internet").as(i => i == "connected"),
-        })
-    },
-}).hook(network.wifi, (self) => {
-    self.shown = network.wifi.enabled ? network.wifi.internet : "disabled";
-});
-
-const WiredIcon = () => Widget.Stack({
-    children: {
-        "connected": Widget.Label("󰈁"),
-        "connecting": Widget.Label("󰈂"),
-        "disconnected": Widget.Label("󰈂"),
-    },
-    shown: network.wired.bind("internet")
-});
-
 export const NetworkIcon = () => Widget.Stack({
     children: {
-        "wifi": WifiIcon(),
-        "wired": WiredIcon()
+        "wifi": Widget.Icon({ icon: network.wifi.bind("icon_name") }),
+        "wired": Widget.Icon({ icon: network.wired.bind("icon_name") })
     },
     shown: network.bind("primary").as(p => p || "wifi")
 });
