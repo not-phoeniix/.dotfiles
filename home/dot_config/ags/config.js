@@ -13,6 +13,7 @@ import { SessionPopup } from "./js/session_popup.js";
 import { AppLauncher } from "./js/app_launcher.js";
 import { Dock } from "./js/dock.js";
 import { Notifications } from "./js/notifications.js";
+import { VolBrightBar } from "./js/vol_bright_bar.js";
 
 const hyprland = await Service.import("hyprland");
 
@@ -85,7 +86,8 @@ App.config({
         SessionPopup,
         AppLauncher({ width: 450, height: 500 }),
         Dock(0),
-        Notifications({ width: 350, maxNotifs: 10, monitor: 0 })
+        Notifications({ width: 350, maxNotifs: 10, monitor: 0 }),
+        VolBrightBar(0)
     ]
 });
 

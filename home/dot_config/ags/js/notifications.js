@@ -1,11 +1,11 @@
 const notifications = await Service.import("notifications");
 
 notifications.popupTimeout = 5000;
-notifications.clearDelay = 100;
-notifications.forceTimeout = false;
+notifications.clearDelay = 200;
+notifications.forceTimeout = true;
 notifications.cacheActions = false;
 
-function NotifIcon({ app_entry, app_icon, image }) {
+const NotifIcon = ({ app_entry, app_icon, image }) => {
     if (image) {
         const imgSize = 75;
         return Widget.Box({
@@ -34,7 +34,7 @@ function NotifIcon({ app_entry, app_icon, image }) {
     });
 }
 
-function Notif(n, width = 300) {
+const Notif = (n, width = 300) => {
     const icon = NotifIcon(n);
 
     const title = Widget.Label({
@@ -99,7 +99,7 @@ function Notif(n, width = 300) {
     })
 }
 
-export function Notifications({ width = 200, maxNotifs = 10, monitor = 0 }) {
+export const Notifications = ({ width = 200, maxNotifs = 5, monitor = 0 }) => {
     const list = Widget.Box({
         vertical: true,
         spacing: 10,
@@ -111,6 +111,9 @@ export function Notifications({ width = 200, maxNotifs = 10, monitor = 0 }) {
         const n = notifications.getNotification(id);
         if (n) {
             list.children = [Notif(n, width), ...list.children]
+            if (list.children.length > maxNotifs) {
+                list.children = list.children.slice(0, maxNotifs)
+            }
         }
     }
 
@@ -118,8 +121,13 @@ export function Notifications({ width = 200, maxNotifs = 10, monitor = 0 }) {
         list.children.find(n => n.attribute.id === id)?.destroy();
     }
 
+    function onClosed(_, id) {
+        list.children.find(n => n.attribute.id === id)?.destroy();
+    }
+
     list.hook(notifications, onNotified, "notified");
     list.hook(notifications, onDismissed, "dismissed");
+    list.hook(notifications, onClosed, "closed");
 
     return Widget.Window({
         monitor,
@@ -131,8 +139,7 @@ export function Notifications({ width = 200, maxNotifs = 10, monitor = 0 }) {
 }
 
 globalThis.clearNotifs = () => {
-    notifications.clear();
-    for (let notif of notifications.popups) {
+    for (let notif of notifications.notifications) {
         notif.dismiss();
     }
     print("notifs cleared!");

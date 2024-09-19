@@ -100,7 +100,8 @@ const Time = Widget.Button({
 
 // #region Status icons
 
-export const VolumeIcon = () => Widget.Label({
+export const VolumeIcon = (fontSize = 0) => Widget.Label({
+    css: fontSize ? `font-size: ${fontSize}px;` : "",
     setup: self => {
         const muted = "󰝟";
         const icons = ["󰕿", "󰖀", "󰕾"];
@@ -190,25 +191,6 @@ const StatusIcons = Widget.Button({
 
 // #endregion
 
-// #region Toggle keyboard
-
-const keyboardOpen = Variable(Utils.exec("pgrep -l 'wvkbd-mobintl'") != "");
-function toggleKeyboard() {
-    Utils.subprocess(
-        ["bash", "-c", "~/.scripts/toggle_wvkbd.sh"],
-        (output) => print(output),
-        (err) => logError(err)
-    );
-
-    keyboardOpen.value = !keyboardOpen.value;
-}
-
-const TouchKeyboardButton = Widget.Button({
-    onClicked: toggleKeyboard,
-    className: "widget",
-    label: keyboardOpen.bind().as(o => o ? "󰌐" : "󰌌")
-});
-
 // #endregion
 
 const BarWidgets = Widget.CenterBox({
@@ -232,6 +214,8 @@ const BarWidgets = Widget.CenterBox({
         children: []
     }),
 
+    // woah woah look at me im gay (linux desktop)
+
     endWidget: Widget.Box({
         spacing: 10,
         vertical: IsVertical.bind(),
@@ -239,7 +223,6 @@ const BarWidgets = Widget.CenterBox({
             // expanding box to push below widgets to end
             Widget.Box({ vexpand: true, hexpand: true }),
 
-            TouchKeyboardButton,
             SysTray,
             StatusIcons,
             Time,
