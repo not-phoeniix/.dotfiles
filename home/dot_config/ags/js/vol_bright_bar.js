@@ -51,6 +51,7 @@ export const VolBrightBar = (monitor = 0) => Widget.Window({
     monitor,
     name: `vol_bright_bar${monitor}`,
     anchor: ["bottom"],
+    layer: "overlay",
     child: Widget.Box({
         className: "panel",
         css: "margin: 20px;",
