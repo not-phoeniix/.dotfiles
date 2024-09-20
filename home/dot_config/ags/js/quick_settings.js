@@ -6,6 +6,7 @@ const audio = await Service.import("audio");
 const battery = await Service.import("battery");
 const network = await Service.import("network");
 const bluetooth = await Service.import("bluetooth");
+import brightness from "./brightness.js";
 
 import { IsVertical, VolumeIcon, BatteryIcon, NetworkIcon, BluetoothIcon } from "./bar.js";
 
@@ -67,7 +68,6 @@ const ChangeVerticalityButton = () => BigButton(
     Widget.Label({ label: IsVertical.bind().as(v => v ? "make horiz" : "make vert") }),
 )
 
-// button that restarts AGS
 const RestartAgsButton = () => BigButton(
     () => Utils.exec(`bash -c "pkill ags && ags &"`),
     Widget.Label(""),
@@ -92,32 +92,6 @@ const BigButtons = Widget.Box({
 
 // #endregion
 
-const Profile = Widget.Box({
-    vertical: false,
-    className: "widget nobg",
-    spacing: WidgetSpacing,
-    children: [
-        Widget.Box({
-            widthRequest: 70,
-            heightRequest: 70,
-            css: `
-                background-image: url("${App.configDir}/pfp.png");
-                background-size: 100%;
-                border-radius: 100px;
-            `
-        }),
-        Widget.Box({
-            vertical: true,
-            spacing: 10,
-            hexpand: true,
-            vpack: "center",
-            children: [
-                Widget.Label("Phoenix :D")
-            ]
-        })
-    ]
-});
-
 // #region Level bars
 
 const VolumeBar = Widget.Box({
@@ -128,26 +102,25 @@ const VolumeBar = Widget.Box({
         VolumeIcon(),
         Widget.LevelBar({
             hexpand: true,
-        }).hook(audio.speaker, (self) => {
+        }).hook(audio.speaker, self => {
             self.value = audio.speaker.volume;
         })
     ]
 });
 
-// TODO: brightness bar :]
 const BrightnessBar = Widget.Box({
-    // className: "widget",
-    // vertical: false,
-    // spacing: 16,
-    // children: [
-    //     VolumeIcon(),
-    //     Widget.LevelBar({
-    //         hexpand: true,
-    //     }).hook(audio.speaker, (self) => {
-    //         self.value = audio.speaker.volume;
-    //     })
-    // ]
-})
+    className: "widget",
+    vertical: false,
+    spacing: 16,
+    children: [
+        Widget.Label("󰃠"),
+        Widget.LevelBar({
+            hexpand: true,
+        }).hook(brightness, self => {
+            self.value = brightness.screen_value;
+        })
+    ]
+});
 
 // #endregion
 
@@ -222,6 +195,7 @@ const MainPage = Widget.Box({
     spacing: WidgetSpacing,
     children: [
         BigButtons,
+        BrightnessBar,
         VolumeBar,
         SessionButtons
     ]
