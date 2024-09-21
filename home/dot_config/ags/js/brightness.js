@@ -81,7 +81,13 @@ class BrightnessService extends Service {
 }
 
 // the singleton instance
-const service = new BrightnessService;
+let service;
+try {
+    // error occurs if brightnessctl isn't installed
+    service = new BrightnessService;
+} catch {
+    service = null;
+}
 
 // export to use in other modules
 export default service;
