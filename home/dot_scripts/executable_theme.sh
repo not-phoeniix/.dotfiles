@@ -78,14 +78,14 @@ fi
 
 # update other app colors
 spicetify config color_scheme $THEME_NAME &
-$HOME/.config/mako/update-theme.sh &
 
 ### RESTART PROGRAMS ======================================
 
 killall swaybg
 swaybg -i "$IMG_PATH" &> /dev/null &
 
-$HOME/.config/ags/open.sh
+pkill ags
+ags &
 
 spicetify apply
 
