@@ -16,9 +16,10 @@ const WidgetSpacing = 10;
 
 // #region Big buttons
 
-const BigButton = (onClicked = () => { }, mainLabel, descLabel) => Widget.Button({
+const BigButton = (onClicked = () => { }, onMiddleClicked = () => { }, mainLabel, descLabel) => Widget.Button({
     className: "widget",
     onClicked: onClicked,
+    onMiddleClick: onMiddleClicked,
     heightRequest: 120,
     widthRequest: 200,
     child: Widget.Box({
@@ -40,6 +41,7 @@ const BigButton = (onClicked = () => { }, mainLabel, descLabel) => Widget.Button
 // network big button
 const Network = () => BigButton(
     () => network.toggleWifi(),
+    () => Utils.execAsync("nm-connection-editor"),
     NetworkIcon(),
     Widget.Label().hook(network, (self) => {
         self.label = `${network.wifi.internet}: ${network.wifi.ssid}`;
@@ -52,6 +54,7 @@ const Network = () => BigButton(
 // bluetooth big button
 const Bluetooth = () => BigButton(
     () => bluetooth.toggle(),
+    () => Utils.execAsync("blueman-manager"),
     BluetoothIcon(),
     Widget.Label({
         label: bluetooth.bind("connected_devices").as(d => d[0]?.name || ""),
@@ -64,14 +67,16 @@ const Bluetooth = () => BigButton(
 // toggle IsVertical button
 const ChangeVerticalityButton = () => BigButton(
     () => IsVertical.value = !IsVertical.value,
+    () => {},
     Widget.Label({ label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪") }),
     Widget.Label({ label: IsVertical.bind().as(v => v ? "make horiz" : "make vert") }),
-)
+);
 
-const RestartAgsButton = () => BigButton(
-    () => Utils.exec(`bash -c "pkill ags && ags &"`),
-    Widget.Label(""),
-    Widget.Label("restart AGS")
+const QuitAgsButton = () => BigButton(
+    () => Utils.exec(`pkill ags`),
+    () => {},
+    Widget.Label(""),
+    Widget.Label("kill AGS")
 );
 
 const BigRow = (children = []) => Widget.Box({
@@ -86,9 +91,9 @@ const BigButtons = Widget.Box({
     spacing: WidgetSpacing,
     children: [
         BigRow([Network(), Bluetooth()]),
-        BigRow([RestartAgsButton(), ChangeVerticalityButton()])
+        BigRow([QuitAgsButton(), ChangeVerticalityButton()])
     ]
-})
+});
 
 // #endregion
 
