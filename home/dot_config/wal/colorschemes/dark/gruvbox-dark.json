@@ -21,5 +21,7 @@
 		"color13":"#d3869b",
 		"color14":"#8ec07c",
 		"color15":"#ebdbb2"
-	}
+	},
+	"gtkTheme": "gruvbox-dark-gtk",
+	"gtkIcons": "gruvbox-dark-icons-gtk"
 }

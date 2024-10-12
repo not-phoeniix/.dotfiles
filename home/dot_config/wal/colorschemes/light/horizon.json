@@ -21,5 +21,7 @@
 		"color13":"#f075b5",
 		"color14":"#6be4e6",
 		"color15":"#d5d8da"
-	}
+	},
+	"gtkTheme": "new-horizons",
+	"gtkIcons": "new-horizons-icons"
 }

@@ -4,6 +4,7 @@
 unset -v IMG_PATH
 unset -v THEME_NAME
 SCHEMES_DIR=$HOME/.config/wal/colorschemes
+HYPR_GTK_CACHE_PATH=$XDG_CACHE_HOME/wal/hypr_gtk_themes.conf
 USAGE="change_theme.sh [-l] [-t] [-L] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-t theme_name (without '.json')]\n\t[-L (use flag if light mode)]\n\t[-i bg_image (path)]"
 
 set -e
@@ -67,14 +68,25 @@ fi
 
 ### UPDATE COLORS =========================================
 
-# update pywal
+# update pywal and gtk theme cache
 wal -n -i $IMG_PATH
 
+FILE_CONTENTS=""
 if [[ $is_light_mode == "true" ]]; then
 	wal -n --theme $THEME_NAME -l
+	FILE_CONTENTS=$(cat "$SCHEMES_DIR/light/$THEME_NAME.json")
 else 
 	wal -n --theme $THEME_NAME
+	FILE_CONTENTS=$(cat "$SCHEMES_DIR/dark/$THEME_NAME.json")
 fi
+
+GTK_THEME=$(echo $FILE_CONTENTS | jq ".gtkTheme" -r)
+echo "GTK theme in file: '$GTK_THEME'!"
+GTK_ICONS=$(echo $FILE_CONTENTS | jq ".gtkIcons" -r)
+echo "GTK icon theme in file: '$GTK_ICONS'!"
+
+echo "exec = gsettings set org.gnome.desktop.interface gtk-theme '$GTK_THEME'" > $HYPR_GTK_CACHE_PATH
+echo "exec = gsettings set org.gnome.desktop.interface icon-theme '$GTK_ICONS'" >> $HYPR_GTK_CACHE_PATH
 
 # update other app colors
 spicetify config color_scheme $THEME_NAME &
@@ -85,7 +97,7 @@ killall swaybg
 swaybg -i "$IMG_PATH" &> /dev/null &
 
 pkill ags
-ags &
+ags &> /dev/null &
 
 spicetify apply
 
