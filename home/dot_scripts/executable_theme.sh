@@ -5,7 +5,8 @@ unset -v IMG_PATH
 unset -v THEME_NAME
 SCHEMES_DIR=$HOME/.config/wal/colorschemes
 HYPR_GTK_CACHE_PATH=$XDG_CACHE_HOME/wal/hypr_gtk_themes.conf
-USAGE="change_theme.sh [-l] [-t] [-L] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-t theme_name (without '.json')]\n\t[-L (use flag if light mode)]\n\t[-i bg_image (path)]"
+THEME_CACHE_PATH=$XDG_CACHE_HOME/wal/previous_theme
+USAGE="change_theme.sh [-l] [-r] [-t] [-L] [-i]\n\t[-l (lists pywal themes and exits)]\n\t[-r (reloads existing theme from cache)]\n\t[-t theme_name (without '.json')]\n\t[-L (use flag if light mode)]\n\t[-i bg_image (path)]"
 
 set -e
 
@@ -20,7 +21,7 @@ fi
 is_light_theme="false"
 
 # parsing arguments (a colon after means it accepts arguments)
-while getopts 't:i:hlL' opt; do
+while getopts 't:i:hlLr' opt; do
 	case "$opt" in
 		h) # help
 			echo -e "usage: $USAGE"
@@ -31,6 +32,11 @@ while getopts 't:i:hlL' opt; do
 			echo "Currently installed pywal color schemes:"
 			echo -e "$(find $SCHEMES_DIR -type f -printf ' - %f\n')"
 			exit 0
+			;;
+
+		r) # reload current theme
+			THEME_NAME=$(cat $THEME_CACHE_PATH)
+			IMG_PATH=$(cat $XDG_CACHE_HOME/wal/wal)
 			;;
 
 		t) # theme name
@@ -65,6 +71,9 @@ if ! [ -f "$SCHEMES_DIR/dark/$THEME_NAME.json" ] && ! [ -f "$SCHEMES_DIR/light/$
 	echo "Error! $THEME_NAME.json does not exist in ~/.config/wal/colorschemes"
 	exit 1
 fi
+
+# write theme to cache every time it's changed
+echo $THEME_NAME > $THEME_CACHE_PATH
 
 ### UPDATE COLORS =========================================
 
