@@ -2,9 +2,9 @@ const hyprland = await Service.import("hyprland");
 
 import { Hour, HourMilit, Minute } from "./variables.js";
 
-export const Name = Variable("[name]");
-export const SquareSize = Variable(250);
-export const SquareSpacing = Variable(20);
+const Name = Variable("[name]");
+const SquareSize = Variable(250);
+const SquareSpacing = Variable(20);
 
 const DigitalClock = Widget.CenterBox({
     className: "panel digital-clock",
@@ -113,3 +113,19 @@ export const DesktopWidgets = Widget.Window({
         self.hook(hyprland, UpdateUnobstructed);
     }
 });
+
+export function GetDesktopSettings() {
+    return {
+        name: Name.value,
+        squareSize: SquareSize.value,
+        squareSpacing: SquareSpacing.value
+    };
+}
+
+export function LoadDesktopSettings(obj) {
+    if (obj) {
+        Name.value = obj.name ?? "[name]";
+        SquareSize.value = obj.squareSize ?? 250;
+        SquareSpacing.value = obj.squareSpacing ?? 20;
+    }
+}

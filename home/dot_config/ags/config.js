@@ -11,32 +11,49 @@ import { Dashboard } from "./js/dashboard.js";
 import { ConfigWindow } from "./js/config_window.js";
 import { SessionPopup } from "./js/session_popup.js";
 import { AppLauncher } from "./js/app_launcher.js";
-import { Dock } from "./js/dock.js";
+import { Dock, GetDockSettings, LoadDockSettings } from "./js/dock.js";
 import { Notifications } from "./js/notifications.js";
 import { VolBrightBar } from "./js/vol_bright_bar.js";
-import { DesktopWidgets, Name, SquareSize, SquareSpacing } from "./js/desktop.js";
+import { DesktopWidgets, GetDesktopSettings, LoadDesktopSettings } from "./js/desktop.js";
 
 const hyprland = await Service.import("hyprland");
+
+// used so that writing and reading don't happen in response 
+//   to each other (possibly resulting in an infinite loop D:)
+let settingsAccessed = false;
 
 // #region Settings JSON writing/loading
 
 const SettingsPath = CachePath + "/settings.json";
 
 function WriteSettings() {
+    if (settingsAccessed) {
+        return;
+    }
+
+    settingsAccessed = true;
+
     const settingsObj = {
         isVertical: IsVertical.value,
-        name: Name.value,
-        squareSize: SquareSize.value,
-        squareSpacing: SquareSpacing.value
+        desktop: GetDesktopSettings(),
+        dock: GetDockSettings()
     };
 
     const json = JSON.stringify(settingsObj, null, 4);
 
     Utils.writeFile(json, SettingsPath);
     print("settings saved to \"" + SettingsPath + "\" :3");
+
+    settingsAccessed = false;
 }
 
 function ReadSettings() {
+    if (settingsAccessed) {
+        return;
+    }
+
+    settingsAccessed = true;
+
     const json = Utils.readFile(SettingsPath);
 
     if (!json) {
@@ -47,22 +64,25 @@ function ReadSettings() {
     // parse settings string and set program values
     const settings = JSON.parse(json);
     IsVertical.value = settings.isVertical;
-    Name.value = settings.name;
-    SquareSize.value = settings.squareSize;
-    SquareSpacing.value = settings.squareSpacing;
+    LoadDesktopSettings(settings.desktop);
+    LoadDockSettings(settings.dock);
 
     // set hyprland anim style based on IsVertical variable
     const style = IsVertical.value ? "slidevert" : "slidehoriz";
     hyprland.messageAsync("keyword animation workspaces,1,3,default," + style);
 
     print("settings loaded from \"" + SettingsPath + "\" :3");
+
+    settingsAccessed = false;
 }
 
 // load settings at startup
 ReadSettings();
 
-// make IsVertical write settings and set hyprland animation when changed
+// set up connections so settings are written when is vertical 
+//   changes and things are loaded when the file itself changes
 IsVertical.connect("changed", WriteSettings);
+Utils.monitorFile(SettingsPath, ReadSettings);
 
 // #endregion
 
@@ -92,7 +112,7 @@ App.config({
         ConfigWindow,
         SessionPopup,
         AppLauncher({ width: 450, height: 500 }),
-        Dock(0),
+        Dock,
         Notifications({ width: 350, maxNotifs: 10, monitor: 0 }),
         VolBrightBar(0),
         DesktopWidgets
