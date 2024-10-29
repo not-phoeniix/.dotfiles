@@ -22,7 +22,7 @@ function ReloadSettings(appsBox) {
 
         // if no file found, make a new object and write the JSON to that file
         const contents = { "apps": [], "location": "bottom", "iconSize": 60 };
-        Utils.writeFile(JSON.stringify(contents), SettingsPath);
+        Utils.writeFile(JSON.stringify(contents, null, 4), SettingsPath);
     }
 
     const fileString = Utils.readFile(SettingsPath);

@@ -6,6 +6,7 @@ const audio = await Service.import("audio");
 const battery = await Service.import("battery");
 const network = await Service.import("network");
 const bluetooth = await Service.import("bluetooth");
+const hyprland = await Service.import("hyprland");
 import brightness from "./brightness.js";
 
 import { IsVertical, VolumeIcon, BatteryIcon, NetworkIcon, BluetoothIcon } from "./bar.js";
@@ -16,7 +17,13 @@ const WidgetSpacing = 10;
 
 // #region Big buttons
 
-const BigButton = (onClicked = () => { }, onMiddleClicked = () => { }, mainLabel, descLabel) => Widget.Button({
+const BigButton = (
+    onClicked = () => { },
+    onMiddleClicked = () => { },
+    onPageClicked = () => { },
+    mainLabel,
+    descLabel
+) => Widget.Button({
     className: "widget",
     onClicked: onClicked,
     onMiddleClick: onMiddleClicked,
@@ -42,6 +49,7 @@ const BigButton = (onClicked = () => { }, onMiddleClicked = () => { }, mainLabel
 const Network = () => BigButton(
     () => network.toggleWifi(),
     () => Utils.execAsync("nm-connection-editor"),
+    () => PageStack.shown = "net",
     NetworkIcon(),
     Widget.Label().hook(network, (self) => {
         self.label = `${network.wifi.internet}: ${network.wifi.ssid}`;
@@ -55,6 +63,7 @@ const Network = () => BigButton(
 const Bluetooth = () => BigButton(
     () => bluetooth.toggle(),
     () => Utils.execAsync("blueman-manager"),
+    () => { },
     BluetoothIcon(),
     Widget.Label({
         label: bluetooth.bind("connected_devices").as(d => d[0]?.name || ""),
@@ -67,14 +76,16 @@ const Bluetooth = () => BigButton(
 // toggle IsVertical button
 const ChangeVerticalityButton = () => BigButton(
     () => IsVertical.value = !IsVertical.value,
-    () => {},
+    () => { },
+    () => { },
     Widget.Label({ label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪") }),
     Widget.Label({ label: IsVertical.bind().as(v => v ? "make horiz" : "make vert") }),
 );
 
 const QuitAgsButton = () => BigButton(
     () => Utils.exec(`pkill ags`),
-    () => {},
+    () => { },
+    () => { },
     Widget.Label(""),
     Widget.Label("kill AGS")
 );
@@ -129,7 +140,7 @@ const BrightnessBar = Widget.Box({
 
 // #endregion
 
-// #region Session buttons
+// #region Bottom buttons
 
 function secToHourMin(seconds) {
     const hour = Math.floor(seconds / 3600);
@@ -167,7 +178,7 @@ const BatteryStatus = Widget.Button({
     })
 });
 
-const SessionButtons = Widget.Box({
+const BottomButtons = Widget.Box({
     spacing: WidgetSpacing,
     vertical: false,
     className: "widget nobg",
@@ -184,7 +195,7 @@ const SessionButtons = Widget.Box({
             onClicked: () => App.openWindow("desktop_cfg")
         }),
 
-        // session exit button
+        // session popup button
         Widget.Button({
             label: "⏻",
             className: "smoltext",
@@ -202,7 +213,7 @@ const MainPage = Widget.Box({
         BigButtons,
         BrightnessBar,
         VolumeBar,
-        SessionButtons
+        BottomButtons
     ]
 });
 
@@ -212,6 +223,10 @@ const MainPage = Widget.Box({
 
 const NetworkPage = Widget.Box({
     children: [
+        Widget.Button({
+            label: "back",
+            onClicked: () => PageStack.shown = "main"
+        }),
         Widget.Label("hi hi net page :3")
     ]
 });
@@ -219,6 +234,14 @@ const NetworkPage = Widget.Box({
 // #endregion
 
 // #region Window itself
+
+const PageStack = Widget.Stack({
+    children: {
+        "main": MainPage,
+        "net": NetworkPage
+    },
+    shown: "main"
+});
 
 export const QuickSettings = Widget.Window({
     monitor: 0,
@@ -228,15 +251,7 @@ export const QuickSettings = Widget.Window({
     child: Widget.Box({
         className: "panel",
         css: "margin: 10px;",
-        children: [
-            Widget.Stack({
-                children: {
-                    "main": MainPage,
-                    "net": NetworkPage
-                },
-                shown: "main"
-            })
-        ]
+        child: PageStack
     })
 }).keybind("Escape", () => App.closeWindow("quick_settings"));
 

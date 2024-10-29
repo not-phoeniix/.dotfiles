@@ -2,7 +2,7 @@
 // main AGS config file :3
 //
 
-const CachePath = Utils.exec(`bash -c "echo $XDG_CACHE_HOME"`) + "/ags";
+const CachePath = Utils.exec(`bash -c "echo $XDG_CACHE_HOME"`) + "ags";
 Utils.exec(`mkdir -p ${CachePath}`);
 
 import { Bar, IsVertical } from "./js/bar.js";
@@ -14,6 +14,7 @@ import { AppLauncher } from "./js/app_launcher.js";
 import { Dock } from "./js/dock.js";
 import { Notifications } from "./js/notifications.js";
 import { VolBrightBar } from "./js/vol_bright_bar.js";
+import { DesktopWidgets, Name, SquareSize, SquareSpacing } from "./js/desktop.js";
 
 const hyprland = await Service.import("hyprland");
 
@@ -23,10 +24,13 @@ const SettingsPath = CachePath + "/settings.json";
 
 function WriteSettings() {
     const settingsObj = {
-        IsVertical: IsVertical.value
-    }
+        isVertical: IsVertical.value,
+        name: Name.value,
+        squareSize: SquareSize.value,
+        squareSpacing: SquareSpacing.value
+    };
 
-    const json = JSON.stringify(settingsObj);
+    const json = JSON.stringify(settingsObj, null, 4);
 
     Utils.writeFile(json, SettingsPath);
     print("settings saved to \"" + SettingsPath + "\" :3");
@@ -41,8 +45,11 @@ function ReadSettings() {
     }
 
     // parse settings string and set program values
-    const settings = JSON.parse(Utils.readFile(SettingsPath));
-    IsVertical.value = settings.IsVertical;
+    const settings = JSON.parse(json);
+    IsVertical.value = settings.isVertical;
+    Name.value = settings.name;
+    SquareSize.value = settings.squareSize;
+    SquareSpacing.value = settings.squareSpacing;
 
     // set hyprland anim style based on IsVertical variable
     const style = IsVertical.value ? "slidevert" : "slidehoriz";
@@ -51,17 +58,17 @@ function ReadSettings() {
     print("settings loaded from \"" + SettingsPath + "\" :3");
 }
 
-// make IsVertical write settings and set hyprland animation when changed
-IsVertical.connect("changed", WriteSettings);
-
 // load settings at startup
 ReadSettings();
+
+// make IsVertical write settings and set hyprland animation when changed
+IsVertical.connect("changed", WriteSettings);
 
 // #endregion
 
 // #region CSS dynamic reloading upon file saving
 
-function reloadStyling() {
+function ReloadStyling() {
     const scss = `${App.configDir}/style.scss`;
     const css = CachePath + "/style.css";
     Utils.exec(`sassc ${scss} ${css}`);
@@ -70,10 +77,10 @@ function reloadStyling() {
     App.applyCss(css);
 }
 
-Utils.monitorFile(`${App.configDir}/style`, reloadStyling);
-Utils.monitorFile(`${App.configDir}/style.scss`, reloadStyling);
+Utils.monitorFile(`${App.configDir}/style`, ReloadStyling);
+Utils.monitorFile(`${App.configDir}/style.scss`, ReloadStyling);
 
-reloadStyling();
+ReloadStyling();
 
 // #endregion
 
@@ -87,7 +94,8 @@ App.config({
         AppLauncher({ width: 450, height: 500 }),
         Dock(0),
         Notifications({ width: 350, maxNotifs: 10, monitor: 0 }),
-        VolBrightBar(0)
+        VolBrightBar(0),
+        DesktopWidgets
     ]
 });
 

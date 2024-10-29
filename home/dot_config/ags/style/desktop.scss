@@ -1,0 +1,15 @@
+.digital-clock label {
+    font-size: 100px;
+    font-weight: bold;
+}
+
+.greeter {
+    & .greet-name {
+        font-size: 40px;
+        font-weight: bold;
+    }
+
+    & .greet-time {
+        font-size: 30px;
+    }
+}

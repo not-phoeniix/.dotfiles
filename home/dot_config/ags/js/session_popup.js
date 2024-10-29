@@ -48,7 +48,7 @@ export const SessionPopup = Widget.Window({
     }),
 })
     .keybind("Escape", () => App.closeWindow("session_popup"))
-    .hook(App, (self, windowName, visible) => {
+    .hook(App, (_, windowName, visible) => {
         if (windowName == "session_popup") {
             if (visible) {
                 App.closeWindow("bar0");
