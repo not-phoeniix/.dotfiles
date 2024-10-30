@@ -13,3 +13,18 @@
         font-size: 30px;
     }
 }
+
+.desktop-widget {
+    background-color: transparentize($background, 0.25);
+    border-radius: 25px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+}
+
+.desktop-widget-icon {
+    font-size: 70px;
+}
+
+.desktop-widget-desc {
+    font-size: 25px;
+    color: transparentize($foreground, 0.4);
+}

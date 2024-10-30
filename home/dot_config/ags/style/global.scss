@@ -102,6 +102,11 @@ tooltip {
     }
 }
 
+circular-progress {
+    color: $color1;
+    background-color: $background;
+}
+
 // systray icon popups
 .popup {
     background-color: $background;

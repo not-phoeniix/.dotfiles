@@ -9,7 +9,7 @@ const WeatherUrlLatitude = Variable(0);
 const WeatherUrlLongitude = Variable(0);
 
 const DigitalClock = Widget.CenterBox({
-    className: "panel digital-clock",
+    className: "desktop-widget digital-clock",
     widthRequest: SquareSize.bind(),
     heightRequest: SquareSize.bind(),
     centerWidget: Widget.Box({
@@ -22,7 +22,7 @@ const DigitalClock = Widget.CenterBox({
 });
 
 const Greeter = Widget.CenterBox({
-    className: "panel greeter",
+    className: "desktop-widget greeter",
     vertical: true,
     widthRequest: SquareSize.bind(),
     heightRequest: SquareSize.bind(),
@@ -100,6 +100,86 @@ const PokemonSearch = Widget.Box({
     }
 });
 
+const Storage = () => {
+    function getUsedPercent() {
+        // get percentage used of root folder only second line, 
+        //   regex to remove spaces and percent sign
+        const output = Utils.exec(
+            "df -h --output=pcent / | sed -n '2p'"
+        ).replace(/\s\%/g, "");
+
+        return Number(output);
+    }
+
+    const totalGigabytes = Variable(500);
+    const usedGigabytes = Variable(10);
+    const usedPercent = Variable(0.1);
+
+    function updateStorage() {
+        // grab output
+        let output = Utils.exec(`bash -c "df -h --output=size,used,pcent / | sed -n '2p'"`);
+
+        // turn all multiple spaces into a single space
+        output = output.replace(/\s+/g, " ");
+        // remove leading and trailing whitespace
+        output = output.replace(/(^\s+|\s+$)/g, "");
+
+        // split by matching only repeating numbers
+        const split = output.match(/\d+/g);
+
+        if (split) {
+            totalGigabytes.value = Number(split[0]);
+            usedGigabytes.value = Number(split[1]);
+            usedPercent.value = Number(split[2]) / 100;
+        }
+    }
+
+    updateStorage();
+    Utils.interval(60_000 * 15, () => updateStorage);
+
+    const progress = Widget.CircularProgress({
+        css: SquareSize.bind().as(s => `
+            min-width: ${s - 30}px;
+            min-height: ${s - 30}px;
+        `),
+        startAt: 0.75,
+        endAt: 0.75,
+        rounded: true,
+        value: usedPercent.bind()
+    });
+
+    return Widget.CenterBox({
+        className: "desktop-widget",
+        widthRequest: SquareSize.bind(),
+        heightRequest: SquareSize.bind(),
+        centerWidget: Widget.Overlay({
+            child: progress,
+            overlay: Widget.Box({
+                vertical: true,
+                vpack: "center",
+                children: [
+                    Widget.Label({
+                        label: "󰋊",
+                        className: "desktop-widget-icon"
+                    }),
+                    Widget.Label({
+                        label: usedPercent.bind().as(u => `${u * 100}% used`),
+                        className: "desktop-widget-desc"
+                    }),
+                    // Widget.Label({
+                    //     label: usedGigabytes.bind().as(() =>
+                    //         `${usedGigabytes.value}gb / ${totalGigabytes.value}gb`
+                    //     ),
+                    //     className: "desktop-widget-desc"
+                    // })
+                ]
+            }),
+        })
+    });
+
+};
+
+
 const Weather = () => {
     const tempLabel = Widget.Label("temp: 20°F");
     const humidLabel = Widget.Label("humid: 0%");
@@ -115,7 +195,7 @@ const Weather = () => {
     }
 
     return Widget.Box({
-        className: "panel weather",
+        className: "desktop-widget weather",
         widthRequest: SquareSize.bind(),
         heightRequest: SquareSize.bind(),
         vertical: true,
@@ -141,10 +221,14 @@ const WidgetCollection = Widget.Box({
             spacing: SquareSpacing.bind(),
             children: [
                 DigitalClock,
-                Greeter
+                Greeter,
             ]
         }),
-        Weather()
+        Widget.Box({
+            homogeneous: false,
+            child: Storage()
+        }),
+        // Weather()
     ]
 });
 
