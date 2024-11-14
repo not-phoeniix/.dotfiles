@@ -1,7 +1,6 @@
 const { query } = await Service.import("applications");
-const hyprland = await Service.import("hyprland");
 
-// const SettingsPath = Utils.exec(`bash -c "echo $XDG_CACHE_HOME"`) + "ags/dock.json";
+import { DesktopUnobstructed } from "./variables.js";
 
 // savable variables:
 const Location = Variable("bottom");
@@ -10,10 +9,9 @@ const Monitor = Variable(0);
 const Apps = Variable([]);
 
 // showing dock variables
-const Unobstructed = Variable(false);
 const Hovered = Variable(false);
-const IsVisible = Utils.derive([Unobstructed, Hovered], (u, h) => u || h);
-const DrawBg = Utils.derive([Unobstructed, Hovered], (u, h) => !u && h);
+const IsVisible = Utils.derive([DesktopUnobstructed, Hovered], (u, h) => u || h);
+const DrawBg = Utils.derive([DesktopUnobstructed, Hovered], (u, h) => !u && h);
 
 const AppButton = (app) => Widget.Button({
     child: Widget.Icon({ icon: app.iconName || "", size: IconSize.bind() }),
@@ -51,34 +49,12 @@ const HoverTrig = Widget.EventBox({
     })
 });
 
-function UpdateUnobstructed() {
-    // make dock visible when either the focused client 
-    //   is floating or the active workspace is empty
-    const currentWorkspace = hyprland.getWorkspace(hyprland.active.workspace.id);
-
-    // check if ANY clients are tiled
-    let allAreFloating = true;
-    for (let client of hyprland.clients) {
-        const sameWorkspace = client.workspace.id == currentWorkspace?.id;
-        const isFloating = client.floating;
-        if (sameWorkspace && !isFloating) {
-            allAreFloating = false;
-            break;
-        }
-    }
-
-    // only update value if any of this is happening on the correct monitor
-    if (hyprland.active.monitor.id == 0) {
-        Unobstructed.value = currentWorkspace?.windows == 0 || allAreFloating;
-    }
-}
-
 export const Dock = Widget.Window({
     monitor: Monitor.bind(),
     name: "dock",
     anchor: Location.bind().as(l => [l]),
     child: HoverTrig
-}).hook(hyprland, UpdateUnobstructed);
+});
 
 export function GetDockSettings() {
     return {

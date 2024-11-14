@@ -20,16 +20,15 @@ const WidgetSpacing = 10;
 const BigButton = (
     onClicked = () => { },
     onMiddleClicked = () => { },
-    onPageClicked = () => { },
+    onRightClicked = () => { },
     mainLabel,
     descLabel
-) => Widget.Button({
-    className: "widget",
-    onClicked: onClicked,
-    onMiddleClick: onMiddleClicked,
-    heightRequest: 120,
-    widthRequest: 200,
-    child: Widget.Box({
+) => {
+    descLabel.toggleClassName("description", true);
+    descLabel.maxWidthChars = 50;
+    descLabel.wrap = true;
+
+    const subLabels = Widget.Box({
         vertical: true,
         spacing: 6,
         vpack: "center",
@@ -37,19 +36,27 @@ const BigButton = (
             mainLabel,
             descLabel
         ]
-    }),
-    setup: () => {
-        descLabel.toggleClassName("description", true);
-        descLabel.maxWidthChars = 50;
-        descLabel.wrap = true;
-    }
-});
+    });
+
+    return Widget.Button({
+        className: "widget",
+        onClicked: onClicked,
+        onMiddleClick: onMiddleClicked,
+        onSecondaryClick: onRightClicked,
+        heightRequest: 120,
+        widthRequest: 200,
+        child: subLabels
+    });
+};
 
 // network big button
 const Network = () => BigButton(
     () => network.toggleWifi(),
     () => Utils.execAsync("nm-connection-editor"),
-    () => PageStack.shown = "net",
+    () => {
+        PageStack.shown = "net";
+        network.wifi.scan();
+    },
     NetworkIcon(),
     Widget.Label().hook(network, (self) => {
         self.label = `${network.wifi.internet}: ${network.wifi.ssid}`;
@@ -63,7 +70,7 @@ const Network = () => BigButton(
 const Bluetooth = () => BigButton(
     () => bluetooth.toggle(),
     () => Utils.execAsync("blueman-manager"),
-    () => { },
+    () => PageStack.shown = "bluetooth",
     BluetoothIcon(),
     Widget.Label({
         label: bluetooth.bind("connected_devices").as(d => d[0]?.name || ""),
@@ -76,16 +83,16 @@ const Bluetooth = () => BigButton(
 // toggle IsVertical button
 const ChangeVerticalityButton = () => BigButton(
     () => IsVertical.value = !IsVertical.value,
-    () => { },
-    () => { },
+    undefined,
+    undefined,
     Widget.Label({ label: IsVertical.bind().as(v => v ? "󱔓" : "󱂪") }),
     Widget.Label({ label: IsVertical.bind().as(v => v ? "make horiz" : "make vert") }),
 );
 
 const QuitAgsButton = () => BigButton(
     () => Utils.exec(`pkill ags`),
-    () => { },
-    () => { },
+    undefined,
+    undefined,
     Widget.Label(""),
     Widget.Label("kill AGS")
 );
@@ -219,15 +226,87 @@ const MainPage = Widget.Box({
 
 // #endregion
 
-// #region Network Page
-
-const NetworkPage = Widget.Box({
+const TitleBar = (pageName = "[page]") => Widget.Box({
+    className: "widget",
+    vexpand: false,
     children: [
         Widget.Button({
-            label: "back",
+            label: "",
+            hexpand: false,
             onClicked: () => PageStack.shown = "main"
         }),
-        Widget.Label("hi hi net page :3")
+        Widget.Label({
+            label: pageName,
+            hexpand: true
+        })
+    ]
+})
+
+// #region Network Page
+
+const AccessPoint = (accessPoint) => Widget.Button({
+    onClicked: () => Utils.execAsync(`nmcli connection up "${accessPoint.ssid}"`),
+    child: Widget.Box({
+        children: [
+            // Widget.Label({
+            //     label: "h",
+            //     setup: self => {
+            //         const icons = ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"];
+            //         const index = Math.floor(accessPoint.strength / 100 * (icons.length - 1));
+            //         self.label = icons[index];
+            //     }
+            // }),
+            Widget.Label(accessPoint.ssid)
+        ]
+    })
+});
+
+const NetworkPage = Widget.Box({
+    spacing: 10,
+    vertical: true,
+    children: [
+        TitleBar("network"),
+        Widget.Scrollable({
+            className: "widget",
+            hscroll: "never",
+            vexpand: true,
+            child: Widget.Box({
+                vertical: true,
+                children: network.wifi.bind("access_points").as(a => {
+                    // sort based on strength, higher at the front (hopefully)
+                    a.sort((one, two) => two.strength - one.strength);
+
+                    // remove duplicate ssid's
+                    let existing = [];
+                    a.filter((network) => {
+                        if (!existing.includes(network.ssid)) {
+                            existing.push(network.ssid);
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    return a.map(AccessPoint)
+                })
+            })
+        })
+    ]
+});
+
+// #endregion
+
+// #region Bluetooth Page
+
+const BluetoothPage = Widget.Box({
+    spacing: 10,
+    vertical: true,
+    children: [
+        TitleBar("bluetooth"),
+        Widget.Box({
+            className: "widget",
+            vexpand: true
+        })
     ]
 });
 
@@ -238,7 +317,8 @@ const NetworkPage = Widget.Box({
 const PageStack = Widget.Stack({
     children: {
         "main": MainPage,
-        "net": NetworkPage
+        "net": NetworkPage,
+        "bluetooth": BluetoothPage
     },
     shown: "main"
 });
@@ -253,6 +333,12 @@ export const QuickSettings = Widget.Window({
         css: "margin: 10px;",
         child: PageStack
     })
-}).keybind("Escape", () => App.closeWindow("quick_settings"));
+})
+    .keybind("Escape", () => App.closeWindow("quick_settings"))
+    .hook(App, (_, windowName, visible) => {
+        if (windowName == "quick_settings" && visible) {
+            PageStack.shown = "main";
+        }
+    }, "window-toggled");
 
 // #endregion
