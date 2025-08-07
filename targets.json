@@ -1,0 +1,46 @@
+[
+	{
+		"operation": "symlink",
+		"path": "~/.config/astal"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.config/foot"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.config/hypr"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.config/lf"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.config/nvim"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.config/wal/colorschemes"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.config/wal/templates"
+	},
+	{
+		"operation": "copy",
+		"path": "~/.fonts/FiraCodeNerdFontMono-Regular.ttf"
+	},
+	{
+		"operation": "copy",
+		"path": "~/.fonts/Papernotes.otf"
+	},
+	{
+		"operation": "copy",
+		"path": "~/Pictures/wallpapers"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.zshrc"
+	}
+]
