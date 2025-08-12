@@ -42,7 +42,7 @@ function wsIcon(workspace: number, hideIfNotExist: boolean = false, iconOverwrit
     }
 
     return <button
-        onClick={() => execAsync(`hyprctl dispatch workspace ${workspace}`)}
+        onClick={() => hyprland.dispatch("workspace", `${workspace}`)}
         className="workspace"
         label={workspace.toString()}
         setup={(self) => {
