@@ -3,8 +3,10 @@ import { App, Astal, Gdk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango";
 import Settings from "../extra/settings";
 import { bind } from "astal";
+import AstalHyprland from "gi://AstalHyprland";
 
 const notifd = AstalNotifd.get_default();
+const hyprland = AstalHyprland.get_default();
 
 // notifd settings setup
 notifd.ignoreTimeout = false;
@@ -15,6 +17,11 @@ function action(notif: AstalNotifd.Notification, label: string, id: string): JSX
         label={label}
         className="notif-action-button"
         onClick={() => {
+            const client = hyprland.clients.find((client) => client.class == notif.appName);
+            if (client) {
+                hyprland.dispatch("workspace", `${client.workspace.id}`);
+            }
+
             notif.invoke(id);
             notif.dismiss();
         }}
