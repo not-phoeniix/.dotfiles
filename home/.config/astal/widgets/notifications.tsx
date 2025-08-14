@@ -1,5 +1,5 @@
 import AstalNotifd from "gi://AstalNotifd";
-import { Astal, Gdk, Widget } from "astal/gtk3";
+import { App, Astal, Gdk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango";
 import Settings from "../extra/settings";
 import { bind } from "astal";
@@ -149,10 +149,22 @@ export function Notifications(monitor: Gdk.Monitor): JSX.Element {
 
 export function NotificationHistory(monitor: Gdk.Monitor): JSX.Element {
     return <window
-        name={`notifHistory`}
+        name="notifHistory"
+        application={App}
         anchor={bind(Settings.notifLocation)}
+        visible={false}
         layer={Astal.Layer.OVERLAY}
         gdkmonitor={monitor}>
-        {notifsList()}
+        <box
+            vertical={true}
+            spacing={10}
+            className="panel"
+            css="margin: 10px;">
+
+            <label>notifs :3</label>
+            <label>notifs :3</label>
+
+        </box>
+        {/* {notifsList()} */}
     </window>;
 }

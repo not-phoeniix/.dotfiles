@@ -5,9 +5,11 @@ import Settings, { Location } from "../extra/settings";
 import { hour, minute } from "../extra/time";
 import { networkIcon, batteryIcon, bluetoothIcon, volumeIcon } from "./icons";
 import AstalTray from "gi://AstalTray";
+import AstalNotifd from "gi://AstalNotifd";
 
 const hyprland = AstalHyprland.get_default();
 const tray = AstalTray.get_default();
+const notifd = AstalNotifd.get_default();
 
 // gets a combination of astal window anchor binds according to an inputted BarLocation
 function getBarAnchor(location: Location) {
@@ -116,10 +118,16 @@ function time(): JSX.Element {
 
 // #region status icons / quick settings button
 
-function statusIcons(quickMenu: Gtk.Window | null): JSX.Element {
+function statusIcons(): JSX.Element {
+    const quickMenu = App.get_window("quickMenu");
+
     return <button
         className={quickMenu ? bind(quickMenu, "visible").as(v => `widget ${v ? "open" : ""}`) : "widget"}
-        onClick={quickMenu ? () => quickMenu.visible = !quickMenu.visible : undefined}>
+        onClick={() => {
+            if (quickMenu) {
+                quickMenu.visible = !quickMenu.visible;
+            }
+        }}>
         <box vertical={bind(Settings.barIsVertical)} spacing={10}>
             {networkIcon("bar-status-icon")}
             {bluetoothIcon("bar-status-icon")}
@@ -133,11 +141,20 @@ function statusIcons(quickMenu: Gtk.Window | null): JSX.Element {
 
 // #region notification history
 
-function notifHistory(notifHistory: Gtk.Window | null): JSX.Element {
+function notifHistory(): JSX.Element {
+    const notifHistory = App.get_window("notifHistory");
+
     return <button
         className={notifHistory ? bind(notifHistory, "visible").as(v => `widget ${v ? "open" : ""}`) : "widget"}
-        onClick={notifHistory ? () => notifHistory.visible = !notifHistory.visible : undefined}>
-        <label label="" className="widget-label" />
+        onClick={() => {
+            if (notifHistory) {
+                notifHistory.visible = !notifHistory.visible;
+            }
+        }}>
+        <label
+            label={bind(notifd, "dont_disturb").as(d => d ? "" : "")}
+            className="widget-label"
+        />
     </button>;
 }
 
@@ -171,11 +188,8 @@ function systemTray(): JSX.Element {
 // #endregion
 
 function barWidgets(): JSX.Element {
-    const quickMenuWindow = App.get_window("quickMenu");
-    const notifHistoryWindow = App.get_window("notifHistory");
 
     return <box vertical={bind(Settings.barIsVertical)}>
-
         { /* start widget, workspace things */}
         <box vertical={bind(Settings.barIsVertical)} spacing={10}>
             {workspaces()}
@@ -195,8 +209,8 @@ function barWidgets(): JSX.Element {
             <box vexpand={true} hexpand={true} />
 
             {systemTray()}
-            {notifHistory(null)}
-            {statusIcons(quickMenuWindow)}
+            {notifHistory()}
+            {statusIcons()}
             {time()}
         </box>
 
