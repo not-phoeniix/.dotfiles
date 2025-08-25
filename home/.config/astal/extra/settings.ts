@@ -42,6 +42,14 @@ const dockIconSize = Variable(45);
 // wallpaper stuff
 const wallpaperDir = Variable("");
 
+const themes = Variable<string[]>([]);
+function refreshThemes() {
+    const newThemes = exec(["ls", paths.themesDir]).replace(/\.json$/gm, "").split("\n");
+    themes.set(newThemes);
+}
+
+refreshThemes();
+
 // #endregion
 
 // #region file saving/loading functions
@@ -156,7 +164,14 @@ if (!loadSettings(paths.settingsFile)) {
     saveSettings(paths.settingsFile);
 }
 
-monitorFile(paths.settingsFile, () => loadSettings(paths.settingsFile));
+let settingsBeingLoaded = false;
+monitorFile(paths.settingsFile, () => {
+    if (!settingsBeingLoaded) {
+        settingsBeingLoaded = true;
+        loadSettings(paths.settingsFile)
+        settingsBeingLoaded = false;
+    }
+});
 
 // #endregion
 
@@ -171,5 +186,7 @@ export default {
     notifLocation,
     dockApps,
     dockIconSize,
-    wallpaperDir
+    wallpaperDir,
+    themes,
+    refreshThemes
 };
