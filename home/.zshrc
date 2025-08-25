@@ -29,9 +29,9 @@ alias tty-clock='tty-clock -c -C 1'
 alias feh='feh --scale-down'
 alias unimatrix='unimatrix -c red -l o -s 94'
 alias tablet-mode='setsysmode toggle'
-alias chedit='chezmoi edit'
 alias pacman-remove-orphans='sudo pacman -Qtdq | sudo pacman -Rns -'
 alias yippee=yay
+alias starwars="telnet towel.blinkenlights.nl"
 
 # === environment variables ===================
 export EDITOR="nvim"
@@ -39,12 +39,9 @@ export VISUAL="nvim"
 export TERM="foot"
 export TERMINAL="foot"
 export GOPATH"=$HOME/Go"
-export QT_QPA_PLATFORM=wayland
-export MOZ_ENABLE_WAYLAND=1
 export MGFXC_WINE_PATH=/home/nikki/.winemonogame
 export XDG_CACHE_HOME=$HOME/.cache/
 export XDG_CONFIG_HOME=$HOME/.config/
-export XDG_SCREENSHOTS_DIR=$HOME/Pictures/Screenshots/
 
 # pfetch
 export PF_INFO="ascii title os kernel wm shell pkgs memory"
@@ -66,6 +63,5 @@ function chpwd-osc7-pwd() {
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 # PATH
-# export PATH=$PATH:~/pebble-dev/pebble-sdk-4.6-rc2-linux64/bin:~/.spicetify:~/.dotnet/tools:~/.scripts
-export PATH=$PATH:~/.spicetify:~/.dotnet/tools:~/.scripts:~/.local/bin
+export PATH=$PATH:~/.scripts:~/.local/bin
 

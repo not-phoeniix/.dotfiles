@@ -21,11 +21,11 @@
 	},
 	{
 		"operation": "symlink",
-		"path": "~/.config/wal/colorschemes"
+		"path": "~/.config/wal/templates"
 	},
 	{
 		"operation": "symlink",
-		"path": "~/.config/wal/templates"
+		"path": "~/.config/desktop/themes"
 	},
 	{
 		"operation": "copy",

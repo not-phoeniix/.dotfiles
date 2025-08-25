@@ -1,12 +1,21 @@
 import AstalNotifd from "gi://AstalNotifd";
-import { App, Astal, Gdk, Widget } from "astal/gtk3";
+import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango";
 import Settings from "../extra/settings";
-import { bind } from "astal";
+import { bind, Variable } from "astal";
 import AstalHyprland from "gi://AstalHyprland";
 
 const notifd = AstalNotifd.get_default();
 const hyprland = AstalHyprland.get_default();
+
+const notifHistory = Variable<Gtk.Widget[]>([]);
+
+notifd.connect("notified", (_, id) => {
+    const notif = notifd.get_notification(id);
+    // make a copy of that notification just to cache permanently <3
+    const current = notifHistory.get();
+    notifHistory.set([...current, notification(notif)])
+});
 
 // notifd settings setup
 notifd.ignoreTimeout = false;
@@ -118,6 +127,9 @@ function notifsList(): JSX.Element {
             if (!notifd.dontDisturb) {
                 const notif = notifd.get_notification(id);
                 box.children = [...box.children, notification(notif)];
+
+                // make a copy of that notification just to cache permanently <3
+                notifHistory.push(notification(notif));
             }
         });
 
@@ -162,16 +174,17 @@ export function NotificationHistory(monitor: Gdk.Monitor): JSX.Element {
         visible={false}
         layer={Astal.Layer.OVERLAY}
         gdkmonitor={monitor}>
-        <box
-            vertical={true}
-            spacing={10}
-            className="panel"
-            css="margin: 10px;">
-
-            <label>notifs :3</label>
-            <label>notifs :3</label>
-
-        </box>
-        {/* {notifsList()} */}
-    </window>;
+        <scrollable widthRequest={450} heightRequest={600} >
+            <box
+                vertical={true}
+                spacing={10}
+                className="panel"
+                children={bind(notifHistory).as(notifs => notifs.length == 0
+                    ? [<label label="no notifs!"></label>]
+                    : notifs
+                )}
+                css="margin: 10px;"
+            />
+        </scrollable>
+    </window >;
 }
