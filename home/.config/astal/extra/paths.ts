@@ -6,6 +6,7 @@ import { GLib } from "astal";
 const cacheDir = `${GLib.get_user_cache_dir()}/astal/`;
 const cssCachePath = `${cacheDir}style.css`;
 const configDir = `${GLib.get_user_config_dir()}/desktop/`;
+const themesDir = `${configDir}/themes/`;
 const settingsFile = `${configDir}config.json`;
 const homeDir = `/home/${GLib.get_user_name()}/`
 const walCacheDir = `${GLib.get_user_cache_dir()}/wal/`;
@@ -28,6 +29,7 @@ export default {
     cacheDir,
     cssCachePath,
     configDir,
+    themesDir,
     settingsFile,
     homeDir
 };
