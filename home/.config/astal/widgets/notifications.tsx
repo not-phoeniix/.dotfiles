@@ -2,20 +2,11 @@ import AstalNotifd from "gi://AstalNotifd";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango";
 import Settings from "../extra/settings";
-import { bind, Variable } from "astal";
+import { bind } from "astal";
 import AstalHyprland from "gi://AstalHyprland";
 
 const notifd = AstalNotifd.get_default();
 const hyprland = AstalHyprland.get_default();
-
-const notifHistory = Variable<Gtk.Widget[]>([]);
-
-notifd.connect("notified", (_, id) => {
-    const notif = notifd.get_notification(id);
-    // make a copy of that notification just to cache permanently <3
-    const current = notifHistory.get();
-    notifHistory.set([...current, notification(notif)])
-});
 
 // notifd settings setup
 notifd.ignoreTimeout = false;
@@ -129,7 +120,7 @@ function notifsList(): JSX.Element {
                 box.children = [...box.children, notification(notif)];
 
                 // make a copy of that notification just to cache permanently <3
-                notifHistory.push(notification(notif));
+                notifHistory.get().push(notification(notif));
             }
         });
 
@@ -156,35 +147,13 @@ export function clearNotifs() {
     notifd.notifications.forEach((notif) => notif.dismiss());
 }
 
-export function Notifications(monitor: Gdk.Monitor): JSX.Element {
+export default function (monitor: Gdk.Monitor): JSX.Element {
     return <window
         name={`notifications_${monitor}`}
         anchor={bind(Settings.notifLocation)}
+        application={App}
         layer={Astal.Layer.OVERLAY}
         gdkmonitor={monitor}>
         {notifsList()}
     </window>;
-}
-
-export function NotificationHistory(monitor: Gdk.Monitor): JSX.Element {
-    return <window
-        name="notifHistory"
-        application={App}
-        anchor={bind(Settings.notifLocation)}
-        visible={false}
-        layer={Astal.Layer.OVERLAY}
-        gdkmonitor={monitor}>
-        <scrollable widthRequest={450} heightRequest={600} >
-            <box
-                vertical={true}
-                spacing={10}
-                className="panel"
-                children={bind(notifHistory).as(notifs => notifs.length == 0
-                    ? [<label label="no notifs!"></label>]
-                    : notifs
-                )}
-                css="margin: 10px;"
-            />
-        </scrollable>
-    </window >;
 }

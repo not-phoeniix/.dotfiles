@@ -91,6 +91,7 @@ export function networkIcon(iconClass: string = ""): JSX.Element | null {
 
 export function volumeIcon(iconClass: string = ""): JSX.Element | null {
     // return null if audio doesn't exist
+    // TODO: prevent returning null here and just throw exceptions with invalid audio setups
     if (!audio) {
         return null;
     }

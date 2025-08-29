@@ -2,7 +2,7 @@ import AstalApps from "gi://AstalApps";
 import { App, Astal, Gdk, Gtk } from "astal/gtk3";
 import { bind } from "astal";
 
-const MAX_RESULTS = 10;
+const MAX_RESULTS = 6;
 
 const apps = new AstalApps.Apps();
 
@@ -24,6 +24,8 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
     // box with list of all apps ever
     const resultEntries = <box
         vertical={true}
+        heightRequest={46 * MAX_RESULTS}
+        visible={false}
         spacing={10}>
         {/* [unlimited apps but no apps] */}
     </box> as Astal.Box;
@@ -31,27 +33,35 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
     function refreshApps() {
         apps.reload();
 
-        // set up widget array and fill app dictionary
-        const allApps = apps.fuzzy_query("").slice(0, MAX_RESULTS);
-        const allWidgets: Gtk.Widget[] = [];
-        allApps.forEach((app) => {
-            const button = appEntry(app);
-            allWidgets.push(button);
-        });
+        // // set up widget array and fill app dictionary
+        // const allApps = apps.fuzzy_query("").slice(0, MAX_RESULTS);
+        // const allWidgets: Gtk.Widget[] = [];
+        // allApps.forEach((app) => {
+        //     const button = appEntry(app);
+        //     allWidgets.push(button);
+        // });
 
-        resultEntries.children = allWidgets;
+        // resultEntries.children = allWidgets;
     }
 
     refreshApps();
 
     // search bar that filters box with list of all apps ever
     const searchBar = <entry
-        className="open"
         hexpand={true}
+        className="search-bar"
+        css="padding: 0; border-radius: 0;"
 
         onChanged={(self) => {
             const newApps = apps.fuzzy_query(self.text).slice(0, MAX_RESULTS);
-            resultEntries.children = newApps.map(appEntry);
+
+            if (self.text) {
+                resultEntries.visible = true;
+                resultEntries.children = newApps.map(appEntry);
+            } else {
+                resultEntries.children = [];
+                resultEntries.visible = false;
+            }
         }}
 
         onActivate={(self) => {
@@ -64,7 +74,7 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
     const refreshButton = <button
         onClick={refreshApps}
         label={""}
-        visible={bind(searchBar, "text").as(t => t == "" || t == undefined)}
+        visible={bind(searchBar, "text").as(t => !!t)}
     />;
 
     return <window
@@ -73,7 +83,6 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
         keymode={Astal.Keymode.ON_DEMAND}
         name="appLauncher"
         application={App}
-        css="margin: 10px;"
         onKeyPressEvent={(self, event) => {
             if (event.get_keyval()[1] === Gdk.KEY_Escape) {
                 self.visible = false;
@@ -81,15 +90,24 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
         }}
         setup={(self) => {
             self.connect("show", (window) => {
-                if (window === self) searchBar.text = "";
+                if (window === self) {
+                    searchBar.text = "";
+                    searchBar.isFocus = true;
+                }
             });
         }}>
-        <box className="panel" widthRequest={600} heightRequest={50 * (MAX_RESULTS + 1)}>
+        <box className="panel accent-border" css="margin: 20px;" widthRequest={600}>
             <box className="widget" vertical={true} spacing={15}>
-                <box vertical={false} spacing={10}>
+                <box vertical={false} spacing={10} css="padding: 5px;">
                     {searchBar}
                     {refreshButton}
                 </box>
+
+                <box
+                    className="thin-separator-horiz"
+                    visible={bind(resultEntries, "visible")}
+                />
+
                 {resultEntries}
             </box>
         </box>
