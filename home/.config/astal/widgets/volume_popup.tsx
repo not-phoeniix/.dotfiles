@@ -1,5 +1,5 @@
 import AstalWp from "gi://AstalWp";
-import { Gdk, Gtk, Astal } from "astal/gtk3";
+import { Gdk, Gtk, Astal, Widget } from "astal/gtk3";
 import { bind, Variable } from "astal";
 import { volumeIcon } from "./icons";
 import CustomBrightness from "../extra/brightness";
@@ -25,10 +25,12 @@ export default function (monitor: Gdk.Monitor) {
 
     const page = Variable("volume");
 
+    const volIcon = volumeIcon() as Widget.Label;
+
     // volume slider collection, is undefined when audio is falsy (null/undefined)
     const volSlider = !audio ? undefined :
         <box hexpand={true} name="volume" spacing={10}>
-            {volumeIcon()}
+            {volIcon}
             <levelbar
                 mode={Gtk.LevelBarMode.CONTINUOUS}
                 hexpand={true}
@@ -50,6 +52,7 @@ export default function (monitor: Gdk.Monitor) {
                             page.set("volume");
                             visible.set(true);
                             self.value = audio.defaultSpeaker.mute ? 0 : audio.defaultSpeaker.volume;
+                            volIcon.toggleClassName("accent", muted);
                         }
                     });
                 }}

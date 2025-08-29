@@ -1,7 +1,7 @@
 import { App } from "astal/gtk3";
 import Bar from "./widgets/bar";
 import Paths from "./extra/paths";
-import { clearNotifs, NotificationHistory, Notifications } from "./widgets/notifications";
+import Notifications, { clearNotifs } from "./widgets/notifications";
 import Launcher from "./widgets/launcher";
 import QuickMenu from "./widgets/quick_menu";
 import VolumePopup from "./widgets/volume_popup";
@@ -26,7 +26,6 @@ App.start({
     main() {
         const mainMonitor = App.get_monitors()[0];
 
-        NotificationHistory(mainMonitor);
         Notifications(mainMonitor);
         Launcher(mainMonitor);
         QuickMenu(mainMonitor, "quickMenu");

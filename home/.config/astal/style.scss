@@ -74,6 +74,10 @@ tooltip {
 entry {
     padding: 0.3em;
     border-radius: 10px;
+
+    & selection {
+        background-color: $color1;
+    }
 }
 
 // #endregion
@@ -82,7 +86,7 @@ entry {
     background-color: $background;
     border-radius: 20px;
     padding: 0.3em;
-    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
 }
 
 .widget {
@@ -156,6 +160,10 @@ entry {
     border-radius: 20px;
     border: 1.5px solid rgba($foreground, 0.1);
     margin: 20px 0px;
+}
+
+.accent-border {
+    border: 3px solid $color1;
 }
 
 // #endregion
@@ -239,6 +247,14 @@ entry {
 
 // #endregion
 // #region app launcher
+.search-bar {
+    padding: 5px;
+
+    & .thin-separator-horiz {
+        padding: 5px;
+    }
+}
+
 // #endregion
 // #region quick menu
 .big-button {
@@ -346,6 +362,10 @@ entry {
     padding: 0.4em 0.8em;
     border-radius: 50px;
     box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+
+    & levelbar trough {
+        background-color: $color0;
+    }
 }
 
 // #endregion

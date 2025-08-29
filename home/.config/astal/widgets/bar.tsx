@@ -168,9 +168,6 @@ function systemTray(): JSX.Element {
             tooltipMarkup={bind(item, "tooltipMarkup")}
             className="tray-icon"
             usePopover={false}
-            // ignore the error here, it's just a types error in @girs,, 
-            //   itll get fixed in a newer commit at some point but this 
-            //   runs fine dw
             actionGroup={bind(item, "actionGroup").as(group => ["dbusmenu", group])}
             menuModel={bind(item, "menuModel")}>
             <icon gicon={bind(item, "gicon")} />
