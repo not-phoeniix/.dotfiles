@@ -17,6 +17,10 @@
 	},
 	{
 		"operation": "symlink",
+		"path": "~/.local/share/nemo/actions"
+	},
+	{
+		"operation": "symlink",
 		"path": "~/.config/nvim"
 	},
 	{

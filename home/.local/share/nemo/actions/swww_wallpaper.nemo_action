@@ -1,0 +1,11 @@
+[Nemo Action]
+
+Active=true
+Name=Set as Wallpaper
+Comment=Sets selected image as the current SWWW wallpaper
+Exec=swww img %F
+Icon-Name=preferences-wallpaper
+Selection=notnone
+Extensions=png;jpg;gif;jpeg;
+Quote=double
+Dependencies=swww;
