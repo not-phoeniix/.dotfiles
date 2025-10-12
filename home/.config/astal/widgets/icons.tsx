@@ -32,7 +32,7 @@ export function batteryIcon(iconClass: string = ""): JSX.Element | null {
             }
 
             icon.tooltipText = `${AstalBattery.State[battery.state]}: ${battery.percentage * 100}%`;
-            icon.toggleClassName("critical", battery.percentage <= 0.15 && !battery.charging);
+            icon.toggleClassName("critical", battery.percentage <= 0.2 && !battery.charging);
             icon.toggleClassName("good", battery.state === AstalBattery.State.FULLY_CHARGED);
             icon.toggleClassName("alert", battery.state === AstalBattery.State.CHARGING);
         }

@@ -20,6 +20,8 @@ function action(notif: AstalNotifd.Notification, label: string, id: string): JSX
             const client = hyprland.clients.find((client) => client.class == notif.appName);
             if (client) {
                 hyprland.dispatch("workspace", `${client.workspace.id}`);
+            } else {
+                console.warn("can't find client that notif was sent from!");
             }
 
             notif.invoke(id);
@@ -118,9 +120,6 @@ function notifsList(): JSX.Element {
             if (!notifd.dontDisturb) {
                 const notif = notifd.get_notification(id);
                 box.children = [...box.children, notification(notif)];
-
-                // make a copy of that notification just to cache permanently <3
-                notifHistory.get().push(notification(notif));
             }
         });
 
@@ -139,7 +138,7 @@ function notifsList(): JSX.Element {
         spacing={10}
         vertical={true}
         widthRequest={450}
-        css="margin: 10px;"
+        css="padding: 10px;"
         setup={setup} />;
 }
 
