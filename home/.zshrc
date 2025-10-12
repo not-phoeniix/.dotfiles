@@ -7,7 +7,7 @@ unsetopt beep extendedglob nomatch notify
 bindkey -v
 bindkey '^H' backward-kill-word
 
-zstyle :compinstall filename '/home/nikki/.zshrc'
+zstyle :compinstall filename '$HOME/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -32,6 +32,9 @@ alias tablet-mode='setsysmode toggle'
 alias pacman-remove-orphans='sudo pacman -Qtdq | sudo pacman -Rns -'
 alias yippee=yay
 alias starwars="telnet towel.blinkenlights.nl"
+alias md=mkdir
+alias mdp=mkdir -p
+alias sizeof='du -sh'
 
 # === environment variables ===================
 export EDITOR="nvim"
@@ -39,9 +42,10 @@ export VISUAL="nvim"
 export TERM="foot"
 export TERMINAL="foot"
 export GOPATH"=$HOME/Go"
-export MGFXC_WINE_PATH=/home/nikki/.winemonogame
+export MGFXC_WINE_PATH=$HOME/.winemonogame
 export XDG_CACHE_HOME=$HOME/.cache/
 export XDG_CONFIG_HOME=$HOME/.config/
+export DOTNET_CLI_TELEMETRY_OPTOUT=true
 
 # pfetch
 export PF_INFO="ascii title os kernel wm shell pkgs memory"

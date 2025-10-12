@@ -87,7 +87,7 @@ apply_target() {
 
 		"copy")
 			echo "copying '$source' to '$dest'..."
-			rsync -a $source $dest
+			rsync -a $source/ $dest
 			;;
 
 		*)	
