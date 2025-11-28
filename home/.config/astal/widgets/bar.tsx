@@ -28,12 +28,27 @@ function getBarAnchor(location: Location) {
 // #region workspace widget things!!!!
 
 // a singular workspace icon indicator/button
-function wsIcon(workspace: number, hideIfNotExist: boolean = false, iconOverwrite: string = ""): JSX.Element {
+function wsIcon(workspace: { id?: number, name?: string, special?: boolean }, hideIfNotExist: boolean = false, iconOverwrite: string = ""): JSX.Element {
     // function that runs to update the internals of a workspace icon 
     //   whenever something changes in hyprland
-    function updateWsIcon(button: Widget.Button, wsNum: number, hideIfNotExist: boolean, icon: string) {
-        const workspaceFocused = hyprland.get_focused_workspace().id === wsNum;
-        const workspaceExists = hyprland.workspaces.some((ws) => ws.id === wsNum);
+    function updateWsIcon(button: Widget.Button, workspace: { id?: number, name?: string, special?: boolean }, hideIfNotExist: boolean, icon: string) {
+        const focusedWs = hyprland.get_focused_workspace();
+
+        let workspaceFocused = false;
+        if (focusedWs.name === workspace.name) {
+            workspaceFocused = true;
+        }
+        if (focusedWs.id === workspace.id) {
+            workspaceFocused = true;
+        }
+
+        if (workspace.special) {
+            workspace.name = "special:special";
+            workspaceFocused = true;
+        }
+
+        const workspaceExists = hyprland.workspaces
+            .some((ws) => ws.name === workspace.name || ws.id === workspace.id);
 
         button.toggleClassName("focused", workspaceFocused);
         button.label = icon != "" ? icon : workspaceExists ? "" : "";
@@ -44,9 +59,18 @@ function wsIcon(workspace: number, hideIfNotExist: boolean = false, iconOverwrit
     }
 
     return <button
-        onClick={() => hyprland.dispatch("workspace", `${workspace}`)}
+        onClick={() => {
+            if (workspace.special) {
+                hyprland.dispatch("togglespecialworkspace", "");
+            } else {
+                let dispatchArg = "";
+                if (workspace.id) dispatchArg = workspace.id.toString();
+                if (workspace.name) dispatchArg = `name:${workspace.name}`;
+
+                hyprland.dispatch("workspace", dispatchArg);
+            }
+        }}
         className="workspace"
-        label={workspace.toString()}
         setup={(self) => {
             const update = () => updateWsIcon(self, workspace, hideIfNotExist, iconOverwrite);
             self.hook(hyprland, "event", update);
@@ -62,18 +86,19 @@ function workspaces(): JSX.Element {
             css="padding: 4px;"
             homogeneous={true}
             vertical={bind(Settings.barIsVertical)}>
-            {wsIcon(1)}
-            {wsIcon(2)}
-            {wsIcon(3)}
-            {wsIcon(4)}
-            {wsIcon(5)}
+            {wsIcon({ id: 1 })}
+            {wsIcon({ id: 2 })}
+            {wsIcon({ id: 3 })}
+            {wsIcon({ id: 4 })}
+            {wsIcon({ id: 5 })}
         </box>
         <box
             homogeneous={true}
             vertical={bind(Settings.barIsVertical)}>
-            {wsIcon(6, true, "")}
-            {wsIcon(7, true, "")}
-            {wsIcon(8, true, "")}
+            {wsIcon({ id: 6 }, true, "")}
+            {wsIcon({ id: 7 }, true, "󰍡")}
+            {wsIcon({ id: 8 }, true, "")}
+            {wsIcon({ special: true }, true, "󱁤")}
         </box>
     </box>;
 }
