@@ -40,10 +40,13 @@ function dockRow() {
 
 export default function (monitor: Gdk.Monitor): JSX.Element {
     function checkFloating(window: Astal.Window) {
-        // if focused client is floating or is null then 
-        if (hyprland.focusedClient?.floating ?? true) {
-            window.visible = true;
-        } else {
+        window.visible = true;
+
+        const focusedClient = hyprland.focusedClient;
+        if (
+            (focusedClient && !focusedClient.floating) ||
+            hyprland.focusedWorkspace.hasFullscreen
+        ) {
             window.visible = false;
         }
     }
