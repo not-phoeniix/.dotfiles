@@ -1,29 +1,16 @@
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import { bind, execAsync, Variable } from "astal";
 import AstalHyprland from "gi://AstalHyprland";
-import Settings, { Location } from "../extra/settings";
+import * as Settings from "../extra/settings";
 import { hour, minute } from "../extra/time";
 import { networkIcon, batteryIcon, bluetoothIcon, volumeIcon } from "./icons";
 import AstalTray from "gi://AstalTray";
 import AstalNotifd from "gi://AstalNotifd";
+import { Location } from "../extra/types";
 
 const hyprland = AstalHyprland.get_default();
 const tray = AstalTray.get_default();
 const notifd = AstalNotifd.get_default();
-
-// gets a combination of astal window anchor binds according to an inputted BarLocation
-function getBarAnchor(location: Location) {
-    switch (location) {
-        case Location.TOP:
-            return Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT;
-        case Location.BOTTOM:
-            return Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT;
-        case Location.LEFT:
-            return Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.BOTTOM;
-        case Location.RIGHT:
-            return Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.BOTTOM;
-    }
-}
 
 // #region workspace widget things!!!!
 
@@ -80,12 +67,12 @@ function wsIcon(workspace: { id?: number, name?: string, special?: boolean }, hi
 
 // all workspace icons collected together
 function workspaces(): JSX.Element {
-    return <box spacing={20} vertical={bind(Settings.barIsVertical)}>
+    return <box spacing={20} vertical={bind(Settings.runtimeSettings.barIsVertical)}>
         <box
             className="widget"
             css="padding: 4px;"
             homogeneous={true}
-            vertical={bind(Settings.barIsVertical)}>
+            vertical={bind(Settings.runtimeSettings.barIsVertical)}>
             {wsIcon({ id: 1 })}
             {wsIcon({ id: 2 })}
             {wsIcon({ id: 3 })}
@@ -94,7 +81,7 @@ function workspaces(): JSX.Element {
         </box>
         <box
             homogeneous={true}
-            vertical={bind(Settings.barIsVertical)}>
+            vertical={bind(Settings.runtimeSettings.barIsVertical)}>
             {wsIcon({ id: 6 }, true, "")}
             {wsIcon({ id: 7 }, true, "󰍡")}
             {wsIcon({ id: 8 }, true, "")}
@@ -115,7 +102,7 @@ function focusedTitle() {
     });
 
     const visible = Variable.derive(
-        [bind(label, "label"), Settings.barIsVertical],
+        [bind(label, "label"), Settings.runtimeSettings.barIsVertical],
         (l, v) => Boolean(l) && !v
     );
 
@@ -132,7 +119,7 @@ function focusedTitle() {
 
 function time(): JSX.Element {
     return <box className="widget">
-        <box vertical={bind(Settings.barIsVertical)} spacing={8}>
+        <box vertical={bind(Settings.runtimeSettings.barIsVertical)} spacing={8}>
             <label label={bind(hour)} />
             <label label={bind(minute)} className="accent" />
         </box>
@@ -153,7 +140,7 @@ function statusIcons(): JSX.Element {
                 quickMenu.visible = !quickMenu.visible;
             }
         }}>
-        <box vertical={bind(Settings.barIsVertical)} spacing={10}>
+        <box vertical={bind(Settings.runtimeSettings.barIsVertical)} spacing={10}>
             {networkIcon("bar-status-icon")}
             {bluetoothIcon("bar-status-icon")}
             {volumeIcon("bar-status-icon")}
@@ -167,14 +154,15 @@ function statusIcons(): JSX.Element {
 // #region notification history
 
 function notifHistory(): JSX.Element {
-    const notifHistory = App.get_window("notifHistory");
+    // const notifHistory = App.get_window("notifHistory");
+    const notifHistory: Gtk.Window | null = null;
 
     return <button
         className={notifHistory ? bind(notifHistory, "visible").as(v => `widget ${v ? "open" : ""}`) : "widget"}
         onClick={() => {
-            if (notifHistory) {
-                notifHistory.visible = !notifHistory.visible;
-            }
+            // if (notifHistory) {
+            //     notifHistory.visible = !notifHistory.visible;
+            // }
         }}>
         <label
             label={bind(notifd, "dont_disturb").as(d => d ? "" : "")}
@@ -202,7 +190,7 @@ function systemTray(): JSX.Element {
     return <box
         className="widget"
         visible={bind(tray, "items").as(items => items.length > 0)}
-        vertical={bind(Settings.barIsVertical)}>
+        vertical={bind(Settings.runtimeSettings.barIsVertical)}>
         {bind(tray, "items").as(items => items.map(icon))}
     </box>
 }
@@ -211,9 +199,9 @@ function systemTray(): JSX.Element {
 
 function barWidgets(): JSX.Element {
 
-    return <box vertical={bind(Settings.barIsVertical)}>
+    return <box vertical={bind(Settings.runtimeSettings.barIsVertical)}>
         { /* start widget, workspace things */}
-        <box vertical={bind(Settings.barIsVertical)} spacing={10}>
+        <box vertical={bind(Settings.runtimeSettings.barIsVertical)} spacing={10}>
             {workspaces()}
             {focusedTitle()}
 
@@ -222,11 +210,11 @@ function barWidgets(): JSX.Element {
         </box>
 
         { /* middle widget, empty */}
-        <box vertical={bind(Settings.barIsVertical)} spacing={10}>
+        <box vertical={bind(Settings.runtimeSettings.barIsVertical)} spacing={10}>
         </box>
 
         {/* end widget, control panel things */}
-        <box vertical={bind(Settings.barIsVertical)} spacing={10}>
+        <box vertical={bind(Settings.runtimeSettings.barIsVertical)} spacing={10}>
             { /* expanding box to push below widgets to the end */}
             <box vexpand={true} hexpand={true} />
 
@@ -245,13 +233,13 @@ export default function (monitor: Gdk.Monitor, name: string): JSX.Element {
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         name={name}
         application={App}
-        anchor={bind(Settings.barLocation).as(getBarAnchor)}>
+        anchor={bind(Settings.configSettings.barLocation).as(Location.toAnchorExpanded)}>
         <box
-            vertical={bind(Settings.barIsVertical)}
+            vertical={bind(Settings.runtimeSettings.barIsVertical)}
             className="panel"
             css="border-radius: 0px;"
-            widthRequest={bind(Settings.barSize)}
-            heightRequest={bind(Settings.barSize)}>
+            widthRequest={bind(Settings.configSettings.barSize)}
+            heightRequest={bind(Settings.configSettings.barSize)}>
             {barWidgets()}
         </box>
     </window>;

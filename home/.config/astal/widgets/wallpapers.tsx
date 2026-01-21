@@ -1,6 +1,6 @@
 import { bind } from "astal";
 import { App, Astal, Gdk } from "astal/gtk3";
-import settings from "../extra/settings";
+import * as Settings from "../extra/settings";
 
 // function 
 
@@ -14,7 +14,7 @@ export default function (monitor: Gdk.Monitor) {
         name="wallpapers">
 
         <box className="panel" css="margin: 10px">
-            <label>{bind(settings.wallpaperDir)}</label>
+            <label>{bind(Settings.configSettings.wallpaperDir)}</label>
         </box>
 
     </window>;
