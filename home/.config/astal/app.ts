@@ -1,6 +1,7 @@
 import { App } from "astal/gtk3";
 import Bar from "./widgets/bar";
-import Paths from "./extra/paths";
+import * as Paths from "./extra/paths";
+import * as Settings from "./extra/settings";
 import Notifications, { clearNotifs } from "./widgets/notifications";
 import Launcher from "./widgets/launcher";
 import QuickMenu from "./widgets/quick_menu";
@@ -24,6 +25,8 @@ App.start({
     },
 
     main() {
+        Settings.init();
+
         const mainMonitor = App.get_monitors()[0];
 
         Notifications(mainMonitor);

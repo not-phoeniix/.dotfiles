@@ -1,68 +1,44 @@
 import { exec, monitorFile, readFile, Variable, writeFile } from "astal";
-import { Astal } from "astal/gtk3";
-import AstalHyprland from "gi://AstalHyprland";
-import paths from "./paths";
-const hyprland = AstalHyprland.get_default();
+import { ConfigSettings, RuntimeSettings, Location, SettingsValue, JsonValue, SettingsDesc, CornerLocation } from "./types";
+import * as paths from "./paths";
 
 // #region settings variables
 
-export enum Location { TOP, LEFT, RIGHT, BOTTOM }
+export const configSettings: ConfigSettings = {
+    barLocation: Variable(Location.TOP),
+    dockLocation: Variable(Location.BOTTOM),
+    barSize: Variable(30),
+    notifTimeout: Variable(8000),
+    notifLocation: Variable(CornerLocation.TOP_RIGHT),
+    dockApps: Variable([]),
+    dockIconSize: Variable(45),
+    wallpaperDir: Variable("~/Pictures/wallpapers"),
+    use24hTime: Variable(false)
+};
 
-// bar location variables, bindable
-const barLocation: Variable<Location> = Variable(Location.LEFT);
-const barIsVertical: Variable<boolean> = Variable.derive(
-    [barLocation],
-    loc => loc === Location.LEFT || loc === Location.RIGHT
-);
-// change hyprland animations when location changes
-barLocation.subscribe((value) => {
-    const style = (value === Location.LEFT || value === Location.RIGHT) ?
-        "slidevert" :
-        "slidehoriz";
-    hyprland.message_async("keyword animation workspaces,1,3,default" + style, null);
-});
-
-const dockLocation: Variable<Location> = Variable(Location.BOTTOM);
-const dockIsVertical: Variable<boolean> = Variable.derive(
-    [dockLocation],
-    loc => loc === Location.LEFT || loc === Location.RIGHT
-);
-
-// width/height of bar (on opposite axis depending if vertical)
-const barSize = Variable(30);
-
-const notifDnd = Variable(false);
-const notifTimeout = Variable(8000);
-const notifLocation = Variable(Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT);
-
-// dock things
-const dockApps: Variable<string[]> = Variable([])
-const dockIconSize = Variable(45);
-
-// wallpaper stuff
-const wallpaperDir = Variable("");
-
-const themes = Variable<string[]>([]);
-function refreshThemes() {
-    const newThemes = exec(["ls", paths.themesDir]).replace(/\.json$/gm, "").split("\n");
-    themes.set(newThemes);
-}
-
-refreshThemes();
+export const runtimeSettings: RuntimeSettings = {
+    notifDnd: Variable(false),
+    themes: Variable([]),
+    barIsVertical: Variable.derive([configSettings.barLocation], (loc => {
+        return loc === Location.LEFT || loc === Location.RIGHT
+    })),
+    dockIsVertical: Variable.derive([configSettings.dockLocation], (loc => {
+        return loc === Location.LEFT || loc === Location.RIGHT
+    })),
+};
 
 // #endregion
 
-// #region file saving/loading functions
-
 // saves current settings of all values into a given JSON filepath
 function saveSettings(path: string) {
-    const fileObj = {
-        barLocation: Location[barLocation.get()],
-        barSize: barSize.get(),
-        dockLocation: Location[dockLocation.get()],
-        dockApps: dockApps.get(),
-        dockIconSize: dockIconSize.get()
-    };
+    const fileObj: { [key: string]: SettingsValue } = {};
+
+    Object.entries(configSettings).forEach(([key, value]) => {
+        const variable = value as Variable<SettingsValue>;
+        if (variable) {
+            fileObj[key] = variable.get();
+        }
+    });
 
     const pathDir = exec(["dirname", path]);
     exec(["mkdir", "-p", pathDir]);
@@ -80,74 +56,33 @@ function loadSettings(path: string): boolean {
         const fileObj = JSON.parse(fileContents);
 
         if (!fileObj) {
-            throw "Cannot load settings from falsy json-parsed object!";
+            throw new Error("Cannot load settings from falsy json-parsed object!");
         }
 
-        // bar location parsing
-        if (fileObj.barLocation) {
-            // get uppercase string
-            let str: string = fileObj.barLocation;
-            str = str?.toUpperCase();
+        Object.entries(fileObj).forEach(([key, v]) => {
+            const inValue = v as JsonValue;
+            let outValue: SettingsValue | null = null;
 
-            // iterate across all keys in location object, 
-            // if string matches then set value 
-            Object.keys(Location).forEach((s, i) => {
-                if (str === Location[i]) {
-                    barLocation.set(i);
+            if (typeof inValue === "string") {
+                let loc: Location | CornerLocation | null = Location.parse(inValue);
+                if (loc === null) {
+                    loc = CornerLocation.parse(inValue);
                 }
-            });
-        }
 
-        // bar size parsing
-        if (fileObj.barSize) {
-            const size = fileObj.barSize as number;
-            if (size) {
-                barSize.set(size);
-            }
-        }
-
-        // wallpaper dir parsing
-        if (fileObj.wallpaperDir) {
-            let dir = fileObj.wallpaperDir as string;
-            if (dir) {
-                // replace tilde with home path and repeating 
-                //   slashes with just one slash
-                dir = dir.replace(/^~/gi, paths.homeDir);
-                dir = dir.replace(/\/+/gi, "/");
-                wallpaperDir.set(dir);
-            }
-        }
-
-        // dock app string array parsing
-        if (fileObj.dockApps) {
-            const appsArr = fileObj.dockApps as string[];
-            if (appsArr) {
-                dockApps.set(appsArr);
-            }
-        }
-
-        // dock icon size parsing
-        if (fileObj.dockIconSize) {
-            const iconSize = fileObj.dockIconSize as number;
-            if (iconSize) {
-                dockIconSize.set(iconSize);
-            }
-        }
-
-        // dock location parsing
-        if (fileObj.dockLocation) {
-            // get uppercase string
-            let str: string = fileObj.dockLocation;
-            str = str?.toUpperCase();
-
-            // iterate across all keys in location object, 
-            // if string matches then set value 
-            Object.keys(Location).forEach((s, i) => {
-                if (str === Location[i]) {
-                    dockLocation.set(i);
+                if (loc !== null) {
+                    outValue = loc;
+                } else {
+                    outValue = inValue;
                 }
-            });
-        }
+
+            } else {
+                outValue = inValue;
+            }
+
+            if (outValue !== null && key in configSettings) {
+                configSettings[key].set(outValue);
+            }
+        });
 
         print(`settings loaded from file [${path}]!`);
 
@@ -159,11 +94,6 @@ function loadSettings(path: string): boolean {
     }
 }
 
-if (!loadSettings(paths.settingsFile)) {
-    print(`settings unable to be loaded from path [${paths.settingsFile}]... saving defaults...`);
-    saveSettings(paths.settingsFile);
-}
-
 let settingsBeingLoaded = false;
 monitorFile(paths.settingsFile, () => {
     if (!settingsBeingLoaded) {
@@ -173,20 +103,16 @@ monitorFile(paths.settingsFile, () => {
     }
 });
 
-// #endregion
+function refreshThemes() {
+    const newThemes = exec(["ls", paths.themesDir]).replace(/\.json$/gm, "").split("\n");
+    runtimeSettings.themes.set(newThemes);
+}
 
-export default {
-    barLocation,
-    barIsVertical,
-    barSize,
-    dockLocation,
-    dockIsVertical,
-    notifDnd,
-    notifTimeout,
-    notifLocation,
-    dockApps,
-    dockIconSize,
-    wallpaperDir,
-    themes,
-    refreshThemes
-};
+export function init() {
+    if (!loadSettings(paths.settingsFile)) {
+        print(`settings unable to be loaded from path [${paths.settingsFile}]... saving defaults...`);
+        saveSettings(paths.settingsFile);
+    }
+
+    refreshThemes();
+}

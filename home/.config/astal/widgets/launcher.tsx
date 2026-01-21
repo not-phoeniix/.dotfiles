@@ -30,21 +30,19 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
         {/* [unlimited apps but no apps] */}
     </box> as Astal.Box;
 
-    function refreshApps() {
-        apps.reload();
+    apps.reload();
 
-        // // set up widget array and fill app dictionary
-        // const allApps = apps.fuzzy_query("").slice(0, MAX_RESULTS);
-        // const allWidgets: Gtk.Widget[] = [];
-        // allApps.forEach((app) => {
-        //     const button = appEntry(app);
-        //     allWidgets.push(button);
-        // });
+    function refreshApps(self: Gtk.Entry) {
+        const newApps = apps.fuzzy_query(self.text).slice(0, MAX_RESULTS);
 
-        // resultEntries.children = allWidgets;
+        if (self.text) {
+            resultEntries.visible = true;
+            resultEntries.children = newApps.map(appEntry);
+        } else {
+            resultEntries.children = [];
+            resultEntries.visible = false;
+        }
     }
-
-    refreshApps();
 
     // search bar that filters box with list of all apps ever
     const searchBar = <entry
@@ -52,17 +50,7 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
         className="search-bar"
         css="padding: 0; border-radius: 0;"
 
-        onChanged={(self) => {
-            const newApps = apps.fuzzy_query(self.text).slice(0, MAX_RESULTS);
-
-            if (self.text) {
-                resultEntries.visible = true;
-                resultEntries.children = newApps.map(appEntry);
-            } else {
-                resultEntries.children = [];
-                resultEntries.visible = false;
-            }
-        }}
+        onChanged={refreshApps}
 
         onActivate={(self) => {
             App.toggle_window("appLauncher");
@@ -72,7 +60,10 @@ export default function (monitor: Gdk.Monitor): JSX.Element {
     /> as Gtk.Entry;
 
     const refreshButton = <button
-        onClick={refreshApps}
+        onClick={(self) => {
+            apps.reload();
+            refreshApps(searchBar);
+        }}
         label={""}
         visible={bind(searchBar, "text").as(t => !!t)}
     />;
