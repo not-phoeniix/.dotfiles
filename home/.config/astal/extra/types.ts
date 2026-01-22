@@ -28,13 +28,10 @@ export namespace Location {
     }
 
     export function parse(str: string): Location | null {
-        print(`about to parse str "${str}"`);
-
         const keys = Object.keys(Location);
         for (let i = 0; i < keys.length; i++) {
             const locStr = Location[i] as string;
             if (str.toUpperCase().trim() === locStr?.toUpperCase()) {
-                print(`index ${i} with value "${locStr}" matches input str!`);
                 return i as Location;
             }
         }
