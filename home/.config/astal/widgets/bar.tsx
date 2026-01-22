@@ -2,7 +2,7 @@ import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import { bind, execAsync, Variable } from "astal";
 import AstalHyprland from "gi://AstalHyprland";
 import * as Settings from "../extra/settings";
-import { hour, minute } from "../extra/time";
+import { hour, hourMilit, minute } from "../extra/time";
 import { networkIcon, batteryIcon, bluetoothIcon, volumeIcon } from "./icons";
 import AstalTray from "gi://AstalTray";
 import AstalNotifd from "gi://AstalNotifd";
@@ -118,9 +118,14 @@ function focusedTitle() {
 // #region time clock thingy :D 
 
 function time(): JSX.Element {
+    const hourDerived = Variable.derive(
+        [hour, hourMilit, Settings.configSettings.use24hTime],
+        (h, h24, use24) => use24 ? h24 : h
+    )
+
     return <box className="widget">
         <box vertical={bind(Settings.runtimeSettings.barIsVertical)} spacing={8}>
-            <label label={bind(hour)} />
+            <label label={bind(hourDerived)} />
             <label label={bind(minute)} className="accent" />
         </box>
     </box>;
