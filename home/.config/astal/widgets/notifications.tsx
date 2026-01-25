@@ -1,16 +1,17 @@
 import AstalNotifd from "gi://AstalNotifd";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango";
-import Settings from "../extra/settings";
+import * as Settings from "../extra/settings";
 import { bind } from "astal";
 import AstalHyprland from "gi://AstalHyprland";
+import { CornerLocation } from "../extra/types";
 
 const notifd = AstalNotifd.get_default();
 const hyprland = AstalHyprland.get_default();
 
 // notifd settings setup
 notifd.ignoreTimeout = false;
-Settings.notifDnd.subscribe((dnd) => notifd.dontDisturb = dnd);
+Settings.runtimeSettings.notifDnd.subscribe((dnd) => notifd.dontDisturb = dnd);
 
 function action(notif: AstalNotifd.Notification, label: string, id: string): JSX.Element {
     return <button
@@ -97,7 +98,7 @@ function notification(notif: AstalNotifd.Notification): JSX.Element {
     // notification dismiss timeout, manual because I couldn't 
     //   get actual built-in timeout to work lol
     if (!notifd.ignoreTimeout) {
-        setTimeout(() => notif.dismiss(), Settings.notifTimeout.get());
+        setTimeout(() => notif.dismiss(), Settings.configSettings.notifTimeout.get());
     }
 
     return <eventbox
@@ -149,7 +150,7 @@ export function clearNotifs() {
 export default function (monitor: Gdk.Monitor): JSX.Element {
     return <window
         name={`notifications_${monitor}`}
-        anchor={bind(Settings.notifLocation)}
+        anchor={bind(Settings.configSettings.notifLocation).as(CornerLocation.toAnchor)}
         application={App}
         layer={Astal.Layer.OVERLAY}
         gdkmonitor={monitor}>

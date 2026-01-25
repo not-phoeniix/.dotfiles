@@ -46,5 +46,9 @@
 	{
 		"operation": "symlink",
 		"path": "~/.zshrc"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.scripts/theme.sh"
 	}
 ]

@@ -15,7 +15,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin()
 
-" lsp shit
+" lsp things
 " Plug 'williamboman/mason.nvim', { 'do': ':MasonUpdate' }
 " Plug 'williamboman/mason-lspconfig.nvim'
 " Plug 'neovim/nvim-lspconfig'
@@ -35,7 +35,7 @@ Plug 'dylanaraps/wal.vim'
 
 call plug#end()
 
-" === config shit ===============================
+" === config stuff ===============================
 
 " prefs
 set ts=4

@@ -1,6 +1,6 @@
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import { bind, Binding, execAsync, Variable, } from "astal";
-import Settings, { Location } from "../extra/settings";
+import * as Settings from "../extra/settings";
 import { batteryIcon, bluetoothIcon, networkIcon, volumeIcon } from "./icons";
 import { day, monthNum, year } from "../extra/time";
 import Calendar from "../extra/calendar";
@@ -10,9 +10,9 @@ import CustomBrightness from "../extra/brightness";
 import AstalBattery from "gi://AstalBattery";
 import AstalWp from "gi://AstalWp";
 import AstalBluetooth from "gi://AstalBluetooth";
-import AstalHyprland from "gi://AstalHyprland";
 import AstalMpris from "gi://AstalMpris";
 import AstalPowerProfiles from "gi://AstalPowerProfiles";
+import { CornerLocation, Location } from "../extra/types";
 
 const notifd = AstalNotifd.get_default();
 const network = AstalNetwork.get_default();
@@ -20,26 +20,10 @@ const audio = AstalWp.get_default()?.audio;
 const brightness = CustomBrightness.get_default();
 const bluetooth = AstalBluetooth.get_default();
 const battery = AstalBattery.get_default();
-const hyprland = AstalHyprland.get_default();
 const spotify = AstalMpris.Player.new("spotify");
 const powerProfiles = AstalPowerProfiles.get_default();
 
 enum MenuPage { MAIN, WIFI, BLUETOOTH, AUDIO, NOTIFS, DISPLAY_MODE }
-
-// helper function that gets the associated anchor of this 
-//   menu in the screen according to the existing bar location
-function getAnchor(barLoc: Location) {
-    switch (barLoc) {
-        case Location.TOP:
-            return Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT;
-        case Location.BOTTOM:
-            return Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.RIGHT;
-        case Location.LEFT:
-            return Astal.WindowAnchor.LEFT | Astal.WindowAnchor.BOTTOM;
-        case Location.RIGHT:
-            return Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.BOTTOM;
-    }
-}
 
 // #region big buttons
 
@@ -632,6 +616,15 @@ function settingsPanel(calPanelRef: Widget.Box) {
 
 export default function (monitor: Gdk.Monitor, name: string): JSX.Element {
     let calendar: Widget.Box;
+    
+    const anchorBinding = bind(Settings.configSettings.barLocation).as(l => {
+        switch (l) {
+            case Location.TOP: return CornerLocation.TOP_RIGHT;
+            case Location.LEFT: return CornerLocation.BOTTOM_LEFT;
+            case Location.RIGHT: return CornerLocation.BOTTOM_RIGHT;
+            case Location.BOTTOM: return CornerLocation.BOTTOM_RIGHT
+        }
+    }).as(CornerLocation.toAnchor);
 
     return <window
         gdkmonitor={monitor}
@@ -639,14 +632,14 @@ export default function (monitor: Gdk.Monitor, name: string): JSX.Element {
         name={name}
         application={App}
         setup={self => self.connect("show", () => resetCal(calendar.child as Calendar))}
-        anchor={bind(Settings.barLocation).as(loc => getAnchor(loc))}>
+        anchor={anchorBinding}>
         <box
             vertical={true}
             spacing={10}
             css="margin: 10px;">
 
             {/* swap layout & calendar location if bar is on top of screen */}
-            {bind(Settings.barLocation)
+            {bind(Settings.configSettings.barLocation)
                 .as(loc => {
                     calendar = calendarPanel();
                     const main = settingsPanel(calendar);
