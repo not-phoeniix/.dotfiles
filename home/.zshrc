@@ -46,6 +46,7 @@ export MGFXC_WINE_PATH=$HOME/.winemonogame
 export XDG_CACHE_HOME=$HOME/.cache/
 export XDG_CONFIG_HOME=$HOME/.config/
 export DOTNET_CLI_TELEMETRY_OPTOUT=true
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib/
 
 # pfetch
 export PF_INFO="ascii title os kernel wm shell pkgs memory"
