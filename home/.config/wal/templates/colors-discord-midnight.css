@@ -1,8 +1,4 @@
 /**
- * Hi! this is a modified version of the midnight theme!
-*/
-
-/**
  * @name midnight
  * @description a dark, customizable discord theme.
  * @author refact0r
@@ -12,6 +8,11 @@
  * @source https://github.com/refact0r/midnight-discord/blob/master/themes/midnight.theme.css
  * @authorId 508863359777505290
  * @authorLink https://www.refact0r.dev
+*/
+
+/**
+ * Hi! this is a modified version of the midnight 
+ *   theme that links the style with pywal!
 */
 
 /* import theme modules */
@@ -24,8 +25,8 @@ body {
     font-weight: 400; /* normal text font weight. DOES NOT AFFECT BOLD TEXT */
 
     /* sizes */
-    --gap: 12px; /* spacing between panels */
-    --divider-thickness: 4px; /* thickness of unread messages divider and highlighted message borders */
+    --gap: 10px; /* spacing between panels */
+    --divider-thickness: 3px; /* thickness of unread messages divider and highlighted message borders */
     --border-thickness: 1px; /* thickness of borders around main panels. DOES NOT AFFECT OTHER BORDERS */
 
     /* animation/transition options */
@@ -37,12 +38,12 @@ body {
     /* top bar options */
     --top-bar-height: var(--gap); /* height of the top bar (discord default is 36px, old discord style is 24px, var(--gap) recommended if button position is set to titlebar) */
     --top-bar-button-position: titlebar; /* off: default position, hide: hide buttons completely, serverlist: move inbox button to server list, titlebar: move inbox button to channel titlebar (will hide title) */
-    --top-bar-title-position: off; /* off: default centered position, hide: hide title completely, left: left align title (like old discord) */
+    --top-bar-title-position: hide; /* off: default centered position, hide: hide title completely, left: left align title (like old discord) */
     --subtle-top-bar-title: off; /* off: default, on: hide the icon and use subtle text color (like old discord) */
 
     /* window controls */
     --custom-window-controls: on; /* off: default window controls, on: custom window controls */
-    --window-control-size: 14px; /* size of custom window controls */
+    --window-control-size: 0px; /* size of custom window controls */
 
     /* dms button options */
     --custom-dms-icon: off; /* off: use default discord icon, hide: remove icon entirely, custom: use custom icon */
@@ -72,7 +73,7 @@ body {
     --chatbar-height: 47px; /* height of the chatbar (56px by default, 47px to align with user panel, 56px recommended for separated) */
 
     /* other options */
-    --small-user-panel: on; /* off: default user panel, on: smaller user panel like in old discord */
+    --small-user-panel: off; /* off: default user panel, on: smaller user panel like in old discord */
 }
 
 /* color options */
@@ -82,10 +83,10 @@ body {
     /* text colors */
     --text-0: var(--bg-4); /* text on colored elements */
     --text-1: rgba({foreground.rgb}, 0.95); /* other normally white text */
-    --text-2: rgba({foreground.rgb}, 0.7); /* headings and important text */
-    --text-3: rgba({foreground.rgb}, 0.6); /* normal text */
+    --text-2: rgba({foreground.rgb}, 0.8); /* headings and important text */
+    --text-3: rgba({foreground.rgb}, 0.7); /* normal text */
     --text-4: rgba({foreground.rgb}, 0.4); /* icon buttons and channels */
-    --text-5: rgba({foreground.rgb}, 0.25); /* muted channels/chats and timestamps */
+    --text-5: rgba({foreground.rgb}, 0.2); /* muted channels/chats and timestamps */
 
     /* background and dark colors */
     --bg-1: rgba({color0.rgb}, 0.5); /* dark buttons when clicked */
@@ -95,7 +96,7 @@ body {
     --hover: rgba({foreground.rgb}, 0.1); /* channels and buttons when hovered */
     --active: rgba({foreground.rgb}, 0.05); /* channels and buttons when clicked or selected */
     --active-2: rgba({foreground.rgb}, 0.05); /* extra state for transparent buttons */
-    --message-hover: rgba({foreground.rgb}, 0.1); /* messages when hovered */
+    --message-hover: rgba({foreground.rgb}, 0.02); /* messages when hovered */
 
     /* accent colors */
     --accent-1: var(--red-1); /* links and other accent text */
@@ -120,7 +121,7 @@ body {
     --border-light: var(--hover); /* general light border color */
     --border: var(--active); /* general normal border color */
     --border-hover: var(--active); /* border color of panels when hovered */
-    --button-border: rgba({color1}, 1); /* neutral border color of buttons */
+    --button-border: rgba({color1}, 0.2); /* neutral border color of buttons */
 
     /* base colors */
     --red-1: rgba({color1.rgb}, 1.0);
