@@ -105,7 +105,7 @@ ags run ~/.config/astal/app.ts &> /dev/null &
 # apply background if the image path was ever specified
 if ! [ -z "$IMG_PATH" ]; then
 	echo "setting image to $IMG_PATH"
-	swww img "$IMG_PATH"
+	awww img "$IMG_PATH"
 else
 	echo "image never specified, keeping the same!"
 fi
