@@ -38,6 +38,7 @@ call plug#end()
 " === config stuff ===============================
 
 " prefs
+set cmdheight=0
 set ts=4
 set sw=4
 set number
