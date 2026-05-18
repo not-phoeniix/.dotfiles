@@ -21,6 +21,12 @@ require('nvim-treesitter.configs').setup {
 
 ]]
 
+-- vscode stuff
+if vim.g.vscode then
+	vim.o.cmdheight = 100
+	return
+end
+
 -- nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
