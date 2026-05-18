@@ -67,6 +67,9 @@ function chpwd-osc7-pwd() {
 }
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
+# syntax highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # PATH
 export PATH=$PATH:~/.scripts:~/.local/bin
 
