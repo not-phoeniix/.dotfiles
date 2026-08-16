@@ -26,7 +26,9 @@ export EASTEREGGS=1
 # === config stuff ==============================
 
 dbus-update-activation-environment --all --systemd
-brightnessctl -r
+if command -v brightnessctl >/dev/null 2>&1; then
+	brightnessctl -r
+fi
 wal -R
 
 # outputs
