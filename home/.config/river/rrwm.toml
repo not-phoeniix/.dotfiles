@@ -1,0 +1,119 @@
+# baha rrwm config
+
+[input.keyboard] # Note: This configuration option requires logging out and back in, or restarting, to take effect.
+layout = "us"
+# variant = "qwerty" # Default is qwerty
+# options = "caps:swapescape" # Supports multiple options, separated by commas
+# model = "pc105" # Default is pc105
+# numlock = "true" # Default is off
+
+[output.eDP-1] # You can use wlr-randr to get hardware information of connected monitors
+focus_at_startup = "true" # Focus this monitor by default on startup. Ensure only one monitor has this option set, otherwise initial focus may be random.
+mode = "2880x1920@120"
+scale = "2"
+# transform = "normal" # Rotate display. Valid values: normal, 90, 180, 270, flipped, flipped-90, flipped-180, and flipped-270.
+# position={ x="1080", y="0" } # Position of the output in the coordinate space of all monitors. Monitors without an explicit position default to position={ x="0", y="0" }, creating a mirroring effect.
+# Note: The width (or height) here must be the logical width (physical pixels / scale factor). For example, a 4K screen (3840 wide) with 2x scaling occupies only 1920 units in the layout space.
+
+[animations]
+enable = "false" # Animation enabled by default
+duration = "50" # Animation transition time
+
+[window]
+smart_borders = "false" # Borders/gaps disappear when only one window is present
+gaps = "10" # Window gaps
+
+[window.active] # Set border for the focused window; width should not exceed the gaps defined in [window]
+border = { width = "2", color = "#bd93f9", resize_color = "#ff5555" }
+
+# [window.rule] # You can use 'rrwm --appid' List all active windows with their appid and title
+# match = [
+# 	{ appid="chromium", icon="", width="27%" }, # Split tiled window width/height by ratio, units in % or px
+# 	{ appid="scrcpy", icon="", width="34.31%", height="100%", floating="true" },
+# 	{ appid="zen-browser", icon="" },
+# 	{ appid="zen-browser", title="Peek*", icon="", width="27%" }, # Allow regular matching via title
+# 	{ appid="kitty", icon="󰆍" },
+# 	{ appid="neovide", icon="" },
+# 	{ appid="wechat", icon="" },
+# 	{ appid="lanchat", icon="" },
+# 	{ appid="mpv", icon="󰐋", fullscreen="true", floating="true" },
+# 	{ appid="com.obsproject.Studio", icon="󰃽" },
+# 	{ appid="com.mitchellh.ghostty", icon="" },
+# 	{ appid="org.wezfurlong.wezterm", icon="" },
+# 	{ appid="com.gabm.satty", icon="", fullscreen="true" },
+# 	{ appid="kiro", icon="" }
+# ]
+
+# TODO: maybe refactor and reorganize keybindings setup? 
+# check toml spec --> https://toml.io/en/v1.1.0
+# maybe convert all the 
+#   [keybindings.modifier] r = {...}
+#   to
+#   [keybindings] modifier.r = {...}
+
+[keybindings.super]
+# general function
+f = { action = "toggle_fullscreen" }
+s = { action = "toggle_window_floating" }
+q = { action = "close_focused" }
+Print = { action = "spawn", args = ["gssc.sh", "-rc"] }
+
+# apps/DE
+Return = { action = "spawn", args = ["foot"] }
+period = { action = "spawn", args = ["emote"] }
+space = { action = "spawn", args = ["ags", "request", "-i", "bitshell", "toggle", "app_launcher"] }
+tab = { action = "spawn", args = ["ags", "request", "-i", "bitshell", "toggle", "quick_menu"] }
+
+# change focus
+1 = { action = "focus", args = ["1"] }
+2 = { action = "focus", args = ["2"] }
+3 = { action = "focus", args = ["3"] }
+4 = { action = "focus", args = ["4"] }
+5 = { action = "focus", args = ["5"] }
+8 = { action = "focus", args = ["6"] }
+9 = { action = "focus", args = ["7"] }
+0 = { action = "focus", args = ["8"] }
+
+h = { action = "focus", args = ["left"] }
+j = { action = "focus", args = ["down"] }
+k = { action = "focus", args = ["up"] }
+l = { action = "focus", args = ["right"] }
+
+[keybindings.super_shift]
+# general function
+q = { action = "spawn", args=["pkill", "river"] }
+
+# apps/DE
+Return = { action = "spawn", args = ["nemo"] }
+tab = {	action = "spawn", args = ["ags", "request", "-i", "bitshell", "toggle", "calendar"] }
+
+# move client
+1 = { action = "move", args = ["1"] }
+2 = { action = "move", args = ["2"] }
+3 = { action = "move", args = ["3"] }
+4 = { action = "move", args = ["4"] }
+5 = { action = "move", args = ["5"] }
+8 = { action = "move", args = ["6"] }
+9 = { action = "move", args = ["7"] }
+0 = { action = "move", args = ["8"] }
+
+h = { action = "move", args = ["left"] }
+j = { action = "move", args = ["down"] }
+k = { action = "move", args = ["up"] }
+l = { action = "move", args = ["right"] }
+
+# other screenshot stuff
+[keybindings.shift]
+Print = { action = "spawn", args = ["gssc.sh", "-fc"] }
+
+[keybindings.ctrl]
+Print = { action = "spawn", args = ["gssc.sh", "-rs"] }
+
+[keybindings.ctrl_shift]
+Print = { action = "spawn", args = ["gssc.sh", "-fs"] }
+
+# mouse resizing
+[pointer.super] 
+BTN_LEFT = { action = "move_interactive" }
+BTN_RIGHT = { action = "resize_interactive" }
+

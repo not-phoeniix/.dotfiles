@@ -1,0 +1,52 @@
+#!/bin/bash
+
+echo "gm hi initting river..."
+
+# === env =======================================
+
+export SDL_VIDEODRIVER=wayland;x11
+export QT_QPA_PLATFORM=wayland;xcb
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+export GTK_CSD=0
+
+export XDG_CURRENT_DESKTOP=wlr
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=river
+
+export SCREENSHOT_DIR=$HOME/Pictures/Screenshots
+export AWWW_TRANSITION_STEP=30
+export TERMINAL=foot
+
+# apparently pywal has special funny things for these env vars
+export SHITPOSTS=1
+export EASTEREGGS=1
+
+# === config stuff ==============================
+
+dbus-update-activation-environment --all --systemd
+brightnessctl -r
+wal -R
+
+# outputs
+wlr-randr --output eDP-1 --mode 2880x1920@120 --scale 2.0 --adaptive-sync enabled
+
+# === startup applications ======================
+
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+rhine &
+channel &
+# TODO: configure swayidle
+# swayidle &
+
+sleep 0.1
+awww-daemon &
+wayneko --layer top --follow-pointer false &
+$HOME/.local/bin/bitshell &
+
+# === etc =======================================
+
+echo "river initted !!"
+
