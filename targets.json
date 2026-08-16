@@ -9,7 +9,7 @@
 	},
 	{
 		"operation": "symlink",
-		"path": "~/.config/hypr"
+		"path": "~/.config/river"
 	},
 	{
 		"operation": "symlink",
@@ -50,5 +50,9 @@
 	{
 		"operation": "symlink",
 		"path": "~/.scripts/theme.sh"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.scripts/gssu.sh"
 	}
 ]

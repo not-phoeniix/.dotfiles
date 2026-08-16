@@ -1,0 +1,27 @@
+{
+	"special": {
+		"background":"#c4c4c4",
+		"foreground":"#000000",
+		"cursor":"#000000"
+	},
+	"colors": {
+		"color0":"#a8a8a8",
+		"color1":"#a80000",
+		"color2":"#00a800",
+		"color3":"#a85400",
+		"color4":"#0000a8",
+		"color5":"#a800a8",
+		"color6":"#00a8a8",
+		"color7":"#e0e0e0",
+		"color8":"#a8a8a8",
+		"color9":"#a80000",
+		"color10":"#54fc54",
+		"color11":"#fcfc54",
+		"color12":"#0000a8",
+		"color13":"#fc54fc",
+		"color14":"#00a8a8",
+		"color15":"#e0e0e0"
+	},
+	"gtkTheme": "Windows-95",
+	"gtkIcons": "Chicago95"
+}

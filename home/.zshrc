@@ -1,5 +1,5 @@
 # initially generated things
-HISTFILE=~/.zsh_history
+HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt autocd
@@ -71,5 +71,5 @@ add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # PATH
-export PATH=$PATH:~/.scripts:~/.local/bin
+export PATH=$PATH:$HOME/.scripts:$HOME/.local/bin
 

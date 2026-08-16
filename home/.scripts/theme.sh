@@ -110,7 +110,5 @@ else
 	echo "image never specified, keeping the same!"
 fi
 
-hyprctl reload
-
 echo
 echo "successfully changed theme to $THEME_NAME! :]"

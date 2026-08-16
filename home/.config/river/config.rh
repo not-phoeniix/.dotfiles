@@ -1,0 +1,161 @@
+layout_config {
+    bsp {
+        gaps 7
+    }
+}
+
+animations {
+    move {
+        duration 0
+    }
+    resize {
+        duration 0
+    }
+    workspace {
+        duration 0
+    }
+}
+
+xcursor {
+    theme Bibata-Modern-Classic
+    size 24
+}
+
+keybinds [
+	# basic functionality
+    super, q, close, Focus
+    super+shift, q, exit
+    super, f, fullscreen, toggle, Focus
+    super, s, floating, toggle, Focus
+    super, r, layoutCommand, bsp, changeSplit
+    super, p, pin, Focus, toggle
+
+	# bitshell stuff
+	super, space, launch, ags -i bitshell request toggle app_launcher
+	super, Tab, launch, ags -i bitshell request toggle quick_menu
+	super+shift, Tab, launch, ags -i bitshell request toggle calendar
+
+	# screenshots
+    none, Print, launch, $HOME/.scripts/gssu.sh -rc
+    shift, Print, launch, $HOME/.scripts/gssu.sh -fc
+	ctrl, Print, launch, $HOME/.scripts/gssu.sh -rs
+	ctrl+shift, Print, launch, $HOME/.scripts/gssu.sh -fs
+
+	# apps
+    super, Return, launch, foot
+	super, period, launch, emote
+	super+ctrl, Return, launch, foot btop
+	super+shift, Return, launch, nemo
+	super, period, launch, emote
+	super+shift+ctrl+alt, l, launch, xdg-open https://www.linkedin.com/
+	super+shift+ctrl+alt, a, launch, xdg-open https://www.youtube.com/watch?v=IU3G97MmzK4
+
+    # volume & media control
+    none, XF86AudioRaiseVolume, launch, pamixer -i 5
+    none, XF86AudioLowerVolume, launch, pamixer -d 5
+    none, XF86AudioMute, launch, pamixer -t
+
+    none, XF86AudioPlay, launch, playerctl play-pause
+    none, XF86AudioNext, launch, playerctl next
+    none, XF86AudioPrev, launch, playerctl previous
+    none, XF86AudioStop, launch, playerctl stop
+    none, XF86MonBrightnessUp, launch, brightnessctl set +10%
+    none, XF86MonBrightnessDown, launch, brightnessctl set 10%-
+
+    super, h, moveFocus, Left
+    super, l, moveFocus, Right
+    super, j, moveFocus, Down
+    super, k, moveFocus, Up
+
+    super, bracketleft, focusWorkspace, Previous
+    super, bracketright, focusWorkspace, Next
+
+	super+shift, h, moveWindow, Left
+    super+shift, l, moveWindow, Right
+    super+shift, j, moveWindow, Down
+    super+shift, k, moveWindow, Up
+
+    super, 1, focusWorkspace, 0
+    super, 2, focusWorkspace, 1
+    super, 3, focusWorkspace, 2
+    super, 4, focusWorkspace, 3
+    super, 5, focusWorkspace, 4
+    super, 8, focusWorkspace, 5
+    super, 9, focusWorkspace, 6
+    super, 0, focusWorkspace, 7
+
+    super+shift, 1, moveToWorkspace, 0
+    super+shift, 2, moveToWorkspace, 1
+    super+shift, 3, moveToWorkspace, 2
+    super+shift, 4, moveToWorkspace, 3
+    super+shift, 5, moveToWorkspace, 4
+    super+shift, 8, moveToWorkspace, 5
+    super+shift, 9, moveToWorkspace, 6
+    super+shift, 0, moveToWorkspace, 7
+
+    super+ctrl, 1, sendToWorkspace, 0
+    super+ctrl, 2, sendToWorkspace, 1
+    super+ctrl, 3, sendToWorkspace, 2
+    super+ctrl, 4, sendToWorkspace, 3
+    super+ctrl, 5, sendToWorkspace, 4
+    super+ctrl, 8, sendToWorkspace, 5
+    super+ctrl, 9, sendToWorkspace, 6
+    super+ctrl, 0, sendToWorkspace, 7
+]
+
+window_management {
+    follow_cursor true
+    float_move 0.1
+    border {
+        width 3
+            colours {
+                pinned rgb8, 0x00, 0x00, 0xa8
+            	focus rgb8, 0xfc, 0xfc, 0xfc
+				inactive rgb8, 0x54, 0x54, 0x54
+            }
+    }
+}
+
+windowrules [
+    # zenity, float, true
+]
+
+pointer_binds [
+    super, Left, pointerOp, move
+    super+ctrl, Left, pointerOp, resize
+	super, Right, pointerOp, resize
+]
+
+input {
+    profiles {
+        keyboard {
+            keyboard {
+                layout us
+                variant 
+                repeat {
+                    rate 20
+                    delay 450
+                }
+            }
+        }
+
+        touchpad {
+            pointer {
+                scroll_factor 0.4
+            }
+
+            libinput {
+                natural_scroll true
+                tap_to_click true
+                disable_while_typing false
+				accel_speed 0.1
+            }
+        }
+    }
+
+    rules [
+        type, keyboard, keyboard
+        name, *ouchpad, touchpad
+    ]
+}
+
