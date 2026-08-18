@@ -1,0 +1,6 @@
+.color = .{
+    .focus = 0x{color1.strip}ff,
+    .unfocus = 0x{color0.strip}ff,
+    .swallowing = 0x{color3.strip}ff,
+},
+

@@ -1,0 +1,113 @@
+.{
+    .working_directory = .home,
+    .xcursor_theme = .{ .name = "Bibata-Modern-Classic", .size = 24 },
+    .background = null,
+    .bar = .{ .show_default = false },
+    .single_tagset = false,
+    .sloppy_focus = true,
+
+    // .none
+    // .on_focus_changed: warp cursor to the center of window focused
+    // .on_output_changed: warp cursor to the center of output focused
+    .cursor_warp = .on_focus_changed,
+
+    .disable_wrap_around_for_scroller = true,
+    .remember_floating_geometry = true,
+    .auto_swallow = true,
+
+    // .top: stack top
+    // .bottom: stack bottom
+    // .stack_top: for tile and deck layout
+    // .above_focused
+    // .below_focused
+    .default_attach_mode = .{
+        .tile = .top,
+        .grid = .top,
+        .monocle = .top,
+        .deck = .stack_top,
+        .scroller = .below_focused,
+        .centered_master = .top,
+        .float = .top,
+    },
+
+    // .csd
+    // .ssd
+    .default_window_decoration = .ssd,
+
+    // custom IPC stuff?
+    .startup_cmds = .{
+        .{ "mkdir", "-p", "/tmp/kwm" },
+        .{ "echo", "1", ">", "/tmp/kwm/tags" },
+        .{ "echo", "\"\"", ">", "/tmp/kwm/focused_title" },
+    },
+
+    // window border
+    .border = .{
+        .width = 4,
+        //@include(colors-kwm-border.zon)
+    },
+
+    // .tile
+    // .grid
+    // .monocle
+    // .deck
+    // .scroller
+    // .centered_master
+    // .float
+    .default_layout = .tile,
+    .layout = .{
+        .tile = .{
+            .nmaster = 1,
+            .mfact = 0.55,
+            .inner_gap = 12,
+            .outer_gap = 9,
+
+            // .left
+            // .right
+            // .top
+            // .bottom
+            .master_location = .left,
+        },
+        .grid = .{
+            .outer_gap = 9,
+            .inner_gap = 12,
+
+            // .horizontal
+            // .vertical
+            .direction = .horizontal,
+        },
+        .monocle = .{
+            .gap = 9,
+        },
+        .deck = .{
+            .nmaster = 1,
+            .mfact = 0.55,
+            .inner_gap = 12,
+            .outer_gap = 9,
+
+            // .left
+            // .right
+            // .top
+            // .bottom
+            .master_location = .left,
+        },
+        .scroller = .{
+            .mfact = 0.5,
+            .inner_gap = 16,
+            .outer_gap = 9,
+        },
+        .centered_master = .{
+            .nmaster = 1,
+            .mfact = 0.55,
+            .inner_gap = 12,
+            .outer_gap = 9,
+
+            // .horizontal
+            // .vertical
+            .direction = .horizontal,
+        },
+    },
+
+    //@include(bindings.zon)
+    //@include(rules.zon)
+}

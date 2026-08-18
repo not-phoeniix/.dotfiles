@@ -2,10 +2,18 @@
 
 echo "gm hi initting river..."
 
-# === env =======================================
+# === env/vars ==================================
 
-export SDL_VIDEODRIVER=wayland;x11
-export QT_QPA_PLATFORM=wayland;xcb
+# ensuring correct env variables are set
+if [ -z "$XDG_CONFIG_HOME" ]; then XDG_CONFIG_HOME="$HOME/.config/"; fi
+if [ -z "$XDG_CACHE_HOME" ]; then XDG_CACHE_HOME="$HOME/.cache/"; fi
+
+RIVER_CONFIG_DIR="$XDG_CONFIG_HOME/river"
+WAL_KWM_CACHE_SOURCE="$XDG_CACHE_HOME/wal/colors-kwm-border.zon"
+WAL_KWM_CACHE_LOCAL="$RIVER_CONFIG_DIR/colors-kwm-border.zon"
+
+export SDL_VIDEODRIVER="wayland;x11"
+export QT_QPA_PLATFORM="wayland;xcb"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
@@ -18,6 +26,7 @@ export XDG_SESSION_DESKTOP=river
 export SCREENSHOT_DIR=$HOME/Pictures/Screenshots
 export AWWW_TRANSITION_STEP=30
 export TERMINAL=foot
+export PATH=$PATH:$HOME/.local/bin:$HOME/.scripts
 
 # apparently pywal has special funny things for these env vars
 export SHITPOSTS=1
@@ -26,27 +35,37 @@ export EASTEREGGS=1
 # === config stuff ==============================
 
 dbus-update-activation-environment --all --systemd
+
 if command -v brightnessctl >/dev/null 2>&1; then
 	brightnessctl -r
 fi
+
+touch "$RIVER_CONFIG_DIR/outputs"
+source "$RIVER_CONFIG_DIR/outputs"
+
 wal -R
 
-# outputs
-wlr-randr --output eDP-1 --mode 2880x1920@120 --scale 2.0 --adaptive-sync enabled
+# create wal cache color symlink before running kwm
+rm -f "$WAL_KWM_CACHE_LOCAL"
+ln -s "$WAL_KWM_CACHE_SOURCE" "$WAL_KWM_CACHE_LOCAL"
+
+# set up the custom IPC stuff for kwm & bitshell
+mkdir -p /tmp/kwm
 
 # === startup applications ======================
 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
-rhine &
-channel &
+# wm/input
+kwm -c "$RIVER_CONFIG_DIR/config.zon" &
+kwim -c "$RIVER_CONFIG_DIR/input.zon" &
 # TODO: configure swayidle
 # swayidle &
 
 sleep 0.1
 awww-daemon &
 wayneko --layer top --follow-pointer false &
-$HOME/.local/bin/bitshell &
+bitshell &
 
 # === etc =======================================
 

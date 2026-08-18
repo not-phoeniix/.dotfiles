@@ -1,0 +1,29 @@
+// rule part
+//
+// a rule pattern has fields below:
+//      str: pattern string, required
+//      regex: bool, if enable regex
+//      match_null: bool, if match null
+//
+// only the first rule matched will be applied
+
+// window rules
+// full scheme:
+//      app_id: rule pattern
+//      title: rule pattern
+//
+//      tag: window tag
+//      output: output name pattern, same as rule pattern
+//      floating: bool, if floating
+//      dimension: .{ .width = i32, .height = i32 }, initial dimension
+//      decoration: .csd or .ssd, window decoration
+//      is_terminal: bool, if set true, means the window could be swallowed
+//      disable_swallow: bool, if set true, the window could not swallow any other windows
+//      scroller_mfact: f32, initial mfact of the window for scroller layout
+//      attach_mode: like `default_attach_mode`, change attach_mode for window matched
+.window_rules = .{
+    .{ .app_id = .{ .str = "", .match_null = true }, .floating = true },
+    .{ .app_id = .{ .str = "xdg-desktop-portal-gtk" }, .floating = true },
+    .{ .app_id = .{ .str = "[dD]iscord", .regex = true }, .tag = 0b01000000 },
+    .{ .app_id = .{ .str = ".*[tT]elegram.*", .regex = true }, .tag = 0b01000000 },
+},
