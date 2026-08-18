@@ -1,0 +1,23 @@
+.{
+    .input_device_rules = .{
+        .{
+            .repeat_info = .{
+                .rate = 20,
+                .delay = 350,
+            },
+            .scroll_factor = 0.4,
+        }
+    },
+
+    .libinput_device_rules = .{
+        .{ 
+            .name = .{ .str = ".*[tT]ouchpad", .regex = true }, 
+            .tap = .enabled, 
+            .drag = .enabled, 
+            .natural_scroll = .enabled,
+            .disable_while_typing = .disabled,
+            .accel_speed = 0.1,
+        },
+        .{ .tap = .enabled, .drag = .enabled }
+    },
+}
