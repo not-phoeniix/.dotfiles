@@ -12,8 +12,10 @@ RIVER_CONFIG_DIR="$XDG_CONFIG_HOME/river"
 WAL_KWM_CACHE_SOURCE="$XDG_CACHE_HOME/wal/colors-kwm-border.zon"
 WAL_KWM_CACHE_LOCAL="$RIVER_CONFIG_DIR/colors-kwm-border.zon"
 
-export SDL_VIDEODRIVER="wayland;x11"
-export QT_QPA_PLATFORM="wayland;xcb"
+# export SDL_VIDEODRIVER="wayland;x11"
+# export QT_QPA_PLATFORM="wayland;xcb"
+export SDL_VIDEODRIVER="wayland"
+export QT_QPA_PLATFORM="wayland"
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export ELECTRON_OZONE_PLATFORM_HINT=wayland
