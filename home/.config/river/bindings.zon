@@ -127,7 +127,7 @@
             },
         },
         .{
-            .keysym = "period",
+            .keysym = "slash",
             .modifiers = .{ .mod4 = true },
             .event = .{
                 .click = .{
@@ -538,7 +538,7 @@
 
         // monitor/output binds
         .{
-            .keysym = "apostrophe",
+            .keysym = "period",
             .modifiers = .{ .mod4 = true },
             .event = .{
                 .click = .{
@@ -549,7 +549,7 @@
             },
         },
         .{
-            .keysym = "semicolon",
+            .keysym = "comma",
             .modifiers = .{ .mod4 = true },
             .event = .{
                 .click = .{
@@ -560,7 +560,7 @@
             },
         },
         .{
-            .keysym = "apostrophe",
+            .keysym = "period",
             .modifiers = .{ .mod4 = true, .shift = true },
             .event = .{
                 .click = .{
@@ -571,7 +571,7 @@
             },
         },
         .{
-            .keysym = "semicolon",
+            .keysym = "comma",
             .modifiers = .{ .mod4 = true, .shift = true },
             .event = .{
                 .click = .{
