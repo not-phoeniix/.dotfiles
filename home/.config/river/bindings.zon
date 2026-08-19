@@ -535,6 +535,52 @@
                 },
             },
         },
+
+        // monitor/output binds
+        .{
+            .keysym = "apostrophe",
+            .modifiers = .{ .mod4 = true },
+            .event = .{
+                .click = .{
+                    .pressed = .{
+                        .focus_output_iter = .{ .direction = .forward },
+                    },
+                },
+            },
+        },
+        .{
+            .keysym = "semicolon",
+            .modifiers = .{ .mod4 = true },
+            .event = .{
+                .click = .{
+                    .pressed = .{
+                        .focus_output_iter = .{ .direction = .reverse },
+                    },
+                },
+            },
+        },
+        .{
+            .keysym = "apostrophe",
+            .modifiers = .{ .mod4 = true, .shift = true },
+            .event = .{
+                .click = .{
+                    .pressed = .{
+                        .send_to_output = .{ .direction = .forward },
+                    },
+                },
+            },
+        },
+        .{
+            .keysym = "semicolon",
+            .modifiers = .{ .mod4 = true, .shift = true },
+            .event = .{
+                .click = .{
+                    .pressed = .{
+                        .send_to_output = .{ .direction = .reverse },
+                    },
+                },
+            },
+        },
     },
 
     // .pointer ( .pointer   )   (yeah )
