@@ -47,7 +47,7 @@ wal -R
 rm -f "$WAL_KWM_CACHE_LOCAL"
 ln -s "$WAL_KWM_CACHE_SOURCE" "$WAL_KWM_CACHE_LOCAL"
 
-# set up the custom IPC stuff for kwm & bitshell
+# set up the custom IPC stuff for kwm & bited
 mkdir -p /tmp/kwm
 
 # === startup applications ======================
@@ -63,7 +63,7 @@ kwim -c "$RIVER_CONFIG_DIR/input.zon" &
 sleep 0.1
 awww-daemon &
 wayneko --layer top --follow-pointer false &
-bitshell &
+bited &
 
 # === etc =======================================
 
