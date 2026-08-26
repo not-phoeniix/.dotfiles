@@ -160,14 +160,14 @@
             },
         },
 
-        // bitshell stuff
+        // bited stuff
         .{
             .keysym = "tab",
             .modifiers = .{ .mod4 = true },
             .event = .{
                 .click = .{
                     .pressed = .{
-                        .spawn_shell = .{ .cmd = "bitshell toggle quick_menu" },
+                        .spawn_shell = .{ .cmd = "bited toggle quick_menu" },
                     },
                 },
             },
@@ -178,7 +178,7 @@
             .event = .{
                 .click = .{
                     .pressed = .{
-                        .spawn_shell = .{ .cmd = "bitshell toggle calendar" },
+                        .spawn_shell = .{ .cmd = "bited toggle calendar" },
                     },
                 },
             },
@@ -189,7 +189,7 @@
             .event = .{
                 .click = .{
                     .pressed = .{
-                        .spawn_shell = .{ .cmd = "bitshell toggle app_launcher" },
+                        .spawn_shell = .{ .cmd = "bited toggle app_launcher" },
                     },
                 },
             },
