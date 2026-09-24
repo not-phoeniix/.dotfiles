@@ -1,0 +1,20 @@
+input {
+	keyboard {
+		// xkb {
+		// 	layout "us"
+		// }
+
+		repeat-delay 350
+		repeat-rate 20
+	}
+
+	focus-follows-mouse
+
+	touchpad {
+		tap
+		drag true
+		natural-scroll
+		scroll-factor 0.4
+		accel-speed 0.1
+	}
+}

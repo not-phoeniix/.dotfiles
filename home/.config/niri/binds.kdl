@@ -1,0 +1,67 @@
+binds {
+	// main operation binds
+	Super+Shift+Q { quit; }
+	Super+Q repeat=false { close-window; }
+	Super+F repeat=false { fullscreen-window; }
+	Super+S repeat=false { toggle-window-floating; }
+	Super+P repeat=false { toggle-overview; }
+	Super+Slash repeat=false { toggle-overview; }
+
+	// app binds
+	Super+Return repeat=false { spawn "foot"; }
+	Super+Shift+Return repeat=false { spawn "nemo"; }
+	Super+Ctrl+Return repeat=false { spawn "foot" "btop"; }
+	Super+E repeat=false { spawn "emote"; }
+	Super+Shift+Alt+Ctrl+L { spawn-sh "xdg-open https://www.linkedin.com/"; }
+	Super+Shift+Alt+Ctrl+A { spawn-sh "xdg-open https://www.youtube.com/watch?v=IU3G97MmzK4"; }
+
+	// bited stuff
+	Super+Space repeat=false { spawn-sh "bited -t app_launcher"; }
+	Super+Tab repeat=false { spawn-sh "bited -t quick_menu"; }
+	Super+Shift+Tab repeat=false { spawn-sh "bited -t calendar"; }
+
+	// nav/layout binds
+	Super+K { focus-window-up-or-column-left; }
+	Super+J { focus-window-down-or-column-right; }
+	Super+H { focus-column-left; }
+	Super+L { focus-column-right; }
+
+	Super+Bracketright { switch-preset-column-width; }
+	Super+Bracketleft { switch-preset-column-width-back; }
+	Super+Backslash { expand-column-to-available-width; }
+
+	Super+Semicolon { toggle-column-tabbed-display; }
+
+	Super+Shift+K { consume-or-expel-window-left; }
+	Super+Shift+J { consume-or-expel-window-right; }
+	Super+Shift+H { move-column-left-or-to-monitor-left; }
+	Super+Shift+L { move-column-right-or-to-monitor-right; }
+
+	Super+Comma { focus-workspace-up; }
+	Super+Period { focus-workspace-down; }
+	Super+Shift+Comma { move-window-to-workspace-up; }
+	Super+Shift+Period { move-window-to-workspace-down; }
+	Super+Ctrl+Comma { move-workspace-up; }
+	Super+Ctrl+Period { move-workspace-down; }
+	// Super+Comma { focus-monitor-previous; }
+	// Super+Period { focus-monitor-next; }
+
+	Super+Shift+G { center-window; }
+
+	// function keys
+	XF86AudioMute { spawn-sh "pamixer -t"; }
+	XF86AudioRaiseVolume { spawn-sh "pamixer -i 5"; }
+	XF86AudioLowerVolume { spawn-sh "pamixer -d 5"; }
+	XF86AudioPlay { spawn-sh "playerctl play-pause"; }
+	XF86AudioNext { spawn-sh "playerctl next"; }
+	XF86AudioPrev { spawn-sh "playerctl previous"; }
+	XF86MonBrightnessUp { spawn-sh "brightnessctl set +5%"; }
+	XF86MonBrightnessDown { spawn-sh "brightnessctl set 5%-"; }
+
+	// screenshots
+	Print { spawn-sh "gssu.sh -rc"; }
+	Shift+Print { spawn-sh "gssu.sh -fc"; }
+	Ctrl+Print { spawn-sh "gssu.sh -rs"; }
+	Ctrl+Shift+Print { spawn-sh "gssu.sh -fs"; }
+}
+

@@ -1,0 +1,4 @@
+spawn-at-startup "awww-daemon"
+spawn-at-startup "bited"
+spawn-at-startup "wayneko --layer top --follow-pointer false"
+

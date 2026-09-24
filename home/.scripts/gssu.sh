@@ -9,7 +9,7 @@ unset -v OPERATION # either "copy" or "save"
 SAVE_DATE_FORMAT='+%Y%m%d_%H%M%S'
 
 print_usage() {
-	echo -e "Usage: gssu.sh [OPTION]..."
+	echo -e "Usage: $0 [OPTION]..."
 	echo -e 'simple grim-slurp screenshot utility'
 	echo -e ""
 	echo -e "General Flags:"
@@ -24,10 +24,10 @@ print_usage() {
 	echo -e "  -c\t\t\tcopy screenshot"
 	echo -e ""
 	echo -e "Examples:"
-	echo -e "  gssu.sh -r -c\t\tcapture and copy rectangular region of screen"
-	echo -e "  gssu.sh -fs\t\tcapture and save fullscreen region of screen"
-	echo -e "  gssu.sh -h\t\tbaha help me"
-	echo -e "  gssu.sh -vh\t\tbaha help me but be really verbose about it"
+	echo -e "  $0 -r -c\t\tcapture and copy rectangular region of screen"
+	echo -e "  $0 -fs\t\tcapture and save fullscreen region of screen"
+	echo -e "  $0 -h\t\tbaha help me"
+	echo -e "  $0 -vh\t\tbaha help me but be really verbose about it"
 }
 
 # exits early w/ help message if nothing is passed in
