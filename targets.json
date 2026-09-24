@@ -9,7 +9,7 @@
 	},
 	{
 		"operation": "symlink",
-		"path": "~/.config/river"
+		"path": "~/.config/niri"
 	},
 	{
 		"operation": "symlink",
@@ -32,8 +32,8 @@
 		"path": "~/.config/desktop/themes"
 	},
 	{
-		"operation": "copy",
-		"path": "~/.fonts/FiraCodeNerdFontMono-Regular.ttf"
+		"operation": "symlink",
+		"path": "~/.fonts/FiraCode"
 	},
 	{
 		"operation": "copy",
@@ -46,6 +46,10 @@
 	{
 		"operation": "symlink",
 		"path": "~/.zshrc"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.zprofile"
 	},
 	{
 		"operation": "symlink",

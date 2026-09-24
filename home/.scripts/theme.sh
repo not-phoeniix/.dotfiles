@@ -91,16 +91,9 @@ echo "\$icon_theme = '$GTK_ICONS'" >> $HYPR_GTK_CACHE_PATH
 echo "exec = gsettings set org.gnome.desktop.interface gtk-theme \$gtk_theme" >> $HYPR_GTK_CACHE_PATH
 echo "exec = gsettings set org.gnome.desktop.interface icon-theme \$icon_theme" >> $HYPR_GTK_CACHE_PATH
 
-# update other app colors
-# spicetify config color_scheme $THEME_NAME &
-
 ### RESTART PROGRAMS ======================================
 
-pkill ags
-pkill gjs
-ags run ~/.config/astal/app.ts &> /dev/null &
-
-# spicetify apply
+# TODO: restart bited shell automatically
 
 # apply background if the image path was ever specified
 if ! [ -z "$IMG_PATH" ]; then
