@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #
 # gssu.sh (grim-slurp screenshot utility dot sh (shell ))
@@ -77,8 +77,13 @@ else
 	unset -v REGION
 fi
 
+OUTPUT=""
+if [ -z "$REGION" ]; then
+	OUTPUT="DP-1"
+fi
+
 # actual operation, conditional flags (wacky ik)
-grim ${REGION:+-g "$REGION"} - \
+grim ${REGION:+-g "$REGION"} ${OUTPUT:+-o "$OUTPUT"} - \
 	| tee "$SCREENSHOT_DIR/$FILE_NAME" \
 	| wl-copy
 
