@@ -1,0 +1,31 @@
+layout {
+	background-color "{background}"
+
+	focus-ring {
+		active-color "{color1}"
+		inactive-color "{color0}"
+	}
+
+	insert-hint {
+		color "{color1}80"
+	}
+}
+
+overview {
+	backdrop-color "{background}"
+}
+
+window-rule {
+	match is-window-cast-target=true
+
+	border {
+		on
+		active-color "{color3}"
+		inactive-color "{color3}80"
+    }
+
+	tab-indicator {
+		active-color "{color3}"
+		inactive-color "{color3}80"
+	}
+}

@@ -9,7 +9,7 @@
 	},
 	{
 		"operation": "symlink",
-		"path": "~/.config/river"
+		"path": "~/.config/niri"
 	},
 	{
 		"operation": "symlink",
@@ -46,6 +46,10 @@
 	{
 		"operation": "symlink",
 		"path": "~/.zshrc"
+	},
+	{
+		"operation": "symlink",
+		"path": "~/.zprofile"
 	},
 	{
 		"operation": "symlink",

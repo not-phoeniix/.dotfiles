@@ -29,30 +29,11 @@ alias tty-clock='tty-clock -c -C 1'
 alias feh='feh --scale-down'
 alias unimatrix='unimatrix -c red -l o -s 94'
 alias tablet-mode='setsysmode toggle'
-alias pacman-remove-orphans='pacman -Qtdq | pacman -Rns -'
 alias yippee=yay
 alias starwars="telnet towel.blinkenlights.nl"
 alias md=mkdir
 alias mdp=mkdir -p
 alias sizeof='du -sh'
-
-# === environment variables ===================
-export EDITOR="nvim"
-export VISUAL="nvim"
-export TERM="foot"
-export TERMINAL="foot"
-export GOPATH"=$HOME/Go"
-export MGFXC_WINE_PATH=$HOME/.winemonogame
-export XDG_CACHE_HOME=$HOME/.cache/
-export XDG_CONFIG_HOME=$HOME/.config/
-export DOTNET_CLI_TELEMETRY_OPTOUT=true
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib/
-
-# pfetch
-export PF_INFO="ascii title os kernel wm shell pkgs memory"
-export PF_COL1=5
-export PF_COL2=7
-export PF_COL3=3
 
 # foot terminal emulator shell integration
 function osc7-pwd() {
@@ -69,7 +50,4 @@ add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 # syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# PATH
-export PATH=$PATH:$HOME/.scripts:$HOME/.local/bin
 
