@@ -1,0 +1,20 @@
+// Don't let Firefox PiP steal focus.
+// window-rule {
+//     match title="^Picture-in-Picture$"
+// 
+//     open-floating true
+//     on-xdg-activate "set-urgent"
+// }
+
+// fix steam notifications
+window-rule {
+    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
+window-rule {
+	match app-id="steam"
+	open-floating true
+	open-focused false
+	open-maximized false
+}
