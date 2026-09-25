@@ -43,8 +43,11 @@ binds {
 	Super+Shift+Period { move-window-to-workspace-down; }
 	Super+Ctrl+Comma { move-workspace-up; }
 	Super+Ctrl+Period { move-workspace-down; }
-	// Super+Comma { focus-monitor-previous; }
-	// Super+Period { focus-monitor-next; }
+
+	Super+Alt+Comma { focus-monitor-previous; }
+	Super+Alt+Period { focus-monitor-next; }
+	Super+Shift+Alt+Comma { move-window-to-monitor-previous; }
+	Super+Shift+Alt+Period { move-window-to-monitor-next; }
 
 	Super+Shift+G { center-window; }
 
