@@ -21,8 +21,8 @@ binds {
 	Super+Shift+Tab repeat=false { spawn-sh "bited -t calendar"; }
 
 	// nav/layout binds
-	Super+K { focus-window-up-or-column-left; }
-	Super+J { focus-window-down-or-column-right; }
+	Super+K { focus-window-up; }
+	Super+J { focus-window-down; }
 	Super+H { focus-column-left; }
 	Super+L { focus-column-right; }
 
@@ -66,5 +66,9 @@ binds {
 	Shift+Print { spawn-sh "gssu.sh -fc"; }
 	Ctrl+Print { spawn-sh "gssu.sh -rs"; }
 	Ctrl+Shift+Print { spawn-sh "gssu.sh -fs"; }
+}
+
+switch-events {
+	lid-close { spawn "~/.config/niri/lock.sh"; }
 }
 

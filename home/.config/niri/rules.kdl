@@ -6,6 +6,12 @@
 //     on-xdg-activate "set-urgent"
 // }
 
+
+window-rule {
+	geometry-corner-radius 8
+	clip-to-geometry true
+}
+
 // fix steam notifications
 window-rule {
     match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
@@ -17,4 +23,11 @@ window-rule {
 	open-floating true
 	open-focused false
 	open-maximized false
+}
+
+window-rule {
+	match app-id="firefox"
+	match app-id=r#"^md\.obsidian\.Obsidian$"#
+	match app-id="codium"
+	open-maximized true
 }
