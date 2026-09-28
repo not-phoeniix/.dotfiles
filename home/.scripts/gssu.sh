@@ -6,28 +6,32 @@
 
 unset -v REGION_RECT # either "full" or "rect"
 unset -v OPERATION # either "copy" or "save"
+unset -v OUTPUT # monitor connector code thingy
 SAVE_DATE_FORMAT='+%Y%m%d_%H%M%S'
 
+scriptname=$(basename $0)
+
 print_usage() {
-	echo -e "Usage: $0 [OPTION]..."
+	echo -e "Usage: $scriptname [OPTION]..."
 	echo -e 'simple grim-slurp screenshot utility'
 	echo -e ""
 	echo -e "General Flags:"
-	echo -e "  -h\t\t\tprints this usage screen"
-	echo -e "  -v\t\t\tenables verbose command logging"
+	echo -e "  -h           \tprints this usage screen"
+	echo -e "  -v           \tenables verbose command logging"
 	echo -e "Regions:"
-	echo -e "  -f\t\t\tcapture full screen region"
-	echo -e "  -r\t\t\tcapture rectangle region"
+	echo -e "  -f           \tcapture full screen region"
+	echo -e "  -o [OUTPUT]  \tcapture a specific output"
+	echo -e "  -r           \tcapture rectangle region"
 	echo -e "Operations:"
-	echo -e "  -s\t\t\tsave screenshot (saves to \$SCREENSHOT_DIR,"
-	echo -e "    \t\t\tw/ fallbacks of \$XDG_PICTURES_DIR, \$HOME/Pictures)"
-	echo -e "  -c\t\t\tcopy screenshot"
+	echo -e "  -s           \tsave screenshot (saves to \$SCREENSHOT_DIR,"
+	echo -e "               \tw/ fallbacks of \$XDG_PICTURES_DIR, \$HOME/Pictures)"
+	echo -e "  -c           \tcopy screenshot"
 	echo -e ""
 	echo -e "Examples:"
-	echo -e "  $0 -r -c\t\tcapture and copy rectangular region of screen"
-	echo -e "  $0 -fs\t\tcapture and save fullscreen region of screen"
-	echo -e "  $0 -h\t\tbaha help me"
-	echo -e "  $0 -vh\t\tbaha help me but be really verbose about it"
+	echo -e "  $scriptname -r -c         \tcapture and copy rectangular region of screen"
+	echo -e "  $scriptname -fs -o DP-1   \tcapture and save fullscreen region of DP-1 output"
+	echo -e "  $scriptname -h            \tbaha help me"
+	echo -e "  $scriptname -vh           \tbaha help me but be really verbose about it"
 }
 
 # exits early w/ help message if nothing is passed in
@@ -38,12 +42,13 @@ fi
 
 # === USER PROMPT ===============================
 
-while getopts "hvfrcs" opt; do
+while getopts "hvfrcso:" opt; do
 	case $opt in
 		h) print_usage; exit 0 ;;
 		v) set -o xtrace ;;
 		f) REGION="full" ;;
 		r) REGION="rect" ;;
+		o) REGION="full"; OUTPUT=${OPTARG} ;;
 		c) OPERATION="copy" ;;
 		s) OPERATION="save" ;;
 	esac
@@ -75,11 +80,6 @@ if [ "$REGION" = "rect" ]; then
 	REGION="$(slurp)"
 else
 	unset -v REGION
-fi
-
-OUTPUT=""
-if [ -z "$REGION" ]; then
-	OUTPUT="DP-1"
 fi
 
 # actual operation, conditional flags (wacky ik)

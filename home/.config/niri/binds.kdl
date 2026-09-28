@@ -63,9 +63,9 @@ binds {
 
 	// screenshots
 	Print { spawn-sh "gssu.sh -rc"; }
-	Shift+Print { spawn-sh "gssu.sh -fc"; }
+	Shift+Print { spawn-sh "gssu.sh -fc -o $(niri msg -j focused-output | jq -r '.name')"; }
 	Ctrl+Print { spawn-sh "gssu.sh -rs"; }
-	Ctrl+Shift+Print { spawn-sh "gssu.sh -fs"; }
+	Ctrl+Shift+Print { spawn-sh "gssu.sh -fs -o $(niri msg -j focused-output | jq -r '.name')"; }
 }
 
 switch-events {
