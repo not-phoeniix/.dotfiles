@@ -72,12 +72,15 @@ if [ -z "$SCREENSHOT_DIR" ]; then SCREENSHOT_DIR="$HOME/Pictures"; fi
 FILE_NAME="$(date "$SAVE_DATE_FORMAT").png"
 
 if [ "$OPERATION" != "save" ]; then 
-	SCREENSHOT_DIR="/tmp/"
+	SCREENSHOT_DIR="/tmp"
 	FILE_NAME="screenshot.png"
 fi
 
 if [ "$REGION" = "rect" ]; then
-	REGION="$(slurp)"
+	if ! REGION="$(slurp)"; then
+		echo "slurp cancelled, goodbye <3"
+		exit 1
+	fi
 else
 	unset -v REGION
 fi
@@ -88,4 +91,7 @@ grim ${REGION:+-g "$REGION"} ${OUTPUT:+-o "$OUTPUT"} - \
 	| wl-copy
 
 echo "screenshot ${OPERATION}d, have a nice day <3"
+notify-send "screenshot taken!" \
+	"screenshot ${OPERATION}d\n\n--> $SCREENSHOT_DIR/$FILE_NAME" \
+	--icon "$SCREENSHOT_DIR/$FILE_NAME"
 

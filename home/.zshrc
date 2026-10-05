@@ -51,3 +51,9 @@ add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 # syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# git extras autocomplete
+GIT_EXTRAS_FILE="/usr/share/doc/git-extras/git-extras-completion.zsh"
+if [ -f "$GIT_EXTRAS_FILE" ]; then
+	source "$GIT_EXTRAS_FILE"
+fi
+
