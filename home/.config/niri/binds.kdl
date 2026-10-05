@@ -1,11 +1,13 @@
 binds {
 	// main operation binds
-	Super+Shift+Q { quit; }
+	Super+Shift+Q { quit skip-confirmation=true; }
 	Super+Q repeat=false { close-window; }
 	Super+F repeat=false { fullscreen-window; }
 	Super+S repeat=false { toggle-window-floating; }
+	Super+Grave repeat=false { toggle-overview; }
 	Super+P repeat=false { toggle-overview; }
 	Super+Slash repeat=false { toggle-overview; }
+	Alt+Tab { spawn-sh "exit"; }
 
 	// app binds
 	Super+Return repeat=false { spawn "foot"; }
