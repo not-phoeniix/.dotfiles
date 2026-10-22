@@ -29,5 +29,6 @@ window-rule {
 	match app-id="firefox"
 	match app-id=r#"^md\.obsidian\.Obsidian$"#
 	match app-id="codium"
+	match app-id="discord"
 	open-maximized true
 }
