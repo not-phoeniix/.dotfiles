@@ -34,6 +34,7 @@ alias starwars="telnet towel.blinkenlights.nl"
 alias md=mkdir
 alias mdp=mkdir -p
 alias sizeof='du -sh'
+alias nv=nvim
 
 # foot terminal emulator shell integration
 function osc7-pwd() {
