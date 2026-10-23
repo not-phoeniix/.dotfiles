@@ -22,6 +22,12 @@
 		"color14":"#8ec07c",
 		"color15":"#ebdbb2"
 	},
+	"cssVars": {
+		"border-radius-panel": "0px",
+		"border-radius-widget": "0px",
+		"border-radius-small": "0px",
+		"border-radius-volume-popup": "0px"
+	},
 	"gtkTheme": "gruvbox-dark-gtk",
 	"gtkIcons": "Gruvbox-Plus-Dark"
 }

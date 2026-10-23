@@ -23,5 +23,24 @@
 		"color15":"#e0e0e0"
 	},
 	"gtkTheme": "Windows-95",
-	"gtkIcons": "Chicago95"
+	"gtkIcons": "Chicago95",
+	"niriAccentColor": "$color6",
+	"cssVars": {
+		"color-accent": "$color6",
+		"color-accent-2": "$color4",
+		"color-shadow": "transparent",
+		"border-radius-panel": "0px",
+		"border-radius-widget": "0px",
+		"border-radius-small": "0px",
+		"border-radius-volume-popup": "0px",
+		"border-widget": "3px inset var(--color-fg-2)",
+		"border-panel": "2px groove $color7",
+		"font-family": "'Serif Bold', Symbols Nerd Font",
+		"font-size": "24px",
+		"padding-panel": "3px",
+		"padding-widget": "0px 5px",
+		"padding-workspace-icon": "0 0.3em",
+		"padding-button": "2px",
+		"padding-small-item": "0px"
+	}
 }

@@ -1,5 +1,6 @@
 include optional=true "outputs.kdl"
 include optional=true "~/.cache/wal/colors-niri.kdl"
+include optional=true "~/.cache/desktop/theme-niri.kdl"
 include "layout.kdl"
 include "input.kdl"
 include "binds.kdl"

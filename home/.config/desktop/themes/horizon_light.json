@@ -23,5 +23,6 @@
 		"color15":"#d5d8da"
 	},
 	"gtkTheme": "new-horizons",
-	"gtkIcons": "new-horizons-icons"
+	"gtkIcons": "new-horizons-icons",
+	"niriCornerRadius": 8
 }
