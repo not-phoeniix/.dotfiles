@@ -3,25 +3,21 @@
 
 -- possible vim modes: n, v, i, t
 
+vim.g.mapleader = "\\"
+
 local BINDS = {
     -- insert mode binds
     i = {
-        ["<C-BS>"] = { "<ESC>dbi", "delete one word back" },
-        ["<C-Del>"] = { "<ESC>dwi", "delete one word forward" },
+        ["<C-BS>"] = { "<ESC>ldbi", "delete one word back" },
+        ["<C-Del>"] = { "<ESC>ldwi", "delete one word forward" },
     },
 
     -- normal mode binds
     n = {
         ["<C-j>"] = { ":belowright split term://zsh <ENTER> A", "open new split terminal" },
-        ["<C-b>"] = { ":Lexplore<ENTER>", "toggles file browser on left window" },
+        ["<C-b>"] = { ":Lex<ENTER>", "toggles file browser on left window" },
         ["<M-z>"] = { ":set wrap! <ENTER>", "toggle line wrapping" },
-        ["<C-S-i>"] = {
-            -- insane fucking bind to format indents and remove trailing spaces
-            ("maggVG=`a" ..
-            -- https://vi.stackexchange.com/questions/454/whats-the-simplest-way-to-strip-trailing-whitespace-from-all-lines-in-a-file
-            ":let _s=@/<Bar>:%s/\\s\\+$//e<Bar>:let @/=_s<Bar><ENTER>"),
-            "format file indentations & spaces"
-        },
+        ["<C-S-i>"] = { ":lua require('conform').format() <ENTER>" },
     },
 }
 

@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "conform.nvim": {
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
     "mini.comment": {
       "rev": "7b6e37ad79a9d11ff08e6706d5d84eaf4c389213",
       "src": "https://github.com/nvim-mini/mini.comment"
@@ -15,6 +19,10 @@
     "nvim-lspconfig": {
       "rev": "77b7432d4770d23b277d37923e5a08a442d8bb07",
       "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "strudel.nvim": {
+      "rev": "3a7e62c9048a318281328ad08d6269e50b884cd3",
+      "src": "https://github.com/gruvw/strudel.nvim"
     }
   }
 }
