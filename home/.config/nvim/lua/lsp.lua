@@ -21,6 +21,7 @@ try_enable_lsp("clangd")
 try_enable_lsp("jsonls")
 try_enable_lsp("lua_ls")
 try_enable_lsp("tsserver")
+try_enable_lsp("bashls")
 
 -- enable inline diagnostic stuff
 vim.diagnostic.enable = true
