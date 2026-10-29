@@ -47,9 +47,13 @@ binds {
 	Super+Ctrl+Comma { move-workspace-up; }
 	Super+Ctrl+Period { move-workspace-down; }
 
+	Super+Minus { focus-monitor-previous; }
 	Super+Semicolon { focus-monitor-previous; }
+	Super+Equal { focus-monitor-next; }
 	Super+Apostrophe { focus-monitor-next; }
+	Super+Shift+Minus { move-window-to-monitor-previous; }
 	Super+Shift+Semicolon { move-window-to-monitor-previous; }
+	Super+Shift+Equal { move-window-to-monitor-next; }
 	Super+Shift+Apostrophe { move-window-to-monitor-next; }
 
 	Super+Shift+G { center-window; }
