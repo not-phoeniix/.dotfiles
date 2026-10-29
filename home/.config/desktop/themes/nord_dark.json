@@ -1,0 +1,38 @@
+{
+    "special": {
+        "background": "#2E3440",
+        "foreground": "#ECEFF4",
+        "cursor": "#ECEFF4"
+    },
+    "colors": {
+        "color0": "#3B4252",
+        "color1": "#BF616A",
+        "color2": "#A3BE8C",
+        "color3": "#EBCB8B",
+        "color4": "#5E81AC",
+        "color5": "#D08770",
+        "color6": "#88C0D0",
+        "color7": "#E5E9F0",
+        "color8": "#4C566A",
+        "color9": "#BF616A",
+        "color10": "#A3BE8C",
+        "color11": "#EBCB8B",
+        "color12": "#5E81AC",
+        "color13": "#D08770",
+        "color14": "#88C0D0",
+        "color15": "#E5E9F0"
+    },
+    "gtkTheme": "Nordic",
+    "gtkIcons": "Papirus-Dark",
+    "niri": {
+        "accentColor": "$color6"
+    },
+    "cssVars": {
+        "color-accent": "$color6",
+        "color-accent-2": "$color4",
+        "border-radius-panel": "0px",
+        "border-radius-widget": "0px",
+        "border-radius-small": "0px",
+        "border-radius-volume-popup": "0px"
+    }
+}

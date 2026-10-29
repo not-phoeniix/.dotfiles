@@ -24,5 +24,7 @@
     },
     "gtkTheme": "catppuccin-mocha-red-standard+default",
     "gtkIcons": "Colloid-Purple-Dark",
-    "niriCornerRadius": 8
+    "niri": {
+        "cornerRadius": 8
+    }
 }
