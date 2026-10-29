@@ -24,5 +24,7 @@
     },
     "gtkTheme": "new-horizons",
     "gtkIcons": "new-horizons-icons",
-    "niriCornerRadius": 8
+    "niri": {
+        "cornerRadius": 8
+    }
 }

@@ -24,7 +24,9 @@
     },
     "gtkTheme": "Windows-95",
     "gtkIcons": "Chicago95",
-    "niriAccentColor": "$color6",
+    "niri": {
+        "accentColor": "$color6"
+    },
     "cssVars": {
         "color-accent": "$color6",
         "color-accent-2": "$color4",
