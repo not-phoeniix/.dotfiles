@@ -1,62 +1,58 @@
 [
-	{
-		"operation": "symlink",
-		"path": "~/.config/astal"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.config/foot"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.config/niri"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.config/lf"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.local/share/nemo/actions"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.config/nvim"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.config/wal/templates"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.config/desktop/themes"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.fonts/FiraCode"
-	},
-	{
-		"operation": "copy",
-		"path": "~/.fonts/Papernotes.otf"
-	},
-	{
-		"operation": "copy",
-		"path": "~/Pictures/wallpapers"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.zshrc"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.zprofile"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.scripts/theme.sh"
-	},
-	{
-		"operation": "symlink",
-		"path": "~/.scripts/gssu.sh"
-	}
+    {
+        "operation": "symlink",
+        "path": "~/.config/foot"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.config/niri"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.config/lf"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.local/share/nemo/actions"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.config/nvim"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.config/wal/templates"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.config/desktop/themes"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.fonts/FiraCode"
+    },
+    {
+        "operation": "copy",
+        "path": "~/.fonts/Papernotes.otf"
+    },
+    {
+        "operation": "copy",
+        "path": "~/Pictures/wallpapers"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.zshrc"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.zprofile"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.scripts/theme.sh"
+    },
+    {
+        "operation": "symlink",
+        "path": "~/.scripts/gssu.sh"
+    }
 ]
