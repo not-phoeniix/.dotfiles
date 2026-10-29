@@ -33,7 +33,7 @@ binds {
 	Super+Bracketleft { switch-preset-column-width-back; }
 	Super+Backslash { expand-column-to-available-width; }
 
-	Super+Semicolon { toggle-column-tabbed-display; }
+	Super+O { toggle-column-tabbed-display; }
 
 	Super+Shift+K { consume-or-expel-window-left; }
 	Super+Shift+J { consume-or-expel-window-right; }
@@ -47,10 +47,10 @@ binds {
 	Super+Ctrl+Comma { move-workspace-up; }
 	Super+Ctrl+Period { move-workspace-down; }
 
-	Super+Minus { focus-monitor-previous; }
-	Super+Equal { focus-monitor-next; }
-	Super+Shift+Minus { move-window-to-monitor-previous; }
-	Super+Shift+Equal { move-window-to-monitor-next; }
+	Super+Semicolon { focus-monitor-previous; }
+	Super+Apostrophe { focus-monitor-next; }
+	Super+Shift+Semicolon { move-window-to-monitor-previous; }
+	Super+Shift+Apostrophe { move-window-to-monitor-next; }
 
 	Super+Shift+G { center-window; }
 
