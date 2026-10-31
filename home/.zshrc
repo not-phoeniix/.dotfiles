@@ -27,14 +27,15 @@ alias q='exit'
 alias c='clear'
 alias tty-clock='tty-clock -c -C 1'
 alias unimatrix='unimatrix -c red -l o -s 94'
-alias yippee=yay
+alias yippee='yay'
 alias starwars="telnet towel.blinkenlights.nl"
-alias md=mkdir
-alias mdp=mkdir -p
+alias md='mkdir'
+alias mdp='mkdir -p'
 alias sizeof='du -sh'
-alias nv=nvim
+alias nv='nvim'
 alias untargz="tar -xzvf"
 alias untar="tar -xvf"
+alias lsimg='lsix'
 
 # foot terminal emulator shell integration
 function osc7-pwd() {

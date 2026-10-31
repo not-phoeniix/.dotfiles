@@ -56,7 +56,7 @@ while getopts 't:i:hlLr' opt; do
 
         r) THEME_NAME=$(cat $THEME_CACHE_FILE) ;;
         t) THEME_NAME="$OPTARG" ;;
-        i) IMG_PATH="$OPTARG";;
+        i) IMG_PATH=$(realpath "$OPTARG");;
 
         *) print_usage; exit 1 ;;
     esac
