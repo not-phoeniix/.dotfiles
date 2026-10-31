@@ -35,10 +35,15 @@ binds {
 
 	Super+O { toggle-column-tabbed-display; }
 
-	Super+Shift+K { consume-or-expel-window-left; }
-	Super+Shift+J { consume-or-expel-window-right; }
+	Super+Shift+K { move-window-up; }
+	Super+Shift+J { move-window-down; }
 	Super+Shift+H { move-column-left-or-to-monitor-left; }
 	Super+Shift+L { move-column-right-or-to-monitor-right; }
+
+	Super+Ctrl+H { consume-or-expel-window-left; }
+	Super+Ctrl+K { consume-or-expel-window-left; }
+	Super+Ctrl+L { consume-or-expel-window-right; }
+	Super+Ctrl+J { consume-or-expel-window-right; }
 
 	Super+Comma { focus-workspace-up; }
 	Super+Period { focus-workspace-down; }
