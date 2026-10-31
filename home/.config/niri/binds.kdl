@@ -29,9 +29,15 @@ binds {
 	Super+H { focus-column-left; }
 	Super+L { focus-column-right; }
 
+        // horiz size adjusting
 	Super+Bracketright { switch-preset-column-width; }
 	Super+Bracketleft { switch-preset-column-width-back; }
 	Super+Backslash { expand-column-to-available-width; }
+
+        // vert size adjusting
+	Super+Ctrl+Bracketright { switch-preset-window-height; }
+	Super+Ctrl+Bracketleft { switch-preset-window-height-back; }
+	Super+Ctrl+Backslash { set-window-height "100%"; }
 
 	Super+O { toggle-column-tabbed-display; }
 
