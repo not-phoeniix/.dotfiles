@@ -25,7 +25,7 @@
     },
     {
         "operation": "symlink",
-        "path": "~/.config/desktop/themes"
+        "path": "~/.config/bited/themes"
     },
     {
         "operation": "symlink",

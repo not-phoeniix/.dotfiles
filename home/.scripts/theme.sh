@@ -3,7 +3,7 @@
 # variables
 unset -v IMG_PATH
 unset -v THEME_NAME
-DESKTOP_DIR_NAME=desktop
+DESKTOP_DIR_NAME=bited
 SCHEMES_DIR=$(realpath $XDG_CONFIG_HOME/$DESKTOP_DIR_NAME/themes)
 NIRI_THEME_CACHE_PATH=$(realpath $XDG_CACHE_HOME/$DESKTOP_DIR_NAME/theme-niri.kdl)
 THEME_CACHE_DIR=$(realpath $XDG_CACHE_HOME/wal)
