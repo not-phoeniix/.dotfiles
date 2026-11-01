@@ -51,21 +51,30 @@ fi
 # parsing arguments (a colon after means it accepts arguments)
 while getopts 't:i:hlLr' opt; do
     case "$opt" in
-        h) print_usage; exit 0 ;;
-        l) print_installed_themes; exit 0 ;;
+    h)
+        print_usage
+        exit 0
+        ;;
+    l)
+        print_installed_themes
+        exit 0
+        ;;
 
-        r) THEME_NAME=$(cat $THEME_CACHE_FILE) ;;
-        t) THEME_NAME="$OPTARG" ;;
-        i) IMG_PATH=$(realpath "$OPTARG");;
+    r) THEME_NAME=$(cat $THEME_CACHE_FILE) ;;
+    t) THEME_NAME="$OPTARG" ;;
+    i) IMG_PATH=$(realpath "$OPTARG") ;;
 
-        *) print_usage; exit 1 ;;
+    *)
+        print_usage
+        exit 1
+        ;;
     esac
 done
 
-echo $IMG_PATH > $THEME_CACHE_DIR/wal
+echo $IMG_PATH >$THEME_CACHE_DIR/wal
 
 if [ -z "$THEME_NAME" ] && [ -f "$THEME_CACHE_FILE" ]; then
-    THEME_NAME=$(cat $THEME_CACHE_FILE);
+    THEME_NAME=$(cat $THEME_CACHE_FILE)
 fi
 if [ -z "$THEME_NAME" ]; then
     echo "Error! theme name missing & cache not found!"
@@ -81,7 +90,7 @@ if ! [ -f "$FULL_THEME_PATH" ]; then
 fi
 
 # write theme to cache every time it's changed
-echo $THEME_NAME > $THEME_CACHE_FILE
+echo $THEME_NAME >$THEME_CACHE_FILE
 
 ### UPDATE COLORS =========================================
 
@@ -103,14 +112,14 @@ write_niri_cache() {
 
     rm -f $NIRI_THEME_CACHE_PATH
 
-    cat >> $NIRI_THEME_CACHE_PATH << EOF
+    cat >>$NIRI_THEME_CACHE_PATH <<EOF
 spawn-sh-at-startup "$GTK_THEME_CMD"
 spawn-sh-at-startup "$GTK_ICONS_CMD"
 EOF
 
     NIRI_CORNER_RADIUS=$(echo $NIRI_JSON | jq ".cornerRadius" -r)
     if [[ "$NIRI_CORNER_RADIUS" != "null" ]]; then
-        cat >> $NIRI_THEME_CACHE_PATH << EOF
+        cat >>$NIRI_THEME_CACHE_PATH <<EOF
 
 window-rule {
         geometry-corner-radius $NIRI_CORNER_RADIUS
@@ -125,7 +134,7 @@ EOF
             theme_file_val=$NIRI_ACCENT_COLOR
         fi
 
-        cat >> $NIRI_THEME_CACHE_PATH << EOF
+        cat >>$NIRI_THEME_CACHE_PATH <<EOF
 
 layout {
     focus-ring {
@@ -153,7 +162,7 @@ if pgrep bited >/dev/null 2>&1; then
     bited themeFile $FULL_THEME_PATH
 fi
 
-# apply background if awww is installed && 
+# apply background if awww is installed &&
 #   the image path was ever specified
 if command -v awww >/dev/null 2>&1 && ! [ -z "$IMG_PATH" ]; then
     echo "setting image to $IMG_PATH"
