@@ -157,10 +157,8 @@ fi
 
 ### RESTART PROGRAMS ======================================
 
-# apply theme if bited is running lol
-if pgrep bited >/dev/null 2>&1; then
-    bited themeFile $FULL_THEME_PATH
-fi
+# apply bited theme lol
+bitedctl theme $FULL_THEME_PATH
 
 # apply background if awww is installed &&
 #   the image path was ever specified
