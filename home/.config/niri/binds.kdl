@@ -18,10 +18,10 @@ binds {
 	Super+Shift+Alt+Ctrl+A { spawn-sh "xdg-open https://www.youtube.com/watch?v=IU3G97MmzK4"; }
 
 	// bited stuff
-	Super+Space repeat=false { spawn-sh "bited -t app_launcher"; }
-	Super+Tab repeat=false { spawn-sh "bited -t quick_menu"; }
-	Super+Shift+Tab repeat=false { spawn-sh "bited -t calendar"; }
-	Super+N repeat=false { spawn-sh "bited clear-notifs"; }
+	Super+Space repeat=false { spawn-sh "bitedctl toggle app_launcher"; }
+	Super+Tab repeat=false { spawn-sh "bitedctl toggle quick_menu"; }
+	Super+Shift+Tab repeat=false { spawn-sh "bitedctl toggle calendar"; }
+	Super+N repeat=false { spawn-sh "bitedctl notifs clear"; }
 
 	// nav/layout binds
 	Super+K { focus-window-up; }
