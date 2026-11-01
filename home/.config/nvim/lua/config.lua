@@ -6,6 +6,10 @@ local g = vim.g
 -- GENERAL PROGRAM OPTS --
 --------------------------
 
+if vim.g.vscode then
+    opt.cmdheight = 4
+end
+
 opt.number = true
 opt.cmdheight = 0
 opt.clipboard="unnamed,unnamedplus"
