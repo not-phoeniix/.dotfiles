@@ -1,0 +1,11 @@
+[Nemo Action]
+
+Active=true
+Name=Open in VSCodium
+Comment=Opens current folder in VSCodum
+Exec=codium %P
+Icon-Name=vscodium
+Selection=none
+Extensions=any;
+Quote=double
+Dependencies=codium;
