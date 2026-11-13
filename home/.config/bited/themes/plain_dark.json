@@ -1,0 +1,30 @@
+{
+    "special": {
+        "background":"#000000",
+        "foreground":"#ffffff",
+        "cursor":"#ffffff"
+    },
+    "colors": {
+        "color0":"#111111",
+        "color1":"#ff0000",
+        "color2":"#00ff00",
+        "color3":"#ffff00",
+        "color4":"#0000ff",
+        "color5":"#ff00ff",
+        "color6":"#00ffff",
+        "color7":"#cccccc",
+        "color8":"#333333",
+        "color9":"#ff8888",
+        "color10":"#88ff88",
+        "color11":"#ffff88",
+        "color12":"#8888ff",
+        "color13":"#ff88ff",
+        "color14":"#88ffff",
+        "color15":"#ffffff"
+    },
+    "gtkTheme": "new-horizons",
+    "gtkIcons": "new-horizons-icons",
+    "niri": {
+        "cornerRadius": 8
+    }
+}
