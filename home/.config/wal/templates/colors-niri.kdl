@@ -1,31 +1,31 @@
 layout {
-	background-color "{background}"
+    background-color "{background}"
 
-	focus-ring {
-		active-color "{color1}"
-		inactive-color "{color0}"
-	}
+    focus-ring {
+        active-color "{color1}"
+        inactive-color "{color0}"
+    }
 
-	insert-hint {
-		color "{color1}80"
-	}
+    insert-hint {
+        color "{color1}80"
+    }
 }
 
 overview {
-	backdrop-color "{background}"
+    backdrop-color "{background}"
 }
 
 window-rule {
-	match is-window-cast-target=true
+    match is-window-cast-target=true
 
-	border {
-		on
-		active-color "{color3}"
-		inactive-color "{color3}80"
+    border {
+        on
+        active-color "{color3}"
+        inactive-color "{color3}80"
     }
 
-	tab-indicator {
-		active-color "{color3}"
-		inactive-color "{color3}80"
-	}
+    tab-indicator {
+        active-color "{color3}"
+        inactive-color "{color3}80"
+    }
 }

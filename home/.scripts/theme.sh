@@ -105,6 +105,10 @@ GTK_ICONS_CMD="gsettings set org.gnome.desktop.interface icon-theme '$GTK_ICONS'
 eval $GTK_THEME_CMD
 eval $GTK_ICONS_CMD
 
+if command -v pywalfox >/dev/null 2>&1; then
+    pywalfox update
+fi
+
 ### NIRI THEME CACHE FILE =================================
 
 write_niri_cache() {
@@ -115,15 +119,16 @@ write_niri_cache() {
     cat >>$NIRI_THEME_CACHE_PATH <<EOF
 spawn-sh-at-startup "$GTK_THEME_CMD"
 spawn-sh-at-startup "$GTK_ICONS_CMD"
+
 EOF
 
     NIRI_CORNER_RADIUS=$(echo $NIRI_JSON | jq ".cornerRadius" -r)
     if [[ "$NIRI_CORNER_RADIUS" != "null" ]]; then
         cat >>$NIRI_THEME_CACHE_PATH <<EOF
-
 window-rule {
-        geometry-corner-radius $NIRI_CORNER_RADIUS
+    geometry-corner-radius $NIRI_CORNER_RADIUS
 }
+
 EOF
     fi
 
@@ -135,7 +140,6 @@ EOF
         fi
 
         cat >>$NIRI_THEME_CACHE_PATH <<EOF
-
 layout {
     focus-ring {
         active-color "$theme_file_val"
@@ -145,6 +149,7 @@ layout {
         color "${theme_file_val}80"
     }
 }
+
 EOF
 
     fi
