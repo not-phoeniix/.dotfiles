@@ -1,38 +1,8 @@
 [
     {
         "op": "symlink",
-        "src": "home/config/niri",
-        "dest": "~/.config/niri"
-    },
-    {
-        "op": "symlink",
-        "src": "home/config/lf",
-        "dest": "~/.config/lf"
-    },
-    {
-        "op": "symlink",
-        "src": "home/config/nvim",
-        "dest": "~/.config/nvim"
-    },
-    {
-        "op": "symlink",
-        "src": "home/config/foot",
-        "dest": "~/.config/foot"
-    },
-    {
-        "op": "symlink",
-        "src": "home/config/wal/templates",
-        "dest": "~/.config/wal/templates"
-    },
-    {
-        "op": "symlink",
-        "src": "home/config/bited/themes",
-        "dest": "~/.config/bited/themes"
-    },
-    {
-        "op": "symlink",
-        "src": "home/local/share/nemo/actions",
-        "dest": "~/.local/share/nemo/actions"
+        "src": "home/config/*",
+        "dest": "~/.config/"
     },
     {
         "op": "symlink",
@@ -40,9 +10,14 @@
         "dest": "~/.fonts/"
     },
     {
-        "op": "copy",
-        "src": "home/Pictures/wallpapers",
-        "dest": "~/Pictures/wallpapers"
+        "op": "symlink",
+        "src": "home/scripts/*",
+        "dest": "~/.scripts/"
+    },
+    {
+        "op": "symlink",
+        "src": "home/local/share/nemo/actions",
+        "dest": "~/.local/share/nemo/actions"
     },
     {
         "op": "symlink",
@@ -55,8 +30,8 @@
         "dest": "~/.zprofile"
     },
     {
-        "op": "symlink",
-        "src": "home/scripts/*",
-        "dest": "~/.scripts/"
+        "op": "copy",
+        "src": "home/Pictures/wallpapers",
+        "dest": "~/Pictures/wallpapers"
     }
 ]
