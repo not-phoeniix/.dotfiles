@@ -4,116 +4,124 @@
 # hi :D this is the bash script you can use to apply my dotfiles :]
 #
 
-# ~~~ current dir checking ~~~
-
 # exit early if script isn't run in its origin directory
 script_dir=$(dirname -- "$(realpath -- "$0")")
 if ! [[ $(pwd) == $script_dir ]]; then
-	echo "ERR: Script must be run inside its stored directory!"
-	exit 1
+    echo "ERR: Script must be run inside its stored directory!"
+    exit 1
 fi
 
-# ~~~ dependency checking ~~~
-
+# ensure dependencies are installed
 DEPENDENCIES=(
-	jq
-	rsync
+    jq
+    rsync
 )
-
-missing_deps=false
 for dep in "${DEPENDENCIES[@]}"; do
-	if ! command -v $dep 2>&1 >/dev/null; then
-		missing_deps=true
-		echo "ERR: Dependency command \"$dep\" not found!"
-	fi
+    if ! command -v $dep 2>&1 >/dev/null; then
+        echo "ERR: Dependency \"$dep\" missing!"
+        exit 1
+    fi
 done
 
-if [[ $missing_deps == true ]]; then
-	echo "Dependencies missing! Unable to run..."
-	exit 1
-fi
+# === helper funcs and stuff ==============================
 
-# ~~~ symlink creation / file copying ~~~
-
-# creates a symlink or copies file
-#   $1: source
-#   $2: destination
-#   $3: operation, either "symlink" or "copy"
-apply_target() {
-	source=$(realpath --no-symlinks "$1")
-	dest=$(realpath --no-symlinks "$2")
-
-	if ! [ -e $source ]; then
-		echo "ERR: source '$source' doesn't exist!"
-		return 1
-	fi
-
-	# if we are copying and the destination is an existing FILE
-	#   OR
-	# if we are symlinking and destination exists AT ALL
-	#
-	# then prompt for overwrite
-	if ([[ $3 == "copy" ]] && [ -f $dest ]) || ([[ $3 == "symlink" ]] && [ -e $dest ]); then
-		input_valid=0
-		while [[ $input_valid == 0 ]]; do
-			read -r -p "target '$dest' already exists, would you like to overwrite? [y/N] " response </dev/tty
-
-			case $response in
-				[yY])
-					echo "OKAY YEAH!!! OVERWRITING !!!!!!"
-					input_valid=1
-					;;
-
-				"")
-					;&
-				[nN])
-					echo "aw... okay,,,,, ... no overwrite...... :("
-					return 0
-					;;
-
-				*)
-					echo "input $response not recognized !!"
-					;;
-			esac
-		done
-	fi
-
-	case $3 in
-		"symlink")
-			echo "symlinking '$source' to '$dest'..."
-			rm -rf $dest
-			ln -sf $source $dest
-			;;
-
-		"copy")
-			echo "copying '$source' to '$dest'..."
-			rsync -a $source/ $dest
-			;;
-
-		*)	
-			echo "ERR: operation $3 not recognized!!!"
-			return 1
-			;;
-	esac
+mkdir_for_dest() {
+    if [ -d "$1" ]; then
+        mkdir -p "$1"
+    else
+        mkdir -p "$(dirname "$1")"
+    fi
 }
 
-# ~~~ JSON parsing / target operations ~~~
+# $1: source
+# $2: destination
+apply_target_symlink() {
+    local src=$(realpath --no-symlinks "$1")
+    local dest=$(realpath --no-symlinks "$2")
+
+    if ! [ -e "$src" ]; then
+        echo "ERR: source '$src' doesn't exist!"
+        return 1
+    fi
+
+    if [ -e "$dest" ]; then
+        read -r -p "'$dest' already exists! overwrite, backup, or skip? [o/b/S] " response </dev/tty
+        case $response in
+            [oO]) echo "rm -rf '$dest'"; rm -rf "$dest" ;;
+            [bB]) echo "mv '$dest' '$dest.bak'"; mv "$dest" "$dest.bak" ;;
+            *) return 1 ;;
+        esac
+    fi
+
+    echo "symlinking '$src' --> '$dest'"
+    mkdir_for_dest "$dest"
+    ln -sf "$src" "$dest"
+}
+
+# $1: source
+# $2: destination
+apply_target_copy() {
+    local src=$(realpath --no-symlinks "$1")
+    local dest=$(realpath --no-symlinks "$2")
+
+    if [ ! -d "$dest" ] && [ -e "$dest" ]; then
+        read -r -p "'$dest' already exists! overwrite, backup, or skip? [o/b/S] " response </dev/tty
+        case $response in
+            [oO]) echo "rm -rf '$dest'"; rm -rf "$dest" ;;
+            [bB]) echo "mv '$dest' '$dest.bak'"; mv "$dest" "$dest.bak" ;;
+            *) return 1 ;;
+        esac
+    fi
+
+    echo "rsync -a '$src/' '$dest'"
+    mkdir_for_dest "$dest"
+    rsync -a "$src/" "$dest"
+}
+
+# $1: source
+# $2: destination
+# $3: operation, either "symlink" or "copy"
+apply_target() {
+    local src=$(realpath --no-symlinks "$1")
+    local dest=$(realpath --no-symlinks "$2")
+
+    case "$3" in
+        "symlink") apply_target_symlink "$1" "$2" ;;
+        "copy") apply_target_copy "$1" "$2" ;;
+        *) echo "ERR: operation '$3' not recognized!"; exit 1 ;;
+    esac
+}
+
+# === applying targets ====================================
 
 TRACKED_FILE="targets.json"
-JSON=$(cat $TRACKED_FILE | sed "s|~|${HOME}|g") 
+for target in $(cat "$TRACKED_FILE" | jq -rc '.[]'); do
+    op=$(echo $target | jq -r '.op')
+    src=$(echo $target | jq -r '.src')
+    dest=$(echo $target | jq -r '.dest' | sed "s|^~|$HOME|g")
 
-i=0
-while read -r target; do
-	itemJson=$(echo $JSON | jq ".[$i]")
-	destination=$(echo $itemJson | jq -r ".path")
-	source=$(echo $destination | sed "s|$HOME|\.\/home|g")
-	operation=$(echo $itemJson | jq -r ".operation")
+    if [[ "$op" != "symlink" ]] && [[ "$op" != "copy" ]]; then
+        echo "ERR: operation '$op' not recognized!"
+        continue
+    fi
 
-	apply_target $source $destination $operation
+    if [[ "$(basename "$src")" == '*' ]] && [ -d "$(dirname "$src")" ]; then
+        # check for wildcard: apply all subtargets if src ends w/ "*"
+        for f in $src; do
+            echo "$f"
+            apply_target "$f" "$dest/$(basename "$f")" "$op"
+        done
 
-	i=$(($i + 1))
+    elif [ -e "$src" ]; then
+        # apply normal files
+        apply_target "$src" "$dest" "$op"
 
-done <<< $(echo $JSON | jq -r ".[].path")
+    else
+        # anything else, error
+        echo "ERR: src '$src' does not exist!!"
+        exit 1
+    fi
+done
 
-echo ""
+echo
 echo "[[ done applying dotfiles :D ]]"

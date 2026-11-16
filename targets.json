@@ -1,58 +1,62 @@
 [
     {
-        "operation": "symlink",
-        "path": "~/.config/foot"
+        "op": "symlink",
+        "src": "home/config/niri",
+        "dest": "~/.config/niri"
     },
     {
-        "operation": "symlink",
-        "path": "~/.config/niri"
+        "op": "symlink",
+        "src": "home/config/lf",
+        "dest": "~/.config/lf"
     },
     {
-        "operation": "symlink",
-        "path": "~/.config/lf"
+        "op": "symlink",
+        "src": "home/config/nvim",
+        "dest": "~/.config/nvim"
     },
     {
-        "operation": "symlink",
-        "path": "~/.local/share/nemo/actions"
+        "op": "symlink",
+        "src": "home/config/foot",
+        "dest": "~/.config/foot"
     },
     {
-        "operation": "symlink",
-        "path": "~/.config/nvim"
+        "op": "symlink",
+        "src": "home/config/wal/templates",
+        "dest": "~/.config/wal/templates"
     },
     {
-        "operation": "symlink",
-        "path": "~/.config/wal/templates"
+        "op": "symlink",
+        "src": "home/config/bited/themes",
+        "dest": "~/.config/bited/themes"
     },
     {
-        "operation": "symlink",
-        "path": "~/.config/bited/themes"
+        "op": "symlink",
+        "src": "home/local/share/nemo/actions",
+        "dest": "~/.local/share/nemo/actions"
     },
     {
-        "operation": "symlink",
-        "path": "~/.fonts/FiraCode"
+        "op": "symlink",
+        "src": "home/fonts/*",
+        "dest": "~/.fonts/"
     },
     {
-        "operation": "copy",
-        "path": "~/.fonts/Papernotes.otf"
+        "op": "copy",
+        "src": "home/Pictures/wallpapers",
+        "dest": "~/Pictures/wallpapers"
     },
     {
-        "operation": "copy",
-        "path": "~/Pictures/wallpapers"
+        "op": "symlink",
+        "src": "home/zshrc",
+        "dest": "~/.zshrc"
     },
     {
-        "operation": "symlink",
-        "path": "~/.zshrc"
+        "op": "symlink",
+        "src": "home/zprofile",
+        "dest": "~/.zprofile"
     },
     {
-        "operation": "symlink",
-        "path": "~/.zprofile"
-    },
-    {
-        "operation": "symlink",
-        "path": "~/.scripts/theme.sh"
-    },
-    {
-        "operation": "symlink",
-        "path": "~/.scripts/gssu.sh"
+        "op": "symlink",
+        "src": "home/scripts/*",
+        "dest": "~/.scripts/"
     }
 ]
